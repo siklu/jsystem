@@ -50,11 +50,6 @@ public class StopAction extends IgnisAction {
 	@Override
 	public void setEnabled(boolean arg0) {
 		// enable only if global flag enable stop
-		if ("true".equalsIgnoreCase(JSystemProperties.getInstance().getPreference(FrameworkOptions.RUNNER_DISABE_STOP)))
-		{
-			super.setEnabled(false);
-		}
-		else
-			super.setEnabled(arg0);
+		super.setEnabled(!("true".equalsIgnoreCase(JSystemProperties.getInstance().getPreference(FrameworkOptions.RUNNER_DISABE_STOP))) && arg0);
 	}
 }
