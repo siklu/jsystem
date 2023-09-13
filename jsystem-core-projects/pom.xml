@@ -10,7 +10,7 @@
 	<artifactId>jsystem-core-projects</artifactId>
 	<packaging>pom</packaging>
 	<properties>
-		<jsystem.version>6.1.14-SIKLU</jsystem.version>
+		<jsystem.version>6.1.16-SIKLU</jsystem.version>
 	</properties>
 	<modules>
 		<module>jsystem-launcher</module>

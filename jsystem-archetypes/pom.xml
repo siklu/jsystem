@@ -11,7 +11,7 @@
 		<relativePath>../jsystem-parent</relativePath>
 	</parent>
 	<properties>
-		<jsystem.version>6.1.14-SIKLU</jsystem.version>
+		<jsystem.version>6.1.16-SIKLU</jsystem.version>
 	</properties>
 	<modules>
 		<module>jsystem-so-archetype</module>
