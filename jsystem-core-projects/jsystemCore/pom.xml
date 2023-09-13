@@ -1,15 +1,16 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.jsystemtest</groupId>
 		<artifactId>jsystem-parent</artifactId>
-		<version>6.1.12-SNAPSHOT</version>
+		<version>6.1.16-SIKLU</version>
 		<relativePath>../../jsystem-parent</relativePath>
 	</parent>
 	<artifactId>jsystemCore</artifactId>
 	<properties>
-		<runner.home>../jsystem-runner/target/jsystem-runner-${project.version}/jsystem-runner-${project.version}</runner.home>
+		<runner.home>../../jsystem-assembly/jsystem-runner/target/runner/runner</runner.home>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -77,11 +78,25 @@
 	</dependencies>
 	<build>
 		<plugins>
-			<!--plugin> <artifactId>maven-antrun-plugin</artifactId> <version>1.7</version> 
-				<executions> <execution> <phase>install</phase> <configuration> <target> 
-				<copy file="${project.build.directory}/${project.artifactId}-${project.version}.jar" 
-				todir="${basedir}/${runner.home}/lib" /> </target> </configuration> <goals> 
-				<goal>run</goal> </goals> </execution> </executions> </plugin -->
+			<!-- <plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<configuration>
+							<target>
+								<copy
+									file="${project.build.directory}/${project.artifactId}-${project.version}.jar"
+									todir="${runner.home}/lib" />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin> -->
 		</plugins>
 	</build>
 </project>

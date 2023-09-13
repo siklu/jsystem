@@ -9,6 +9,8 @@ import java.awt.event.KeyEvent;
 import javax.swing.Action;
 import javax.swing.KeyStroke;
 
+import jsystem.framework.FrameworkOptions;
+import jsystem.framework.JSystemProperties;
 import jsystem.guiMapping.JsystemMapping;
 import jsystem.treeui.TestRunner;
 import jsystem.treeui.images.ImageCenter;
@@ -43,5 +45,11 @@ public class StopAction extends IgnisAction {
 		}
 		TestRunner.treeView.setStopped(true);
 		TestRunner.treeView.getRunner().handleEvent(TestRunner.STOP_EVENT, null);
+	}
+	
+	@Override
+	public void setEnabled(boolean arg0) {
+		// enable only if global flag enable stop
+		super.setEnabled(!("true".equalsIgnoreCase(JSystemProperties.getInstance().getPreference(FrameworkOptions.RUNNER_DISABE_STOP))) && arg0);
 	}
 }
