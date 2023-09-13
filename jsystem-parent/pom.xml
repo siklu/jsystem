@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jsystemtest</groupId>
 	<artifactId>jsystem-parent</artifactId>
-	<version>6.1.15-SIKLU</version>
+	<version>6.1.16-SIKLU</version>
 	<packaging>pom</packaging>
 	<name>jsystem-parent</name>
 	<organization>
@@ -29,6 +29,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<assembly.format>dir</assembly.format>
 		<topq.repository.rootUrl>http://maven.top-q.co.il</topq.repository.rootUrl>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<skipTests>True</skipTests>
 	</properties>
 
@@ -43,18 +45,13 @@
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.10</version>
+				<version>4.13.1</version>
 			</dependency>
 
 			<dependency>
 				<groupId>javax.mail</groupId>
 				<artifactId>mail</artifactId>
 				<version>1.4</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring</artifactId>
-				<version>2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ant</groupId>
@@ -135,11 +132,6 @@
 				<artifactId>commons-net</artifactId>
 				<version>3.1</version>
 			</dependency>
-			<!-- <dependency>
-				<groupId>ch.ethz.ganymed</groupId>
-				<artifactId>ganymed-ssh2</artifactId>
-				<version>build210</version>
-			</dependency> -->
 			<dependency>
 			<groupId>ch.ethz.ganymed</groupId>
 			<artifactId>ganymed-ssh2</artifactId>
@@ -164,7 +156,7 @@
 			<dependency>
 				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>
-				<version>2.3</version>
+				<version>2.7</version>
 			</dependency>
 			<dependency>
 				<groupId>tomcat</groupId>
@@ -206,7 +198,7 @@
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-compress</artifactId>
-				<version>1.19</version>
+				<version>1.21</version>
 			</dependency>
 			<dependency>
 				<groupId>il.co.topq.difido</groupId>
@@ -227,18 +219,8 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.5.1</version>
-				<configuration>
-					<target>1.7</target>
-					<source>1.7</source>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.2</version>
+				<version>3.3.0</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -278,11 +260,22 @@
 		<module>../jsystem-miscellaneous/jsystem-services-tests</module>
 	</modules>
 	<repositories>
-		<!-- <repository>
-			<id>topq</id>
-			<url>${topq.repository.rootUrl}/content/groups/public</url>
-		</repository> -->
-	</repositories>
+        <repository>
+            <id>Automation</id>
+            <url>http://nexus.siklu.local/repository/ATE/</url>
+        </repository>
+        <repository>
+            <id>Automation-snapshots</id>
+            <url>http://nexus.siklu.local/repository/ATE/</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>Automation</id>
+            <url>http://nexus.siklu.local/repository/ATE/</url>
+        </pluginRepository>
+    </pluginRepositories>
 	<distributionManagement>
 	<!-- 	<repository>
 			<id>topq</id>
@@ -303,12 +296,6 @@
 			<url>http://nexus.siklu.local/repository/Automation/</url>
 		</repository>
 	</distributionManagement>
-	<pluginRepositories>
-		<!-- <pluginRepository>
-			<id>topq</id>
-			<url>${topq.repository.rootUrl}/content/groups/public</url>
-		</pluginRepository> -->
-	</pluginRepositories>
 	<profiles>
 		<profile>
 			<id>dist</id>

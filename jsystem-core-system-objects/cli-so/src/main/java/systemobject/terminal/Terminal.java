@@ -106,7 +106,7 @@ public abstract class Terminal {
      * @return	True if there isn't any new input after ${scrollEndTimeout} ms
      * @throws Exception
      */
-    public synchronized boolean isScrallEnd() throws Exception{
+    public synchronized boolean isScrallEndSlow() throws Exception{
     	if (scrollEndTimeout == 0) { // if set to 0 always return true.
     		return true;
     	}
@@ -124,6 +124,63 @@ public abstract class Terminal {
     		return true;
     	}
     	return false;
+    }
+    
+    /**
+     * checks if there is more input in the buffer
+     * (Siklu version that will cut 200msec from each cli command!!!)
+     * @return	True if there isn't any new input after ${scrollEndTimeout} ms
+     * @throws Exception
+     */
+    Boolean testFlag= true;
+    public synchronized boolean isScrallEnd() throws Exception{
+    	if(testFlag){ 
+    		int avil0 = in.available();
+    		//Thread.sleep(scrollEndTimeout);
+    		Thread.sleep(3);
+    		int avil1 = in.available();
+    		long start = System.currentTimeMillis();
+    		long stop = System.currentTimeMillis();
+    		long TimeScrollToEnd = stop-start;
+    		while(TimeScrollToEnd<=scrollEndTimeout){
+    			if (avil0 == avil1) { // no change after 1/2 time and avail under bufChar
+    				if (in.available() < bufChar) {
+    					return true;
+    				}
+    			}else{
+    				avil0 = in.available();
+    				Thread.sleep(3);
+    				avil1 = in.available();
+    			}
+    			Thread.sleep(3);
+    			stop= System.currentTimeMillis();
+    			TimeScrollToEnd = stop - start;
+    		}
+    		return false;
+
+    	}
+    	else {
+    		int avil0 = in.available();
+    		//Thread.sleep(scrollEndTimeout); 
+    		int avil1 = in.available();    	
+    		if (avil1 > bufChar) {
+    			return false;
+    		}
+    		if (avil0 == avil1) { // no change after 1/2 time and avail under bufChar
+    			return true;
+    		}else{
+    			while(avil0 != avil1){
+    				Thread.sleep(1);
+
+    			}
+    		}
+    		Thread.sleep(scrollEndTimeout);
+    		if (in.available() < bufChar) {
+    			return true;
+    		}
+    		return true;
+    	}
+
     }
     
     /**
