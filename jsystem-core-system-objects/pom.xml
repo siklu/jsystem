@@ -21,5 +21,4 @@
 		<module>FileTransfer-so</module>		
 		<module>FileTransfer-tests</module>
 	</modules>
-	
 </project>

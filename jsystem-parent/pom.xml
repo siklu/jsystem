@@ -241,11 +241,22 @@
 		<module>../jsystem-miscellaneous/jsystem-services-tests</module>
 	</modules>
 	<repositories>
-		<!-- <repository>
-			<id>topq</id>
-			<url>${topq.repository.rootUrl}/content/groups/public</url>
-		</repository> -->
-	</repositories>
+        <repository>
+            <id>Automation</id>
+            <url>http://nexus.siklu.local/repository/ATE/</url>
+        </repository>
+        <repository>
+            <id>Automation-snapshots</id>
+            <url>http://nexus.siklu.local/repository/ATE/</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>Automation</id>
+            <url>http://nexus.siklu.local/repository/ATE/</url>
+        </pluginRepository>
+    </pluginRepositories>
 	<distributionManagement>
 	<!-- 	<repository>
 			<id>topq</id>
@@ -266,12 +277,6 @@
 			<url>http://nexus.siklu.local/repository/Automation/</url>
 		</repository>
 	</distributionManagement>
-	<pluginRepositories>
-		<!-- <pluginRepository>
-			<id>topq</id>
-			<url>${topq.repository.rootUrl}/content/groups/public</url>
-		</pluginRepository> -->
-	</pluginRepositories>
 	<profiles>
 		<profile>
 			<id>dist</id>
