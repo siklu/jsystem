@@ -149,10 +149,10 @@ public abstract class Terminal {
     				}
     			}else{
     				avil0 = in.available();
-    				Thread.sleep(3);
+    				Thread.sleep(6);
     				avil1 = in.available();
     			}
-    			Thread.sleep(3);
+    			//Thread.sleep(3);
     			stop= System.currentTimeMillis();
     			TimeScrollToEnd = stop - start;
     		}
