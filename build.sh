@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+#export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 mvn -f jsystem-parent/ clean package && mvn -f jsystem-assembly/jsystem-runner clean package
 if [ "$?" = "0" ]
 then

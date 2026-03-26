@@ -246,3 +246,104 @@
   "message": "Event 'planExecutionStarted' reported!\nSession ID: 20260326194247,\nSession Dir: /home/siklu/src/jsystem/.github/java-upgrade/20260326194247"
 }}).
 2026-03-26T19:57:28.021Z [INFO] ----------------------invoked report_event----------------------
+2026-03-26T19:58:58.174Z [INFO] ---------------------prepare report_event----------------------
+2026-03-26T19:58:58.174Z [INFO] [Tool.prepareInvocation]({name: report_event, input: {
+  "event": "environmentSetup",
+  "phase": "execute",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded",
+  "details": {
+    "jdkPath": "/usr/lib/jvm/java-25-openjdk-amd64",
+    "buildToolPath": "/usr/share/maven/bin/mvn"
+  }
+}}).
+2026-03-26T19:58:58.174Z [INFO] [Tool.prepareInvocation] do prepare invocation.
+2026-03-26T19:58:58.174Z [INFO] [Tool.prepareInvocation]({result: {
+  "invocationMessage": "Report upgrade event"
+}}).
+2026-03-26T19:58:58.174Z [INFO] ----------------------prepared report_event----------------------
+2026-03-26T19:58:58.257Z [INFO] ----------------------invoke report_event----------------------
+2026-03-26T19:58:58.257Z [INFO] [Tool.invoke]({name: report_event, input: {
+  "event": "environmentSetup",
+  "phase": "execute",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded",
+  "details": {
+    "jdkPath": "/usr/lib/jvm/java-25-openjdk-amd64",
+    "buildToolPath": "/usr/share/maven/bin/mvn"
+  }
+}}).
+2026-03-26T19:58:58.257Z [INFO] [Tool.invoke] do invoke.
+2026-03-26T19:58:58.257Z [INFO] Project /home/siklu/src/jsystem is not a maven project, try to get java version from gradle
+2026-03-26T19:58:58.259Z [INFO] [Tool.invoke]({result: {
+  "message": "Event 'environmentSetup' reported!\nSession ID: 20260326194247,\nSession Dir: /home/siklu/src/jsystem/.github/java-upgrade/20260326194247"
+}}).
+2026-03-26T19:58:58.259Z [INFO] ----------------------invoked report_event----------------------
+2026-03-26T19:58:58.353Z [INFO] Try to get java version from gradle config files: 
+2026-03-26T19:58:58.353Z [INFO] Try to get java version from gradle properties: undefined
+2026-03-26T19:58:58.353Z [INFO] Project java version: 8
+2026-03-26T19:58:58.477Z [ERROR] [ReportEventTool] Failed to send project info telemetry: UserError: Failed to detect build tool for the project at /home/siklu/src/jsystem. There are child Maven/Gradle projects detected: "jsystem-parent", "jsystem-core-system-objects", "jsystem-core-projects", "jsystem-archetypes", "jsystem-miscellaneous/jsystem-services-tests". Would you like to use one of them instead?
+2026-03-26T20:01:30.534Z [INFO] ---------------------prepare report_event----------------------
+2026-03-26T20:01:30.534Z [INFO] [Tool.prepareInvocation]({name: report_event, input: {
+  "event": "baselineSetup",
+  "phase": "execute",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "failed",
+  "message": "Baseline compilation FAILURE — 214 errors across 12 files. Cannot run tests at baseline. All failures are pre-existing."
+}}).
+2026-03-26T20:01:30.534Z [INFO] [Tool.prepareInvocation] do prepare invocation.
+2026-03-26T20:01:30.534Z [INFO] [Tool.prepareInvocation]({result: {
+  "invocationMessage": "Report upgrade event"
+}}).
+2026-03-26T20:01:30.534Z [INFO] ----------------------prepared report_event----------------------
+2026-03-26T20:01:30.604Z [INFO] ----------------------invoke report_event----------------------
+2026-03-26T20:01:30.604Z [INFO] [Tool.invoke]({name: report_event, input: {
+  "event": "baselineSetup",
+  "phase": "execute",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "failed",
+  "message": "Baseline compilation FAILURE — 214 errors across 12 files. Cannot run tests at baseline. All failures are pre-existing."
+}}).
+2026-03-26T20:01:30.604Z [INFO] [Tool.invoke] do invoke.
+2026-03-26T20:01:30.605Z [INFO] [Tool.invoke]({result: {
+  "message": "Event 'baselineSetup' reported!\nSession ID: 20260326194247,\nSession Dir: /home/siklu/src/jsystem/.github/java-upgrade/20260326194247"
+}}).
+2026-03-26T20:01:30.605Z [INFO] ----------------------invoked report_event----------------------
+2026-03-26T20:01:41.236Z [INFO] ---------------------prepare report_event----------------------
+2026-03-26T20:01:41.236Z [INFO] [Tool.prepareInvocation]({name: report_event, input: {
+  "details": {
+    "stepNumber": 3,
+    "stepTitle": "Upgrade Java Compiler Target to 25 + Apply Version Bump"
+  },
+  "event": "upgradeStepStarted",
+  "phase": "execute",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T20:01:41.236Z [INFO] [Tool.prepareInvocation] do prepare invocation.
+2026-03-26T20:01:41.236Z [INFO] [Tool.prepareInvocation]({result: {
+  "invocationMessage": "Report upgrade event"
+}}).
+2026-03-26T20:01:41.236Z [INFO] ----------------------prepared report_event----------------------
+2026-03-26T20:01:41.307Z [INFO] ----------------------invoke report_event----------------------
+2026-03-26T20:01:41.307Z [INFO] [Tool.invoke]({name: report_event, input: {
+  "details": {
+    "stepNumber": 3,
+    "stepTitle": "Upgrade Java Compiler Target to 25 + Apply Version Bump"
+  },
+  "event": "upgradeStepStarted",
+  "phase": "execute",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T20:01:41.307Z [INFO] [Tool.invoke] do invoke.
+2026-03-26T20:01:41.307Z [INFO] [Tool.invoke]({result: {
+  "message": "Event 'upgradeStepStarted' reported!\nSession ID: 20260326194247,\nSession Dir: /home/siklu/src/jsystem/.github/java-upgrade/20260326194247"
+}}).
+2026-03-26T20:01:41.308Z [INFO] ----------------------invoked report_event----------------------
