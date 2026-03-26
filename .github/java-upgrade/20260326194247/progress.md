@@ -29,7 +29,23 @@
   - **Commit**: N/A — no code changes in baseline step
 
 - **Step 3: Upgrade Java Compiler Target to 25 + Apply Version Bump**
-  - **Status**: 🔘 Not Started
+  - **Status**: ✅ Completed
+  - **Changes Made**:
+    - Updated maven.compiler.source/target to 25 in jsystem-parent/pom.xml
+    - Applied version bump 6.1.17 → 6.1.18 across all module POMs
+    - Updated archetype resource POMs to compiler source/target 25
+  - **Review Code Changes**:
+    - Sufficiency: ✅ All required changes present
+    - Necessity: ✅ All changes necessary
+    - Functional Behavior: ✅ Preserved
+    - Security Controls: ✅ Preserved
+  - **Verification**:
+    - Command: `JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64 mvn -f jsystem-parent/pom.xml clean test-compile`
+    - JDK: /usr/lib/jvm/java-25-openjdk-amd64
+    - Build tool: /usr/share/maven/bin/mvn
+    - Result: ❌ FAILURE — 214 errors in jsystemCore (expected, same as baseline, to be fixed in Steps 4-6)
+  - **Deferred Work**: Fix 214 compilation errors in Steps 4-6
+  - **Commit**: 69c0b7b - Step 3: Upgrade Java Compiler Target to 25 + Apply Version Bump
 
 - **Step 4: Fix javax.* → jakarta.* API Migrations**
   - **Status**: 🔘 Not Started
