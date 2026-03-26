@@ -19,12 +19,12 @@
 			<type>zip</type>
 		</dependency>
 		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
+			 <groupId>jakarta.mail</groupId>
+    <artifactId>jakarta.mail-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>commons-httpclient</groupId>
-			<artifactId>commons-httpclient</artifactId>
+			<groupId>org.apache.httpcomponents.client5</groupId>
+    		<artifactId>httpclient5</artifactId>
 		</dependency>
 
 		<dependency>
@@ -33,11 +33,11 @@
 		</dependency>
 
 		<dependency>
-			<groupId>jython</groupId>
+			<groupId>org.python</groupId>
 			<artifactId>jython</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>jfree</groupId>
+			<groupId>org.jfree</groupId>
 			<artifactId>jfreechart</artifactId>
 		</dependency>
 		<dependency>
@@ -45,11 +45,11 @@
 			<artifactId>commons-jxpath</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>asm</groupId>
+			<groupId>org.ow2.asm</groupId>
 			<artifactId>asm</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>asm</groupId>
+			<groupId>org.ow2.asm</groupId>
 			<artifactId>asm-commons</artifactId>
 		</dependency>
 		<dependency>
@@ -98,14 +98,12 @@
 
 		</dependency>
 		<dependency>
-			<groupId>tomcat</groupId>
-			<artifactId>catalina</artifactId>
-
+			    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-catalina</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.jgoodies</groupId>
-			<artifactId>looks</artifactId>
-
+    <groupId>com.jgoodies</groupId>
+    <artifactId>jgoodies-looks</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.thoughtworks.qdox</groupId>

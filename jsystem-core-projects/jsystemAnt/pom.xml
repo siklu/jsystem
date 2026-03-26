@@ -18,10 +18,10 @@
 			<groupId>ant-contrib</groupId>
 			<artifactId>ant-contrib</artifactId>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.apache.ant</groupId>
 			<artifactId>ant-nodeps</artifactId>
-		</dependency>
+		</dependency>-->
 	</dependencies>
 
 </project>

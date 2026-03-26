@@ -3,19 +3,12 @@ package jsystem.extensions.report.difido;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.net.http.HttpClient;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.PutMethod;
-import org.apache.commons.httpclient.methods.RequestEntity;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.FilePart;
-import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.hc.client5.http.classic.methods.*;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -32,7 +25,7 @@ public class DifidoClient {
 
 	private static final String BASE_URI_TEMPLATE = "http://%s:%d/api/";
 	private final String baseUri;
-	private final HttpClient client;
+	private final CloseableHttpClient client;
 
 	public DifidoClient(String host, int port) {
 		baseUri = String.format(BASE_URI_TEMPLATE, host, port);
