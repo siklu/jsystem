@@ -1,0 +1,248 @@
+2026-03-26T19:42:47.210Z [INFO] ----------------------invoke report_event----------------------
+2026-03-26T19:42:47.210Z [INFO] [Tool.invoke]({name: report_event, input: {
+  "projectPath": "/home/siklu/src/jsystem",
+  "event": "precheckCompleted",
+  "phase": "precheck",
+  "status": "succeeded"
+}}).
+2026-03-26T19:42:47.210Z [INFO] [Tool.invoke] do invoke.
+2026-03-26T19:42:47.220Z [INFO] Project /home/siklu/src/jsystem is not a maven project, try to get java version from gradle
+2026-03-26T19:42:47.225Z [INFO] [Tool.invoke]({result: {
+  "message": "Event 'precheckCompleted' reported!\nSession ID: 20260326194247,\nSession Dir: /home/siklu/src/jsystem/.github/java-upgrade/20260326194247"
+}}).
+2026-03-26T19:42:47.225Z [INFO] ----------------------invoked report_event----------------------
+2026-03-26T19:42:47.342Z [INFO] Try to get java version from gradle config files: 
+2026-03-26T19:42:47.342Z [INFO] Try to get java version from gradle properties: undefined
+2026-03-26T19:42:47.342Z [INFO] Project java version: 8
+2026-03-26T19:42:47.513Z [ERROR] [ReportEventTool] Failed to send project info telemetry: UserError: Failed to detect build tool for the project at /home/siklu/src/jsystem. There are child Maven/Gradle projects detected: "jsystem-parent", "jsystem-core-system-objects", "jsystem-core-projects", "jsystem-archetypes", "jsystem-miscellaneous/jsystem-services-tests". Would you like to use one of them instead?
+2026-03-26T19:43:33.006Z [INFO] ---------------------prepare report_event----------------------
+2026-03-26T19:43:33.006Z [INFO] [Tool.prepareInvocation]({name: report_event, input: {
+  "event": "planGenerationStarted",
+  "phase": "plan",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T19:43:33.006Z [INFO] [Tool.prepareInvocation] do prepare invocation.
+2026-03-26T19:43:33.006Z [INFO] [Tool.prepareInvocation]({result: {
+  "invocationMessage": "Report upgrade event"
+}}).
+2026-03-26T19:43:33.006Z [INFO] ----------------------prepared report_event----------------------
+2026-03-26T19:43:33.044Z [INFO] ----------------------invoke report_event----------------------
+2026-03-26T19:43:33.044Z [INFO] [Tool.invoke]({name: report_event, input: {
+  "event": "planGenerationStarted",
+  "phase": "plan",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T19:43:33.044Z [INFO] [Tool.invoke] do invoke.
+2026-03-26T19:43:33.044Z [INFO] [Tool.invoke]({result: {
+  "message": "Event 'planGenerationStarted' reported!\nSession ID: 20260326194247,\nSession Dir: /home/siklu/src/jsystem/.github/java-upgrade/20260326194247"
+}}).
+2026-03-26T19:43:33.044Z [INFO] ----------------------invoked report_event----------------------
+2026-03-26T19:52:46.727Z [INFO] ---------------------prepare report_event----------------------
+2026-03-26T19:52:46.735Z [INFO] [Tool.prepareInvocation]({name: report_event, input: {
+  "event": "planInitialized",
+  "phase": "plan",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T19:52:46.735Z [INFO] [Tool.prepareInvocation] do prepare invocation.
+2026-03-26T19:52:46.735Z [INFO] [Tool.prepareInvocation]({result: {
+  "invocationMessage": "Report upgrade event"
+}}).
+2026-03-26T19:52:46.735Z [INFO] ----------------------prepared report_event----------------------
+2026-03-26T19:52:46.761Z [INFO] ----------------------invoke report_event----------------------
+2026-03-26T19:52:46.761Z [INFO] [Tool.invoke]({name: report_event, input: {
+  "event": "planInitialized",
+  "phase": "plan",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T19:52:46.761Z [INFO] [Tool.invoke] do invoke.
+2026-03-26T19:52:46.761Z [INFO] [Tool.invoke]({result: {
+  "message": "Event 'planInitialized' reported!\nSession ID: 20260326194247,\nSession Dir: /home/siklu/src/jsystem/.github/java-upgrade/20260326194247"
+}}).
+2026-03-26T19:52:46.762Z [INFO] ----------------------invoked report_event----------------------
+2026-03-26T19:52:51.344Z [INFO] ---------------------prepare report_event----------------------
+2026-03-26T19:52:51.344Z [INFO] [Tool.prepareInvocation]({name: report_event, input: {
+  "event": "environmentAnalyzed",
+  "phase": "plan",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T19:52:51.344Z [INFO] [Tool.prepareInvocation] do prepare invocation.
+2026-03-26T19:52:51.344Z [INFO] [Tool.prepareInvocation]({result: {
+  "invocationMessage": "Report upgrade event"
+}}).
+2026-03-26T19:52:51.344Z [INFO] ----------------------prepared report_event----------------------
+2026-03-26T19:52:51.374Z [INFO] ----------------------invoke report_event----------------------
+2026-03-26T19:52:51.374Z [INFO] [Tool.invoke]({name: report_event, input: {
+  "event": "environmentAnalyzed",
+  "phase": "plan",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T19:52:51.374Z [INFO] [Tool.invoke] do invoke.
+2026-03-26T19:52:51.375Z [INFO] [Tool.invoke]({result: {
+  "message": "Event 'environmentAnalyzed' reported!\nSession ID: 20260326194247,\nSession Dir: /home/siklu/src/jsystem/.github/java-upgrade/20260326194247"
+}}).
+2026-03-26T19:52:51.375Z [INFO] ----------------------invoked report_event----------------------
+2026-03-26T19:53:32.429Z [INFO] ---------------------prepare report_event----------------------
+2026-03-26T19:53:32.436Z [INFO] [Tool.prepareInvocation]({name: report_event, input: {
+  "event": "dependenciesAnalyzed",
+  "phase": "plan",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T19:53:32.436Z [INFO] [Tool.prepareInvocation] do prepare invocation.
+2026-03-26T19:53:32.437Z [INFO] [Tool.prepareInvocation]({result: {
+  "invocationMessage": "Report upgrade event"
+}}).
+2026-03-26T19:53:32.437Z [INFO] ----------------------prepared report_event----------------------
+2026-03-26T19:53:32.461Z [INFO] ----------------------invoke report_event----------------------
+2026-03-26T19:53:32.461Z [INFO] [Tool.invoke]({name: report_event, input: {
+  "event": "dependenciesAnalyzed",
+  "phase": "plan",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T19:53:32.461Z [INFO] [Tool.invoke] do invoke.
+2026-03-26T19:53:32.461Z [INFO] [Tool.invoke]({result: {
+  "message": "Event 'dependenciesAnalyzed' reported!\nSession ID: 20260326194247,\nSession Dir: /home/siklu/src/jsystem/.github/java-upgrade/20260326194247"
+}}).
+2026-03-26T19:53:32.461Z [INFO] ----------------------invoked report_event----------------------
+2026-03-26T19:56:44.518Z [INFO] ---------------------prepare report_event----------------------
+2026-03-26T19:56:44.518Z [INFO] [Tool.prepareInvocation]({name: report_event, input: {
+  "event": "upgradePathDesigned",
+  "phase": "plan",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T19:56:44.518Z [INFO] [Tool.prepareInvocation] do prepare invocation.
+2026-03-26T19:56:44.519Z [INFO] [Tool.prepareInvocation]({result: {
+  "invocationMessage": "Report upgrade event"
+}}).
+2026-03-26T19:56:44.519Z [INFO] ----------------------prepared report_event----------------------
+2026-03-26T19:56:44.584Z [INFO] ----------------------invoke report_event----------------------
+2026-03-26T19:56:44.584Z [INFO] [Tool.invoke]({name: report_event, input: {
+  "event": "upgradePathDesigned",
+  "phase": "plan",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T19:56:44.585Z [INFO] [Tool.invoke] do invoke.
+2026-03-26T19:56:44.585Z [INFO] [Tool.invoke]({result: {
+  "message": "Event 'upgradePathDesigned' reported!\nSession ID: 20260326194247,\nSession Dir: /home/siklu/src/jsystem/.github/java-upgrade/20260326194247"
+}}).
+2026-03-26T19:56:44.585Z [INFO] ----------------------invoked report_event----------------------
+2026-03-26T19:56:50.771Z [INFO] ---------------------prepare report_event----------------------
+2026-03-26T19:56:50.771Z [INFO] [Tool.prepareInvocation]({name: report_event, input: {
+  "event": "planReviewed",
+  "phase": "plan",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T19:56:50.772Z [INFO] [Tool.prepareInvocation] do prepare invocation.
+2026-03-26T19:56:50.772Z [INFO] [Tool.prepareInvocation]({result: {
+  "invocationMessage": "Report upgrade event"
+}}).
+2026-03-26T19:56:50.772Z [INFO] ----------------------prepared report_event----------------------
+2026-03-26T19:56:50.808Z [INFO] ----------------------invoke report_event----------------------
+2026-03-26T19:56:50.808Z [INFO] [Tool.invoke]({name: report_event, input: {
+  "event": "planReviewed",
+  "phase": "plan",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T19:56:50.808Z [INFO] [Tool.invoke] do invoke.
+2026-03-26T19:56:50.808Z [INFO] [Tool.invoke]({result: {
+  "message": "Event 'planReviewed' reported!\nSession ID: 20260326194247,\nSession Dir: /home/siklu/src/jsystem/.github/java-upgrade/20260326194247"
+}}).
+2026-03-26T19:56:50.808Z [INFO] ----------------------invoked report_event----------------------
+2026-03-26T19:56:55.643Z [INFO] ---------------------prepare confirm_upgrade_plan----------------------
+2026-03-26T19:56:55.643Z [INFO] [Tool.prepareInvocation]({name: confirm_upgrade_plan, input: {
+  "sessionId": "20260326194247"
+}}).
+2026-03-26T19:56:55.643Z [INFO] [Tool.prepareInvocation] do prepare invocation.
+2026-03-26T19:56:55.643Z [INFO] [Tool.prepareInvocation]({result: {
+  "invocationMessage": "Review [upgrade plan](/home/siklu/src/jsystem/.github/java-upgrade/20260326194247/plan.md)",
+  "confirmationMessages": {
+    "title": "Plan generated",
+    "message": "Please review the generated plan and make any necessary adjustments before proceeding. You can modify the generated [`plan.md`](/home/siklu/src/jsystem/.github/java-upgrade/20260326194247/plan.md) directly."
+  }
+}}).
+2026-03-26T19:56:55.643Z [INFO] ----------------------prepared confirm_upgrade_plan----------------------
+2026-03-26T19:57:00.926Z [INFO] ----------------------invoke confirm_upgrade_plan----------------------
+2026-03-26T19:57:00.926Z [INFO] [Tool.invoke]({name: confirm_upgrade_plan, input: {
+  "sessionId": "20260326194247"
+}}).
+2026-03-26T19:57:00.926Z [INFO] [Tool.invoke] do invoke.
+2026-03-26T19:57:00.926Z [INFO] Upgrade plan confirmed successfully.
+2026-03-26T19:57:00.927Z [INFO] [Tool.invoke]({result: {
+  "message": "Generated plan is reviewed and confirmed by the user! the upgrade process will start now and be tracked in markdown file: /home/siklu/src/jsystem/.github/java-upgrade/20260326194247/progress.md."
+}}).
+2026-03-26T19:57:00.927Z [INFO] ----------------------invoked confirm_upgrade_plan----------------------
+2026-03-26T19:57:07.243Z [INFO] ---------------------prepare report_event----------------------
+2026-03-26T19:57:07.244Z [INFO] [Tool.prepareInvocation]({name: report_event, input: {
+  "event": "planConfirmed",
+  "phase": "plan",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T19:57:07.244Z [INFO] [Tool.prepareInvocation] do prepare invocation.
+2026-03-26T19:57:07.244Z [INFO] [Tool.prepareInvocation]({result: {
+  "invocationMessage": "Report upgrade event"
+}}).
+2026-03-26T19:57:07.244Z [INFO] ----------------------prepared report_event----------------------
+2026-03-26T19:57:07.274Z [INFO] ----------------------invoke report_event----------------------
+2026-03-26T19:57:07.274Z [INFO] [Tool.invoke]({name: report_event, input: {
+  "event": "planConfirmed",
+  "phase": "plan",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T19:57:07.274Z [INFO] [Tool.invoke] do invoke.
+2026-03-26T19:57:07.274Z [INFO] [Tool.invoke]({result: {
+  "message": "Event 'planConfirmed' reported!\nSession ID: 20260326194247,\nSession Dir: /home/siklu/src/jsystem/.github/java-upgrade/20260326194247"
+}}).
+2026-03-26T19:57:07.274Z [INFO] ----------------------invoked report_event----------------------
+2026-03-26T19:57:27.957Z [INFO] ---------------------prepare report_event----------------------
+2026-03-26T19:57:27.957Z [INFO] [Tool.prepareInvocation]({name: report_event, input: {
+  "event": "planExecutionStarted",
+  "phase": "execute",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T19:57:27.957Z [INFO] [Tool.prepareInvocation] do prepare invocation.
+2026-03-26T19:57:27.957Z [INFO] [Tool.prepareInvocation]({result: {
+  "invocationMessage": "Report upgrade event"
+}}).
+2026-03-26T19:57:27.957Z [INFO] ----------------------prepared report_event----------------------
+2026-03-26T19:57:28.004Z [INFO] ----------------------invoke report_event----------------------
+2026-03-26T19:57:28.004Z [INFO] [Tool.invoke]({name: report_event, input: {
+  "event": "planExecutionStarted",
+  "phase": "execute",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T19:57:28.004Z [INFO] [Tool.invoke] do invoke.
+2026-03-26T19:57:28.021Z [INFO] [Tool.invoke]({result: {
+  "message": "Event 'planExecutionStarted' reported!\nSession ID: 20260326194247,\nSession Dir: /home/siklu/src/jsystem/.github/java-upgrade/20260326194247"
+}}).
+2026-03-26T19:57:28.021Z [INFO] ----------------------invoked report_event----------------------
