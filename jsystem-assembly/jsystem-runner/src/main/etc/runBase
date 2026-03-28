@@ -13,17 +13,22 @@ PARAMS[6]=$@
 #===========================================================================
 setJavaEnvironment()
 {
-	_JAVACMD=java
-	if [ -f thirdparty/jdk/bin/java ]; then
-		_JAVACMD=thirdparty/jdk/bin/java
-		echo $_JAVACMD
-	elif [ -f ../jdk/bin/java ]; then
-		_JAVACMD=../jdk/bin/java
-		echo $_JAVACMD
-	elif [ -f $JAVA_HOME/bin/java ]; then
-		_JAVACMD=$JAVA_HOME/bin/java
-		echo $_JAVACMD
+	_JAVACMD=$(readlink -f $(which java))
+	if [ "X$_JAVACMD" == "X" ]; then
+		echo "java command not found, please make sure java is installed and added to the PATH variable."
+		exit 1
 	fi
+	JAVA_HOME=$(dirname $(dirname $_JAVACMD))
+#	if [ -f thirdparty/jdk/bin/java ]; then
+#		_JAVACMD=thirdparty/jdk/bin/java
+#		echo $_JAVACMD
+#	elif [ -f ../jdk/bin/java ]; then
+#		_JAVACMD=../jdk/bin/java
+#		echo $_JAVACMD
+#	elif [ -f $JAVA_HOME/bin/java ]; then
+#		_JAVACMD=$JAVA_HOME/bin/java
+#		echo $_JAVACMD
+#	fi
 }
 
 launch(){

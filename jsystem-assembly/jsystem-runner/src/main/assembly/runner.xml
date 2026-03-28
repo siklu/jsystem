@@ -75,59 +75,14 @@
 			<outputDirectory>thirdparty/commonLib</outputDirectory>
 			<outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
 			<includes>
-				<include>*:ant:*</include>
-				<include>*:ant-launcher:*</include>
-				<include>*:asm:*</include>
-				<include>*:asm-commons:*</include>
-				<include>*:asm-tree:*</include>
-				<include>*:avalon-framework:*</include>
-				<include>*:commons-codec:*</include>
-				<include>*:commons-httpclient:*</include>
-				<include>*:commons-jxpath:*</include>
-				<include>*:hamcrest-core:*</include>
-				<include>*:jcommon:*</include>
-				<include>*:jfreechart:*</include>
-				<include>*:junit:*</include>
-				<include>*:jython:*</include>
-				<include>*:log4j:*</include>
-				<include>*:logkit:*</include>
-				<include>*:mail:*</include>
-				<include>*:qdox:*</include>
-				<include>*:serializer:*</include>
-				<include>*:servlet-api:*</include>
-				<include>*:spring:*</include>
-				<include>*:xalan:*</include>
-				<include>*:xml-apis:*</include>
-				<include>*:activation:*</include>
-				<include>*:cli:*</include>
-				<include>*:FileTransfer:*</include>
-				<include>*:embeddedCatalina:*</include>
-				<include>*:commons-logging:*</include>
-				<include>*:commons-logging-api:*</include>
-				<include>*:commons-io:*</include>
-				<include>*:commons-compress:*</include>
-				<include>*:looks:*</include>
-				<include>*:tftp4java-server:*</include>
-				<include>*:tftp4java-client:*</include>
-				<include>*:commons-net:*</include>
-				<include>*:ganymed-ssh2:*</include>
-				<include>*:comm:*</include>
-				<include>*:ftpserver-core:*</include>
-				<include>*:catalina:*</include>
-				<include>*:jwizz:*</include>
-				<include>*:swingx:*</include>
-				<include>*:junit:*</include>
-				<include>*:swing-worker:*</include>
-				<include>*:mx4j-jmx:*</include>
-				<include>*:commons-digester:*</include>
-				<include>*:commons-modeler:*</include>
-				<include>*:filters:*</include>
-				<include>*:xz:*</include>
-				<include>*:jackson-databind:*</include>
-				<include>*:jackson-annotations:*</include>
-				<include>*:jackson-core:*</include>
-				<include>*:difido-reports-common:*</include>
+				<include>*:*:*</include>
 			</includes>
+			<excludes>
+				<exclude>org.jsystemtest:*:*</exclude>
+				<exclude>org.jsystemtest.systemobjects:*:*</exclude>
+				<exclude>ant:ant-full:*</exclude>
+				<exclude>*:jsystem-services-tests:*:sources:*</exclude>
+			</excludes>
 		</dependencySet>
 		<dependencySet>
 			<outputDirectory>lib</outputDirectory>

@@ -31,6 +31,10 @@
 			<groupId>xalan</groupId>
 			<artifactId>xalan</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>serializer</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.python</groupId>
@@ -200,6 +204,50 @@
 							<descriptors>
 								<descriptor>src/main/assembly/runner.xml</descriptor>
 							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.8.1</version>
+				<executions>
+					<execution>
+						<id>copy-expected-thirdparty-jars</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/expected-thirdparty</outputDirectory>
+							<includeScope>runtime</includeScope>
+							<includeTypes>jar</includeTypes>
+							<excludeGroupIds>org.jsystemtest,org.jsystemtest.systemobjects</excludeGroupIds>
+							<excludeArtifactIds>ant-full,ant-contrib</excludeArtifactIds>
+							<stripVersion>true</stripVersion>
+							<excludeTransitive>true</excludeTransitive>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>3.5.0</version>
+				<executions>
+					<execution>
+						<id>verify-thirdparty-commonlib</id>
+						<phase>package</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>bash</executable>
+							<arguments>
+								<argument>-c</argument>
+								<argument>set -eu; expected='${project.build.directory}/expected-thirdparty'; actual='${project.build.directory}/runner/runner/thirdparty/commonLib'; if [ ! -d "$actual" ]; then echo "Missing assembly output directory: $actual"; exit 1; fi; missing=0; found_any=0; for jar in "$expected"/*.jar; do [ -e "$jar" ] || continue; found_any=1; base=$(basename "$jar"); if [ ! -f "$actual/$base" ]; then echo "Missing third-party jar in commonLib: $base"; missing=1; fi; done; if [ "$found_any" -eq 0 ]; then echo "No expected third-party jars were collected for validation."; exit 1; fi; if [ "$missing" -ne 0 ]; then echo "Third-party dependency sanity check failed."; exit 1; fi; echo "Third-party dependency sanity check passed."</argument>
+							</arguments>
 						</configuration>
 					</execution>
 				</executions>
