@@ -1332,3 +1332,186 @@
   }
 }}).
 2026-03-28T13:26:33.868Z [INFO] ----------------------invoked validate_cves_for_java----------------------
+2026-03-28T13:32:44.790Z [INFO] ---------------------prepare report_event----------------------
+2026-03-28T13:32:44.790Z [INFO] [Tool.prepareInvocation]({name: report_event, input: {
+  "event": "summaryGenerated",
+  "message": "Successfully upgraded jsystem-parent from Java 8 to Java 25: all 21 modules compile and all tests pass, javax/sun APIs migrated to Jakarta/standard replacements, 14 third-party libraries updated, and 6 Tomcat CVEs (2 HIGH) fixed by upgrading tomcat-catalina to 11.0.15.",
+  "phase": "summarize",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-28T13:32:44.790Z [INFO] [Tool.prepareInvocation] do prepare invocation.
+2026-03-28T13:32:44.790Z [INFO] [Tool.prepareInvocation]({result: {
+  "invocationMessage": "Report upgrade event"
+}}).
+2026-03-28T13:32:44.790Z [INFO] ----------------------prepared report_event----------------------
+2026-03-28T13:32:44.990Z [INFO] ----------------------invoke report_event----------------------
+2026-03-28T13:32:44.990Z [INFO] [Tool.invoke]({name: report_event, input: {
+  "event": "summaryGenerated",
+  "message": "Successfully upgraded jsystem-parent from Java 8 to Java 25: all 21 modules compile and all tests pass, javax/sun APIs migrated to Jakarta/standard replacements, 14 third-party libraries updated, and 6 Tomcat CVEs (2 HIGH) fixed by upgrading tomcat-catalina to 11.0.15.",
+  "phase": "summarize",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-28T13:32:44.991Z [INFO] [Tool.invoke] do invoke.
+2026-03-28T13:32:44.991Z [INFO] [Tool.invoke]({result: {
+  "message": "Event 'summaryGenerated' reported!\nSession ID: 20260326194247,\nSession Dir: /home/siklu/src/jsystem/.github/java-upgrade/20260326194247"
+}}).
+2026-03-28T13:32:44.991Z [INFO] ----------------------invoked report_event----------------------
+2026-03-28T13:34:29.165Z [INFO] ---------------------prepare validate_cves_for_java----------------------
+2026-03-28T13:34:29.165Z [INFO] [Tool.prepareInvocation]({name: validate_cves_for_java, input: {
+  "dependencies": [
+    "ant-contrib:ant-contrib:1.0b3",
+    "ch.ethz.ganymed:ganymed-ssh2:263",
+    "com.jgoodies:jgoodies-looks:2.7.0",
+    "commons-io:commons-io:2.19.0",
+    "commons-jxpath:commons-jxpath:1.4.0",
+    "commons-net:commons-net:3.11.1",
+    "com.sun.xml.bind:jaxb-impl:4.0.5",
+    "com.thoughtworks.qdox:qdox:2.2.0",
+    "jakarta.activation:jakarta.activation-api:2.1.3",
+    "jakarta.mail:jakarta.mail-api:2.1.3",
+    "jakarta.xml.bind:jakarta.xml.bind-api:4.0.2",
+    "junit:junit:4.13.2",
+    "org.apache.ant:ant:1.10.15",
+    "org.apache.ant:ant-launcher:1.7.0",
+    "org.apache.commons:commons-compress:1.27.1",
+    "org.apache.ftpserver:ftpserver-core:1.2.1",
+    "org.apache.httpcomponents.client5:httpclient5:5.5",
+    "org.apache.maven:maven-plugin-api:2.0",
+    "org.apache.maven:maven-project:2.0.2",
+    "org.apache.tomcat:tomcat-catalina:11.0.15",
+    "org.eclipse.angus:angus-mail:2.0.3",
+    "org.jfree:jfreechart:1.5.6",
+    "org.ow2.asm:asm-commons:9.8",
+    "org.ow2.asm:asm:9.8",
+    "org.python:jython:2.7.4",
+    "org.swinglabs:swingx:1.6.1",
+    "xalan:xalan:2.7.3"
+  ],
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247"
+}}).
+2026-03-28T13:34:29.165Z [INFO] [Tool.prepareInvocation] do prepare invocation.
+2026-03-28T13:34:29.165Z [INFO] [Tool.prepareInvocation]({result: {
+  "invocationMessage": "Validate CVEs"
+}}).
+2026-03-28T13:34:29.165Z [INFO] ----------------------prepared validate_cves_for_java----------------------
+2026-03-28T13:34:29.238Z [INFO] ----------------------invoke validate_cves_for_java----------------------
+2026-03-28T13:34:29.238Z [INFO] [Tool.invoke]({name: validate_cves_for_java, input: {
+  "dependencies": [
+    "ant-contrib:ant-contrib:1.0b3",
+    "ch.ethz.ganymed:ganymed-ssh2:263",
+    "com.jgoodies:jgoodies-looks:2.7.0",
+    "commons-io:commons-io:2.19.0",
+    "commons-jxpath:commons-jxpath:1.4.0",
+    "commons-net:commons-net:3.11.1",
+    "com.sun.xml.bind:jaxb-impl:4.0.5",
+    "com.thoughtworks.qdox:qdox:2.2.0",
+    "jakarta.activation:jakarta.activation-api:2.1.3",
+    "jakarta.mail:jakarta.mail-api:2.1.3",
+    "jakarta.xml.bind:jakarta.xml.bind-api:4.0.2",
+    "junit:junit:4.13.2",
+    "org.apache.ant:ant:1.10.15",
+    "org.apache.ant:ant-launcher:1.7.0",
+    "org.apache.commons:commons-compress:1.27.1",
+    "org.apache.ftpserver:ftpserver-core:1.2.1",
+    "org.apache.httpcomponents.client5:httpclient5:5.5",
+    "org.apache.maven:maven-plugin-api:2.0",
+    "org.apache.maven:maven-project:2.0.2",
+    "org.apache.tomcat:tomcat-catalina:11.0.15",
+    "org.eclipse.angus:angus-mail:2.0.3",
+    "org.jfree:jfreechart:1.5.6",
+    "org.ow2.asm:asm-commons:9.8",
+    "org.ow2.asm:asm:9.8",
+    "org.python:jython:2.7.4",
+    "org.swinglabs:swingx:1.6.1",
+    "xalan:xalan:2.7.3"
+  ],
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247"
+}}).
+2026-03-28T13:34:29.238Z [INFO] [Tool.invoke] do invoke.
+2026-03-28T13:34:29.239Z [INFO] Project /home/siklu/src/jsystem is not a maven project, try to get java version from gradle
+2026-03-28T13:34:29.239Z [INFO] Getting CVEs for dependencies: ant-contrib:ant-contrib:1.0b3,ch.ethz.ganymed:ganymed-ssh2:263,com.jgoodies:jgoodies-looks:2.7.0,commons-io:commons-io:2.19.0,commons-jxpath:commons-jxpath:1.4.0,commons-net:commons-net:3.11.1,com.sun.xml.bind:jaxb-impl:4.0.5,com.thoughtworks.qdox:qdox:2.2.0,jakarta.activation:jakarta.activation-api:2.1.3,jakarta.mail:jakarta.mail-api:2.1.3,jakarta.xml.bind:jakarta.xml.bind-api:4.0.2,junit:junit:4.13.2,org.apache.ant:ant:1.10.15,org.apache.ant:ant-launcher:1.7.0,org.apache.commons:commons-compress:1.27.1,org.apache.ftpserver:ftpserver-core:1.2.1,org.apache.httpcomponents.client5:httpclient5:5.5,org.apache.maven:maven-plugin-api:2.0,org.apache.maven:maven-project:2.0.2,org.apache.tomcat:tomcat-catalina:11.0.15,org.eclipse.angus:angus-mail:2.0.3,org.jfree:jfreechart:1.5.6,org.ow2.asm:asm-commons:9.8,org.ow2.asm:asm:9.8,org.python:jython:2.7.4,org.swinglabs:swingx:1.6.1,xalan:xalan:2.7.3
+2026-03-28T13:34:29.240Z [INFO] getting CVEs for dependencies:
+ - ant-contrib:ant-contrib:1.0b3
+  - ch.ethz.ganymed:ganymed-ssh2:263
+  - com.jgoodies:jgoodies-looks:2.7.0
+  - commons-io:commons-io:2.19.0
+  - commons-jxpath:commons-jxpath:1.4.0
+  - commons-net:commons-net:3.11.1
+  - com.sun.xml.bind:jaxb-impl:4.0.5
+  - com.thoughtworks.qdox:qdox:2.2.0
+  - jakarta.activation:jakarta.activation-api:2.1.3
+  - jakarta.mail:jakarta.mail-api:2.1.3
+  - jakarta.xml.bind:jakarta.xml.bind-api:4.0.2
+  - junit:junit:4.13.2
+  - org.apache.ant:ant:1.10.15
+  - org.apache.ant:ant-launcher:1.7.0
+  - org.apache.commons:commons-compress:1.27.1
+  - org.apache.ftpserver:ftpserver-core:1.2.1
+  - org.apache.httpcomponents.client5:httpclient5:5.5
+  - org.apache.maven:maven-plugin-api:2.0
+  - org.apache.maven:maven-project:2.0.2
+  - org.apache.tomcat:tomcat-catalina:11.0.15
+  - org.eclipse.angus:angus-mail:2.0.3
+  - org.jfree:jfreechart:1.5.6
+  - org.ow2.asm:asm-commons:9.8
+  - org.ow2.asm:asm:9.8
+  - org.python:jython:2.7.4
+  - org.swinglabs:swingx:1.6.1
+  - xalan:xalan:2.7.3...
+2026-03-28T13:34:29.240Z [INFO] getting gitHub access token...
+2026-03-28T13:34:29.302Z [INFO] Try to get java version from gradle config files: 
+2026-03-28T13:34:29.303Z [INFO] Try to get java version from gradle properties: undefined
+2026-03-28T13:34:29.303Z [INFO] Project java version: 8
+2026-03-28T13:34:29.332Z [INFO] Processing batch 1/1, size: 27
+2026-03-28T13:34:29.332Z [INFO] Proxy configuration: HTTPS_PROXY=(not set), HTTP_PROXY=(not set), NO_PROXY=(not set), NODE_EXTRA_CA_CERTS=(not set), vscode http.proxy=(not set), hasProxy=false
+2026-03-28T13:34:29.333Z [INFO] No proxy detected, using direct connection.
+2026-03-28T13:34:29.333Z [INFO] listing CVEs from GitHub for dependencies [
+  "ant-contrib:ant-contrib:1.0b3",
+  "ch.ethz.ganymed:ganymed-ssh2:263",
+  "com.jgoodies:jgoodies-looks:2.7.0",
+  "commons-io:commons-io:2.19.0",
+  "commons-jxpath:commons-jxpath:1.4.0",
+  "commons-net:commons-net:3.11.1",
+  "com.sun.xml.bind:jaxb-impl:4.0.5",
+  "com.thoughtworks.qdox:qdox:2.2.0",
+  "jakarta.activation:jakarta.activation-api:2.1.3",
+  "jakarta.mail:jakarta.mail-api:2.1.3",
+  "jakarta.xml.bind:jakarta.xml.bind-api:4.0.2",
+  "junit:junit:4.13.2",
+  "org.apache.ant:ant:1.10.15",
+  "org.apache.ant:ant-launcher:1.7.0",
+  "org.apache.commons:commons-compress:1.27.1",
+  "org.apache.ftpserver:ftpserver-core:1.2.1",
+  "org.apache.httpcomponents.client5:httpclient5:5.5",
+  "org.apache.maven:maven-plugin-api:2.0",
+  "org.apache.maven:maven-project:2.0.2",
+  "org.apache.tomcat:tomcat-catalina:11.0.15",
+  "org.eclipse.angus:angus-mail:2.0.3",
+  "org.jfree:jfreechart:1.5.6",
+  "org.ow2.asm:asm-commons:9.8",
+  "org.ow2.asm:asm:9.8",
+  "org.python:jython:2.7.4",
+  "org.swinglabs:swingx:1.6.1",
+  "xalan:xalan:2.7.3"
+]
+2026-03-28T13:34:29.454Z [ERROR] Failed to send project info telemetry at /home/siklu/src/jsystem: UserError: Failed to detect build tool for the project at /home/siklu/src/jsystem. There are child Maven/Gradle projects detected: "jsystem-parent", "jsystem-core-system-objects", "jsystem-core-projects", "jsystem-archetypes", "jsystem-miscellaneous/jsystem-services-tests". Would you like to use one of them instead?
+	at J3e (/home/siklu/.vscode/extensions/vscjava.vscode-java-upgrade-2.1.1/dist/extension.js:380:1757)
+	at async zft (/home/siklu/.vscode/extensions/vscjava.vscode-java-upgrade-2.1.1/dist/extension.js:380:4211)
+	at async /home/siklu/.vscode/extensions/vscjava.vscode-java-upgrade-2.1.1/dist/extension.js:490:1011
+2026-03-28T13:34:29.720Z [INFO] Fetched 0 total advisories across all pages
+2026-03-28T13:34:29.721Z [INFO] grouping CVEs and finding max patched version by dep...
+2026-03-28T13:34:29.721Z [INFO] done getting 0 CVEs for 27 dependencies
+2026-03-28T13:34:29.721Z [INFO] calculating patched version by dep...
+2026-03-28T13:34:29.721Z [INFO] finished getting CVEs for dependencies.
+2026-03-28T13:34:29.721Z [INFO] Found 0 dependencies with known CVEs
+2026-03-28T13:34:29.722Z [INFO] No known CVEs that need to be fixed are found for dependencies: ant-contrib:ant-contrib:1.0b3,ch.ethz.ganymed:ganymed-ssh2:263,com.jgoodies:jgoodies-looks:2.7.0,commons-io:commons-io:2.19.0,commons-jxpath:commons-jxpath:1.4.0,commons-net:commons-net:3.11.1,com.sun.xml.bind:jaxb-impl:4.0.5,com.thoughtworks.qdox:qdox:2.2.0,jakarta.activation:jakarta.activation-api:2.1.3,jakarta.mail:jakarta.mail-api:2.1.3,jakarta.xml.bind:jakarta.xml.bind-api:4.0.2,junit:junit:4.13.2,org.apache.ant:ant:1.10.15,org.apache.ant:ant-launcher:1.7.0,org.apache.commons:commons-compress:1.27.1,org.apache.ftpserver:ftpserver-core:1.2.1,org.apache.httpcomponents.client5:httpclient5:5.5,org.apache.maven:maven-plugin-api:2.0,org.apache.maven:maven-project:2.0.2,org.apache.tomcat:tomcat-catalina:11.0.15,org.eclipse.angus:angus-mail:2.0.3,org.jfree:jfreechart:1.5.6,org.ow2.asm:asm-commons:9.8,org.ow2.asm:asm:9.8,org.python:jython:2.7.4,org.swinglabs:swingx:1.6.1,xalan:xalan:2.7.3
+2026-03-28T13:34:29.722Z [INFO] [Tool.invoke]({result: {
+  "message": "No known CVEs that need to be fixed are found for the given dependencies."
+}}).
+2026-03-28T13:34:29.723Z [INFO] ----------------------invoked validate_cves_for_java----------------------
