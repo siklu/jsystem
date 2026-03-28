@@ -3,12 +3,18 @@ package jsystem.extensions.report.difido;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.net.http.HttpClient;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-import org.apache.hc.client5.http.classic.methods.*;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.classic.methods.HttpPut;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -25,102 +31,125 @@ public class DifidoClient {
 
 	private static final String BASE_URI_TEMPLATE = "http://%s:%d/api/";
 	private final String baseUri;
-	private final CloseableHttpClient client;
 
 	public DifidoClient(String host, int port) {
 		baseUri = String.format(BASE_URI_TEMPLATE, host, port);
-		client = new HttpClient();
 		execProps = new Properties();
 	}
 
 	public int addExecution(ExecutionDetails details) throws Exception {
-		final PostMethod method = new PostMethod(baseUri + "executions/");
-		if (details != null) {
-			final String descriptionJson = new ObjectMapper().writeValueAsString(details);
-			method.setRequestEntity(new StringRequestEntity(descriptionJson,"application/json","utf-8"));
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
+			final HttpPost method = new HttpPost(baseUri + "executions/");
+			if (details != null) {
+				final String descriptionJson = new ObjectMapper().writeValueAsString(details);
+				method.setEntity(new StringEntity(descriptionJson, StandardCharsets.UTF_8));
+				method.setHeader("Content-Type", "application/json");
+			}
+			try (CloseableHttpResponse response = client.execute(method)) {
+				int responseCode = response.getCode();
+				String body = EntityUtils.toString(response.getEntity());
+				handleResponseCode(responseCode, body);
+				int executionId = Integer.parseInt(body.trim());
+				File f = new File(EXEC_PROPS_FILE);
+				if (f.exists()) {
+					execProps.load(new FileInputStream(EXEC_PROPS_FILE));
+					execProps.clear();
+				}
+				execProps.setProperty("execution.id", Integer.toString(executionId));
+				execProps.store(new FileOutputStream(EXEC_PROPS_FILE), null);
+				return executionId;
+			}
 		}
-		final int responseCode = client.executeMethod(method);
-		handleResponseCode(method, responseCode);
-		int executionId = Integer.parseInt(method.getResponseBodyAsString());
-		File f = new File(EXEC_PROPS_FILE);
-		if (f.exists()) {		
-			execProps.load(new FileInputStream(EXEC_PROPS_FILE));
-			execProps.clear();
-		}
-		execProps.setProperty("execution.id", Integer.toString(executionId));
-		execProps.store(new FileOutputStream(EXEC_PROPS_FILE), null);
-		return executionId;
 	}
 
 	public void updateScenarioName(int executionId) throws Exception {
 		execProps.load(new FileInputStream(EXEC_PROPS_FILE));
-		final PutMethod method = new PutMethod(baseUri + "executions/" + executionId + "?serial=" + execProps.getProperty("execution.serial"));
-		method.setRequestHeader(new Header("Content-Type", "text/plain"));
-		final int responseCode = client.executeMethod(method);
-		handleResponseCode(method, responseCode);
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
+			final HttpPut method = new HttpPut(baseUri + "executions/" + executionId + "?serial=" + execProps.getProperty("execution.serial"));
+			method.setHeader("Content-Type", "text/plain");
+			try (CloseableHttpResponse response = client.execute(method)) {
+				handleResponseCode(response.getCode(), EntityUtils.toString(response.getEntity()));
+			}
+		}
 	}
 
 	public void updateSerialNumber(int executionId) throws Exception {
 		execProps.load(new FileInputStream(EXEC_PROPS_FILE));
-		final PutMethod method = new PutMethod(baseUri + "executions/" + executionId + "?serial=" + execProps.getProperty("execution.serial"));
-		method.setRequestHeader(new Header("Content-Type", "text/plain"));
-		final int responseCode = client.executeMethod(method);
-		handleResponseCode(method, responseCode);
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
+			final HttpPut method = new HttpPut(baseUri + "executions/" + executionId + "?serial=" + execProps.getProperty("execution.serial"));
+			method.setHeader("Content-Type", "text/plain");
+			try (CloseableHttpResponse response = client.execute(method)) {
+				handleResponseCode(response.getCode(), EntityUtils.toString(response.getEntity()));
+			}
+		}
 	}
-	
+
 	public void endExecution(int executionId) throws Exception {
-		final PutMethod method = new PutMethod(baseUri + "executions/" + executionId + "?active=false");
-		method.setRequestHeader(new Header("Content-Type", "text/plain"));
-		final int responseCode = client.executeMethod(method);
-		handleResponseCode(method, responseCode);
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
+			final HttpPut method = new HttpPut(baseUri + "executions/" + executionId + "?active=false");
+			method.setHeader("Content-Type", "text/plain");
+			try (CloseableHttpResponse response = client.execute(method)) {
+				handleResponseCode(response.getCode(), EntityUtils.toString(response.getEntity()));
+			}
+		}
 		execProps.clear();
 	}
 
 	public int addMachine(int executionId, MachineNode machine) throws Exception {
-		PostMethod method = new PostMethod(baseUri + "executions/" + executionId + "/machines/");
-		final ObjectMapper mapper = new ObjectMapper();
-		final String json = mapper.writeValueAsString(machine);
-		final RequestEntity entity = new StringRequestEntity(json,"application/json","utf-8");
-		method.setRequestEntity(entity);
-		int responseCode = client.executeMethod(method);
-		handleResponseCode(method, responseCode);
-		return Integer.parseInt(method.getResponseBodyAsString());
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
+			HttpPost method = new HttpPost(baseUri + "executions/" + executionId + "/machines/");
+			final String json = new ObjectMapper().writeValueAsString(machine);
+			method.setEntity(new StringEntity(json, StandardCharsets.UTF_8));
+			method.setHeader("Content-Type", "application/json");
+			try (CloseableHttpResponse response = client.execute(method)) {
+				int responseCode = response.getCode();
+				String body = EntityUtils.toString(response.getEntity());
+				handleResponseCode(responseCode, body);
+				return Integer.parseInt(body.trim());
+			}
+		}
 	}
 
 	public void updateMachine(int executionId, int machineId, MachineNode machine) throws Exception {
-		PutMethod method = new PutMethod(baseUri + "executions/" + executionId + "/machines/" + machineId);
-		final ObjectMapper mapper = new ObjectMapper();
-		final String json = mapper.writeValueAsString(machine);
-		final RequestEntity entity = new StringRequestEntity(json,"application/json","utf-8");
-		method.setRequestEntity(entity);
-		int responseCode = client.executeMethod(method);
-		handleResponseCode(method, responseCode);
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
+			HttpPut method = new HttpPut(baseUri + "executions/" + executionId + "/machines/" + machineId);
+			final String json = new ObjectMapper().writeValueAsString(machine);
+			method.setEntity(new StringEntity(json, StandardCharsets.UTF_8));
+			method.setHeader("Content-Type", "application/json");
+			try (CloseableHttpResponse response = client.execute(method)) {
+				handleResponseCode(response.getCode(), EntityUtils.toString(response.getEntity()));
+			}
+		}
 	}
 
 	public void addTestDetails(int executionId, TestDetails testDetails) throws Exception {
-		PostMethod method = new PostMethod(baseUri + "executions/" + executionId + "/details");
-		final ObjectMapper mapper = new ObjectMapper();
-		final String json = mapper.writeValueAsString(testDetails);
-		final RequestEntity entity = new StringRequestEntity(json,"application/json","utf-8");
-		method.setRequestEntity(entity);
-		final int responseCode = client.executeMethod(method);
-		handleResponseCode(method, responseCode);
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
+			HttpPost method = new HttpPost(baseUri + "executions/" + executionId + "/details");
+			final String json = new ObjectMapper().writeValueAsString(testDetails);
+			method.setEntity(new StringEntity(json, StandardCharsets.UTF_8));
+			method.setHeader("Content-Type", "application/json");
+			try (CloseableHttpResponse response = client.execute(method)) {
+				handleResponseCode(response.getCode(), EntityUtils.toString(response.getEntity()));
+			}
+		}
 	}
 
 	public void addFile(final int executionId, final String uid, final File file) throws Exception {
-		PostMethod method = new PostMethod(baseUri + "executions/" + executionId + "/details/" + uid + "/file/");
-		Part[] parts = new Part[] { new FilePart("file", file) };
-		method.setRequestEntity(new MultipartRequestEntity(parts, method.getParams()));
-		final int responseCode = client.executeMethod(method);
-		handleResponseCode(method, responseCode);
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
+			HttpPost method = new HttpPost(baseUri + "executions/" + executionId + "/details/" + uid + "/file/");
+			method.setEntity(MultipartEntityBuilder.create()
+					.addBinaryBody("file", file)
+					.build());
+			try (CloseableHttpResponse response = client.execute(method)) {
+				handleResponseCode(response.getCode(), EntityUtils.toString(response.getEntity()));
+			}
+		}
 	}
 
-	private void handleResponseCode(HttpMethod method, int responseCode) throws Exception {
+	private void handleResponseCode(int responseCode, String body) throws Exception {
 		if (responseCode != 200 && responseCode != 204) {
-			throw new Exception("Request was not successful. Response is: " + responseCode + ".\n Response body: "
-					+ method.getResponseBodyAsString());
+			throw new Exception("Request was not successful. Response is: " + responseCode + ".\n Response body: " + body);
 		}
-
 	}
 
 }

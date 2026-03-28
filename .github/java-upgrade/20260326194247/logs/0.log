@@ -487,3 +487,73 @@
   "message": "Event 'upgradeStepStarted' reported!\nSession ID: 20260326194247,\nSession Dir: /home/siklu/src/jsystem/.github/java-upgrade/20260326194247"
 }}).
 2026-03-26T20:24:45.292Z [INFO] ----------------------invoked report_event----------------------
+2026-03-26T20:26:30.605Z [INFO] ---------------------prepare report_event----------------------
+2026-03-26T20:26:30.605Z [INFO] [Tool.prepareInvocation]({name: report_event, input: {
+  "details": {
+    "commitId": "95c0683",
+    "stepNumber": 5,
+    "stepTitle": "Fix Removed Internal JDK APIs"
+  },
+  "event": "upgradeStepCompleted",
+  "phase": "execute",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T20:26:30.605Z [INFO] [Tool.prepareInvocation] do prepare invocation.
+2026-03-26T20:26:30.605Z [INFO] [Tool.prepareInvocation]({result: {
+  "invocationMessage": "Report upgrade event"
+}}).
+2026-03-26T20:26:30.606Z [INFO] ----------------------prepared report_event----------------------
+2026-03-26T20:26:30.703Z [INFO] ----------------------invoke report_event----------------------
+2026-03-26T20:26:30.703Z [INFO] [Tool.invoke]({name: report_event, input: {
+  "details": {
+    "commitId": "95c0683",
+    "stepNumber": 5,
+    "stepTitle": "Fix Removed Internal JDK APIs"
+  },
+  "event": "upgradeStepCompleted",
+  "phase": "execute",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T20:26:30.703Z [INFO] [Tool.invoke] do invoke.
+2026-03-26T20:26:30.703Z [INFO] [Tool.invoke]({result: {
+  "message": "Event 'upgradeStepCompleted' reported!\nSession ID: 20260326194247,\nSession Dir: /home/siklu/src/jsystem/.github/java-upgrade/20260326194247"
+}}).
+2026-03-26T20:26:30.703Z [INFO] ----------------------invoked report_event----------------------
+2026-03-26T20:26:45.305Z [INFO] ---------------------prepare report_event----------------------
+2026-03-26T20:26:45.305Z [INFO] [Tool.prepareInvocation]({name: report_event, input: {
+  "details": {
+    "stepNumber": 6,
+    "stepTitle": "Fix Third-Party Library API Incompatibilities"
+  },
+  "event": "upgradeStepStarted",
+  "phase": "execute",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T20:26:45.305Z [INFO] [Tool.prepareInvocation] do prepare invocation.
+2026-03-26T20:26:45.305Z [INFO] [Tool.prepareInvocation]({result: {
+  "invocationMessage": "Report upgrade event"
+}}).
+2026-03-26T20:26:45.305Z [INFO] ----------------------prepared report_event----------------------
+2026-03-26T20:26:45.391Z [INFO] ----------------------invoke report_event----------------------
+2026-03-26T20:26:45.392Z [INFO] [Tool.invoke]({name: report_event, input: {
+  "details": {
+    "stepNumber": 6,
+    "stepTitle": "Fix Third-Party Library API Incompatibilities"
+  },
+  "event": "upgradeStepStarted",
+  "phase": "execute",
+  "projectPath": "/home/siklu/src/jsystem",
+  "sessionId": "20260326194247",
+  "status": "succeeded"
+}}).
+2026-03-26T20:26:45.392Z [INFO] [Tool.invoke] do invoke.
+2026-03-26T20:26:45.392Z [INFO] [Tool.invoke]({result: {
+  "message": "Event 'upgradeStepStarted' reported!\nSession ID: 20260326194247,\nSession Dir: /home/siklu/src/jsystem/.github/java-upgrade/20260326194247"
+}}).
+2026-03-26T20:26:45.392Z [INFO] ----------------------invoked report_event----------------------

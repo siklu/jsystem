@@ -34,7 +34,7 @@ import jsystem.runner.agent.reportdb.TestInfo;
 import jsystem.utils.StringUtils;
 
 import org.apache.xpath.XPathAPI;
-import org.jfree.util.Log;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -263,7 +263,7 @@ public class XmlReportHandler implements ReportInformation {
 			reportFile0 = getReportFile(0);
 			doc = initDocument(getReportFile(0));
 		} catch (Exception e) {
-			Log.error("Failed to update property " + attributeName, e);
+			log.warning("Failed to update property " + attributeName + ": " + e.getMessage());
 			return;
 		}
 
@@ -282,7 +282,7 @@ public class XmlReportHandler implements ReportInformation {
 			final Source input = new DOMSource(doc);
 			transformer.transform(input, output);
 		} catch (Exception e) {
-			Log.error("Failed to update sut name", e);
+			log.warning("Failed to update sut name: " + e.getMessage());
 		} finally {
 			if (os != null) {
 				try {

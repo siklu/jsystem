@@ -2,6 +2,7 @@
  * Copyright 2005-2010 Ignis Software Tools Ltd. All rights reserved.
  */
 package jsystem.treeui.actionItems;
+import java.util.logging.Logger;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -28,9 +29,9 @@ import jsystem.treeui.teststable.ScenarioNavigationManager;
 import jsystem.treeui.utilities.ApplicationUtilities;
 import jsystem.upgrade.UpgradeManager;
 
-import org.jfree.util.Log;
 
 public class SwitchProjectAction extends IgnisAction {
+	private static final Logger log = Logger.getLogger(SwitchProjectAction.class.getName());
 
 	private static final long serialVersionUID = 1L;
 	
@@ -59,7 +60,7 @@ public class SwitchProjectAction extends IgnisAction {
 		try {
 			save_Ans = SaveScenarioAction.getInstance().saveCurrentScenarioWithConfirmation();
 		} catch (Exception e1) {
-			Log.error(e1.getMessage());
+			log.warning(e1.getMessage());
 		}
 		if (save_Ans != JOptionPane.CANCEL_OPTION){
 			String newDir = ApplicationUtilities.chooseClassesDirectory(null, false);

@@ -4,17 +4,17 @@
 package com.aqua.filetransfer.ftp;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.net.InetAddress;
-import java.util.Properties;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.ftpserver.FtpConfigImpl;
 import org.apache.ftpserver.FtpServer;
-import org.apache.ftpserver.config.PropertiesConfiguration;
-import org.apache.ftpserver.ftplet.Configuration;
-import org.apache.ftpserver.interfaces.IFtpConfig;
-import org.apache.ftpserver.usermanager.BaseUser;
+import org.apache.ftpserver.FtpServerFactory;
+import org.apache.ftpserver.ftplet.Authority;
+import org.apache.ftpserver.ftplet.UserManager;
+import org.apache.ftpserver.listener.ListenerFactory;
+import org.apache.ftpserver.usermanager.impl.BaseUser;
+import org.apache.ftpserver.usermanager.impl.WritePermission;
 
 import com.aqua.filetransfer.utils.NetUtils;
 
@@ -70,13 +70,21 @@ public class FTPServer extends SystemObjectImpl {
 	public void init() throws Exception {
 		super.init();
 		updateExternalName();
-		Configuration config = getConfiguration();
-		// create FTP config
-		IFtpConfig ftpConfig = new FtpConfigImpl(config);
-		// create the server object and start it
-		server = new FtpServer(ftpConfig);
-		initializeDefaultUser();
-		if (isBound()){
+		FtpServerFactory serverFactory = new FtpServerFactory();
+		ListenerFactory listenerFactory = new ListenerFactory();
+		listenerFactory.setPort(port);
+		String bindName = getBindName();
+		if (bindName != null) {
+			listenerFactory.setServerAddress(bindName);
+			report.report("FTP Server is listening on " + bindName + " port: " + port
+					+ " ip address is " + InetAddress.getByName(bindName));
+		} else {
+			report.report("FTP Server is listening on all ips. port: " + port);
+		}
+		serverFactory.addListener("default", listenerFactory.createListener());
+		server = serverFactory.createServer();
+		initializeDefaultUser(serverFactory.getUserManager());
+		if (isBound()) {
 			report.report("Another FTP server is already active.");
 		}
 	}
@@ -123,46 +131,12 @@ public class FTPServer extends SystemObjectImpl {
 	 * Returns FTP server home directory.
 	 */
 	public File getServerRootDirectory() throws Exception {
-		return new File(server.getFtpConfig().getUserManager().getUserByName(
-				getDefaultUserName()).getHomeDirectory());
+		return new File(defaultUserHomeDirectory);
 	}
 
 
 
-	private Configuration getConfiguration() throws Exception {
-		InputStream stream = getClass().getClassLoader().getResourceAsStream(getPropertiesPath());
-		
-		if (stream == null){
-			stream = new FileInputStream(getPropertiesPath());
-		}
-		
-		String bindName = getBindName();
-		if (bindName != null){
-			report.report("FTP Server is listening on " + bindName + " port: " +getPort() + " ip address is " + InetAddress.getByName(bindName));
-		}else {
-			report.report("FTP Server is listening on all ips. port: " +getPort());
-		}
-		try {
-			Properties props = new Properties();
-			props.load(stream);
-			props.setProperty("config.socket-factory.port", "" + port);
-			if (bindName != null){
-				props.setProperty("config.socket-factory.address",
-						bindName);
-				props.setProperty("config.data-connection.active.local-address",
-						bindName);
-				props.setProperty("config.data-connection.passive.address",
-						bindName);
-			}
-			PropertiesConfiguration configuration = new PropertiesConfiguration(
-					props);
-			return configuration;
-		} finally {
-			if (stream != null) {
-				stream.close();
-			}
-		}
-	}
+
 	
 	/**
 	 * Returns the IP on which the FTP server should listen.
@@ -194,16 +168,18 @@ public class FTPServer extends SystemObjectImpl {
 	}
 	/**
 	 */
-	private void initializeDefaultUser() throws Exception {
+	private void initializeDefaultUser(UserManager userManager) throws Exception {
 		BaseUser aquaUser = new BaseUser();
 		aquaUser.setEnabled(true);
 		aquaUser.setName(defaultUserName);
 		aquaUser.setPassword(defaultUserPassword);
-		aquaUser.setWritePermission(true);
+		List<Authority> authorities = new ArrayList<Authority>();
+		authorities.add(new WritePermission());
+		aquaUser.setAuthorities(authorities);
 		File defaultUserRoot;
-		if (getDefaultUserHomeDirectory() == null){
+		if (getDefaultUserHomeDirectory() == null) {
 			defaultUserRoot = new File("aquaftp" + getPort());
-		}else {
+		} else {
 			defaultUserRoot = new File(getDefaultUserHomeDirectory());
 		}
 		if (!defaultUserRoot.exists() && !defaultUserRoot.mkdirs()) {
@@ -212,7 +188,7 @@ public class FTPServer extends SystemObjectImpl {
 		}
 		aquaUser.setHomeDirectory(defaultUserRoot.getAbsolutePath());
 		setDefaultUserHomeDirectory(defaultUserRoot.getAbsolutePath());
-		server.getFtpConfig().getUserManager().save(aquaUser);
+		userManager.save(aquaUser);
 	}
 	
 	/**

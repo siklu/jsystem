@@ -2,12 +2,12 @@
  * Copyright 2005-2010 Ignis Software Tools Ltd. All rights reserved.
  */
 package jsystem.treeui.teststable;
+import java.util.logging.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jfree.util.Log;
 
 import jsystem.framework.report.RunnerListenersManager;
 import jsystem.framework.scenario.Parameter;
@@ -26,6 +26,7 @@ import jsystem.treeui.actionItems.SaveScenarioAction;
  *
  */
 public class ScenarioNavigationManager implements ScenarioListener{
+	private static final Logger log = Logger.getLogger(ScenarioNavigationManager.class.getName());
 	
 	static {
 		manager = new ScenarioNavigationManager();
@@ -115,7 +116,7 @@ public class ScenarioNavigationManager implements ScenarioListener{
 				try {
 					SaveScenarioAction.getInstance().saveCurrentScenarioWithConfirmation();
 				} catch (Exception e1) {
-					Log.error(e1.getMessage());
+					log.warning(e1.getMessage());
 				}
 				TestRunner.treeView.tableController.loadScenario(scenarios.get(currentScenarioIndex), false);
 				try {
@@ -145,7 +146,7 @@ public class ScenarioNavigationManager implements ScenarioListener{
 				try {
 					SaveScenarioAction.getInstance().saveCurrentScenario();
 				} catch (Exception e1) {
-					Log.error(e1.getMessage());
+					log.warning(e1.getMessage());
 				}
 				TestRunner.treeView.tableController.loadScenario(scenarioName, false);
 				try {

@@ -74,7 +74,6 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import org.jfree.util.Log;
 
 import jsystem.extensions.report.html.HtmlCodeWriter;
 import jsystem.extensions.scenarionamehook.ScenarioNameHookManager;
@@ -1571,7 +1570,7 @@ public class TestsTableController extends Observable implements TestStatusListen
 			try {
 				SaveScenarioAction.getInstance().saveCurrentScenarioWithConfirmation();
 			} catch (Exception e1) {
-				Log.error(e1.getMessage());
+				log.warning(e1.getMessage());
 			}
 			loadScenario(((Scenario) currentNode.getTest()).getName(), false);
 			return;

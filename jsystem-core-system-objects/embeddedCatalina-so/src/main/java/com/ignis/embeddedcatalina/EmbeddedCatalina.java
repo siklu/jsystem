@@ -8,6 +8,9 @@ import org.apache.catalina.Engine;
 import org.apache.catalina.Host;
 import org.apache.catalina.Server;
 import org.apache.catalina.connector.Connector;
+import org.apache.catalina.core.StandardContext;
+import org.apache.catalina.core.StandardEngine;
+import org.apache.catalina.core.StandardHost;
 import org.apache.catalina.core.StandardService;
 import org.apache.catalina.startup.Catalina;
 
@@ -100,19 +103,30 @@ public class EmbeddedCatalina extends SystemObjectImpl{
 		}
 		StandardService service = new StandardService();
 		// Create an engine
-	    Engine engine = catalina.createEngine();
+	    StandardEngine engine = new StandardEngine();
 	    engine.setDefaultHost(getDefaultHost());
 	    // Create a default virtual host
-	    Host  host = catalina.createHost(getDefaultHost(),getDefaultAppBase());
+	    StandardHost host = new StandardHost();
+	    host.setName(getDefaultHost());
+	    host.setAppBase(getDefaultAppBase());
 	    engine.addChild(host);
 	    // Create the ROOT context
-	    Context context = catalina.createContext(getDefaultContextPath(),getDefaultDocBase());
+	    StandardContext context = new StandardContext();
+	    context.setName(getDefaultContextPath());
+	    context.setDocBase(getDefaultDocBase());
 	    context.setParentClassLoader(this.getClass().getClassLoader());
 	    host.addChild(context);
 	    
 	    // Assemble and install a default HTTP connector
-	    Connector connector =
-	      catalina.createConnector(getDefaultBindAddress(), getDefaultConnectorPort(), isDefaultSecured());
+	    Connector connector = new Connector("HTTP/1.1");
+	    connector.setPort(getDefaultConnectorPort());
+	    if (getDefaultBindAddress() != null && !getDefaultBindAddress().isEmpty()) {
+	        connector.setProperty("address", getDefaultBindAddress());
+	    }
+	    if (isDefaultSecured()) {
+	        connector.setSecure(true);
+	        connector.setScheme("https");
+	    }
 	    service.addConnector(connector);
 	    service.setContainer(engine);
 	    catalina.getServer().addService(service);	

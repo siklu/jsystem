@@ -16,6 +16,11 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.jsystemtest</groupId>
+			<artifactId>jsystemCore</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>com.jgoodies</groupId>
     <artifactId>jgoodies-looks</artifactId>
 		</dependency>

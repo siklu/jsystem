@@ -132,11 +132,10 @@ public class AgentsSelectionDialog extends JDialog {
 	class AgentSelectTableModel extends DefaultTableModel {
 		private static final long serialVersionUID = 1L;
 
-		AgentSelectTableModel(Vector<Object> model, Vector<String> columns) {
-			super(model, columns);
-		}
-
-		@Override
+                @SuppressWarnings({"unchecked", "rawtypes"})
+                AgentSelectTableModel(Vector<Object> model, Vector<String> columns) {
+                        super((Vector) model, (Vector) columns);
+                }
 		public boolean isCellEditable(int row, int column) {
 			return column == 0;
 		};

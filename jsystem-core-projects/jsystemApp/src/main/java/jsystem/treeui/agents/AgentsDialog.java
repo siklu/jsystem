@@ -231,12 +231,10 @@ public class AgentsDialog extends JDialog {
 	}
 
 	class AgentListTableModel extends DefaultTableModel {
-		AgentListTableModel(Vector<Object> model, Vector<String> columns) {
-			super(model, columns);
-		}
-
-		private static final long serialVersionUID = 1L;
-
+                @SuppressWarnings({"unchecked", "rawtypes"})
+                AgentListTableModel(Vector<Object> model, Vector<String> columns) {
+                        super((Vector) model, (Vector) columns);
+                }
 		@Override
 		public boolean isCellEditable(int row, int column) {
 			return (row == editableRow) && (column == 1);
