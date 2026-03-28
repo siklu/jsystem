@@ -45,3 +45,4 @@ remoteDifido.properties
 bin/
 jsystem0.log*
 /.metadata/
+.github/
