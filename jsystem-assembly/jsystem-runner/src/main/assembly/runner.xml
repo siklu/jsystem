@@ -81,6 +81,9 @@
 				<exclude>org.jsystemtest:*:*</exclude>
 				<exclude>org.jsystemtest.systemobjects:*:*</exclude>
 				<exclude>ant:ant-full:*</exclude>
+				<exclude>org.apache.ant:ant:*</exclude>
+				<exclude>org.apache.ant:ant-launcher:*</exclude>
+				<exclude>ant-contrib:ant-contrib:*</exclude>
 				<exclude>*:jsystem-services-tests:*:sources:*</exclude>
 			</excludes>
 		</dependencySet>
