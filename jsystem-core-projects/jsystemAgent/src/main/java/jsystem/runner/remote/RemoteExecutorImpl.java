@@ -155,7 +155,7 @@ public class RemoteExecutorImpl implements RemoteExecutor {
 		boolean testDebug = "true".equals(JSystemProperties.getInstance().getPreference(FrameworkOptions.TESTS_DEBUG));
 		String waitMessage;
 
-		if (testDebug || (vmParams != null && vmParams.contains("-Xdebug"))) {
+		if (testDebug || (vmParams != null && (vmParams.contains("-Xdebug")||vmParams.contains("-agentlib:jdwp")))) {
 			waitMessage = "Waiting for remote debugging connection";
 		} else {
 			waitMessage = "Wait for remote VM";
@@ -208,10 +208,14 @@ public class RemoteExecutorImpl implements RemoteExecutor {
 		// set up debug parameters for remote debugging via eclipse
 		if (testDebug) {
 			// see http://www.eclipsezone.com/eclipse/forums/t53459.html
+			/* java <= jdk22
 			cmdStringArray.add("-Xdebug");
 			cmdStringArray.add("-Xnoagent");
 			cmdStringArray.add("-Djava.compiler=NONE");
 			cmdStringArray.add("-Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=y");
+			 */
+			// java > jdk 24
+			cmdStringArray.add("-agentlib:jdwp=transport=dt_socket,address=8080,server=y,suspend=y");
 		}
 
 		cmdStringArray.add("-D" + RunningProperties.CURRENT_FIXTURE_BASE + "="

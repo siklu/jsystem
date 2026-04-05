@@ -296,7 +296,8 @@ public enum GUIFrameworkOptions {
 					"The two following example are provided: \n" + 
 					"-	In order to alter memory allocation: test.vm.params=-Xms32M -Xmx1024M. \n" + 
 					"-	To perform a debugging test execution: test.vm.params=\n" + 
-					"                              -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=${8787},server=y,suspend=y \n" +
+					//"                              -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=${8787},server=y,suspend=y \n" +
+					"                              -agentlib:jdwp=transport=dt_socket,address=*:${8080},server=y,suspend=y \n" +
 					"* The ${portNumber} will find the next available port if the one specified is already in use.\n" +
 					"  look at the console for the found port"
 			),
