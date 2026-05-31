@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.jsystemtest</groupId>
 		<artifactId>jsystem-parent</artifactId>
-		<version>6.1.19-SIKLU</version>
+		<version>6.1.20-SIKLU</version>
 		<relativePath>../../jsystem-parent</relativePath>
 	</parent>
 	<artifactId>jsystemAnt</artifactId>
@@ -17,6 +17,10 @@
 		<dependency>
 			<groupId>ant-contrib</groupId>
 			<artifactId>ant-contrib</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.openjdk.nashorn</groupId>
+			<artifactId>nashorn-core</artifactId>
 		</dependency>
 		<!--<dependency>
 			<groupId>org.apache.ant</groupId>
