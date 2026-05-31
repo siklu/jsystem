@@ -18,6 +18,9 @@ import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
 /**
  * A wrapper for the Ant ScriptCondition to allow passing of parameters and
  * using of inner script file
@@ -202,6 +205,17 @@ public class JSystemScriptCondition extends ScriptCondition {
 	public boolean eval() {
 		updateSrcFile(tmpSrc);
 		params = JSystemAntUtil.getParameterValue(scenarioString, uuid, "Parameters", params);
+		verifyJavaScriptEngineAvailability();
 		return super.eval();
+	}
+
+	private void verifyJavaScriptEngineAvailability() {
+		ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
+		if (engine == null) {
+			String message = "No JavaScript JSR-223 engine found for Ant ScriptCondition language 'javascript'. "
+					+ "On Java 25+, add org.openjdk.nashorn:nashorn-core to the runtime classpath.";
+			log.severe(message);
+			throw new IllegalStateException(message);
+		}
 	}
 }

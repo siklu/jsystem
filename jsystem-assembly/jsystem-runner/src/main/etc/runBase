@@ -31,7 +31,7 @@ setJavaEnvironment()
 #	fi
 }
 
-launch(){
+launch1(){
 	echo "the _JAVACMD variable = "$_JAVACMD
 	echo "the DEBUG variable = "$DEBUG
 	echo "remove the remark on the DEBUG variable to debug the runner."
@@ -41,6 +41,13 @@ launch(){
 	$_JAVACMD $DEBUG -Xms256m -Xmx512m $JMX -Djsystem.main=$JSYSTEM_MAIN -DentityExpansionLimit=1280000 -classpath ./lib/jsystem-launcher.jar  $SPLASH jsystem.framework.launcher.Launcher2 ${PARAMS[1]} ${PARAMS[2]} ${PARAMS[3]} ${PARAMS[4]} ${PARAMS[5]} ${PARAMS[6]}
 }
 
+launch() {
+	$_JAVACMD -cp ./lib/jsystem-launcher.jar:./thirdparty/commonLib/commons-lang3-3.12.0.jar jsystem.framework.launcher.LoginWindow
+	if [ -f .siklu.coockie ]
+	then 
+		launch1
+	fi
+}
 
 #===========================================================================
 #		PROGRAM FLOW
