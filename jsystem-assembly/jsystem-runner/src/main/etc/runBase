@@ -42,7 +42,7 @@ launch1(){
 }
 
 launch() {
-	$_JAVACMD -cp ./lib/jsystem-launcher.jar:./thirdparty/commonLib/commons-lang3-3.12.0.jar jsystem.framework.launcher.LoginWindow
+	$_JAVACMD -cp ./lib/jsystem-launcher.jar:./thirdparty/commonLib/commons-lang3.jar jsystem.framework.launcher.LoginWindow
 	if [ -f .siklu.coockie ]
 	then 
 		launch1
