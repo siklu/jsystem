@@ -1322,7 +1322,7 @@ public class JSystemTask extends Task {
      */
     private TestResultHolder executeInVM(JUnitTest arg) throws BuildException {
         JUnitTest test = (JUnitTest) arg.clone();
-        test.setProperties(getProject().getProperties());
+        test.setProperties((Hashtable) getProject().getProperties());
         if (dir != null) {
             log("dir attribute ignored if running in the same VM",
                 Project.MSG_WARN);
@@ -1582,7 +1582,7 @@ public class JSystemTask extends Task {
             }
 
             test.setCounts(1, 0, 1);
-            test.setProperties(getProject().getProperties());
+            test.setProperties((Hashtable) getProject().getProperties());
             for (int i = 0; i < feArray.length; i++) {
                 FormatterElement fe = feArray[i];
                 File outFile = getOutput(fe, test);

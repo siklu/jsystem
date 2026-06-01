@@ -27,6 +27,7 @@ if %jver% NEQ 1 set ADD_MODULES_STR=--add-modules java.xml.bind --add-modules ja
 rem echo %_JAVACMD% 
 rem remove the remark on the DEBUG variable to debug the runner.
 rem set DEBUG=-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n
+rem set DEBUG=-agentlib:jdwp=transport=dt_socket,server=y,address=*:8080,suspend=y
 "%_JAVACMD%" %DEBUG% -Xms32M -Xmx256M %JMX% %ADD_MODULES_STR% -Djsystem.main=%JSYSTEM_MAIN% -DentityExpansionLimit=1280000  -classpath "%JSYSTEM_USED_CLASSPATH%" %SPLASH% jsystem.framework.launcher.Launcher2 %1 %2 %3 %4 %5 %6 %7
 
 if %ERRORLEVEL% == 6 goto launch

@@ -2,11 +2,11 @@
  * Copyright 2005-2010 Ignis Software Tools Ltd. All rights reserved.
  */
 package jsystem.treeui.tree.undo;
+import java.util.logging.Logger;
 
 import java.io.File;
 import java.util.HashMap;
 
-import org.jfree.util.Log;
 
 import jsystem.framework.JSystemProperties;
 import jsystem.framework.scenario.Parameter;
@@ -18,6 +18,7 @@ import jsystem.treeui.TestRunner;
 import jsystem.utils.FileUtils;
 
 public class UndoManager implements ScenarioListener {
+	private static final Logger log = Logger.getLogger(UndoManager.class.getName());
 	
 	private static UndoManager manager = null;
 	public static UndoManager getInstance() {
@@ -71,7 +72,7 @@ public class UndoManager implements ScenarioListener {
 		try {
 			ScenarioUndoRedo scenarioUndoRedo = scenarios.get(scenario.getName());
 			if (scenarioUndoRedo == null) {
-				Log.error("No scenario undo\redo component!");
+				log.warning("No scenario undo\redo component!");
 				return;
 			}
 			scenarioUndoRedo.undo(scenario);
@@ -87,7 +88,7 @@ public class UndoManager implements ScenarioListener {
 		try {
 			ScenarioUndoRedo scenarioUndoRedo = scenarios.get(scenario.getName());
 			if (scenarioUndoRedo == null) {
-				Log.error("No scenario undo\redo component!");
+				log.warning("No scenario undo\redo component!");
 				return;
 			}
 			scenarioUndoRedo.redo(scenario);

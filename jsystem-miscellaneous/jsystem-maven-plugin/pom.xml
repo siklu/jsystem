@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>org.jsystemtest</groupId>
 		<artifactId>jsystem-parent</artifactId>
-		<version>6.1.17-SIKLU</version>
+		<version>6.1.20-SIKLU</version>
 		<relativePath>../../jsystem-parent</relativePath>
 	</parent>
 	<repositories>
@@ -58,15 +58,36 @@
 			<artifactId>maven-project</artifactId>
 			<version>2.0.2</version>
 		</dependency>
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-plugin-plugin</artifactId>
-				<version>3.4</version>
-			</plugin>
-		</plugins>
-	</build>
+                                <artifactId>maven-compiler-plugin</artifactId>
+                                <configuration>
+                                        <source>11</source>
+                                        <target>11</target>
+                                </configuration>
+                        </plugin>
+                        <plugin>
+                                <groupId>org.apache.maven.plugins</groupId>
+                                <artifactId>maven-plugin-plugin</artifactId>
+                                <version>3.15.1</version>
+                                <configuration>
+                                        <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+                                </configuration>
+                                <executions>
+                                        <execution>
+                                                <id>default-descriptor</id>
+                                                <phase>none</phase>
+                                        </execution>
+                                </executions>
+                        </plugin>
+                </plugins>
+        </build>
 
 </project>

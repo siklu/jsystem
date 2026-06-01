@@ -45,13 +45,12 @@ import junit.framework.SystemTestCase;
 
 import org.w3c.dom.Node;
 
-import com.thoughtworks.qdox.JavaDocBuilder;
-import com.thoughtworks.qdox.model.Annotation;
+import com.thoughtworks.qdox.JavaProjectBuilder;
+import com.thoughtworks.qdox.model.JavaAnnotation;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaField;
 import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.JavaParameter;
-import com.thoughtworks.qdox.model.Type;
 
 /**
  * The SOProcess contain static method to process
@@ -81,7 +80,7 @@ public class SOProcess {
 	 * @throws Exception
 	 */
 	public static void processSystemObject(Class testClassBase, Class testClass, Sut sut, String soPath,
-			String soClassName, JavaDocBuilder builder) throws Exception {
+			String soClassName, JavaProjectBuilder builder) throws Exception {
 		/*
 		 * Get the class to be process
 		 */
@@ -195,7 +194,7 @@ public class SOProcess {
 		/*
 		 * Add all the class method
 		 */
-		JavaMethod[] mlist = cls.getMethods();
+		JavaMethod[] mlist = cls.getMethods().toArray(new JavaMethod[0]);
 		for (JavaMethod m : mlist) {
 			methods.add(m);
 		}
@@ -212,7 +211,7 @@ public class SOProcess {
 			if (cn.equals("Object") || cn.equals("SystemObjectImpl")) {
 				break;
 			}
-			JavaMethod[] mm = superClass.getMethods();
+			JavaMethod[] mm = superClass.getMethods().toArray(new JavaMethod[0]);
 			for (JavaMethod m : mm) {
 				methods.add(m);
 			}
@@ -235,7 +234,7 @@ public class SOProcess {
 		/*
 		 * Add all the class fields
 		 */
-		JavaField[] flist = cls.getFields();
+		JavaField[] flist = cls.getFields().toArray(new JavaField[0]);
 		for (JavaField f : flist) {
 			fields.add(f);
 		}
@@ -252,7 +251,7 @@ public class SOProcess {
 			if (cn.equals("Object") || cn.equals("SystemObjectImpl")) {
 				break;
 			}
-			JavaField[] ff = superClass.getFields();
+			JavaField[] ff = superClass.getFields().toArray(new JavaField[0]);
 			for (JavaField f : ff) {
 				fields.add(f);
 			}
@@ -270,10 +269,10 @@ public class SOProcess {
 	 * @return true if all parameters are ok.
 	 */
 	private static boolean isMethodParamsTypeSupported(JavaMethod method) {
-		JavaParameter[] params = method.getParameters();
+		JavaParameter[] params = method.getParameters().toArray(new JavaParameter[0]);
 		for (JavaParameter p : params) {
-			String type = p.getType().getValue();
-			if (p.getType().isArray()) {
+			String type = p.getType().getFullyQualifiedName();
+			if (p.getJavaClass().isArray()) {
 				return false;
 			}
 			if ("int".equals(type) || "long".equals(type) || "java.lang.String".equals(type) || "float".equals(type)
@@ -286,7 +285,7 @@ public class SOProcess {
 		return true;
 	}
 
-	private static void processSo(String lead, JavaDocBuilder builder, String soClassName, Class testClass,
+	private static void processSo(String lead, JavaProjectBuilder builder, String soClassName, Class testClass,
 			String soName, ArrayList<String> extParams, StringBuffer xpath, Sut sut) throws Exception {
 		/*
 		 * First init the system object class
@@ -301,16 +300,16 @@ public class SOProcess {
 			 * ignore init/close/check (from system object), ignore constructors
 			 * and method that are not public
 			 */
-			Annotation[] annotations = methods[mindex].getAnnotations();
+			JavaAnnotation[] annotations = methods[mindex].getAnnotations().toArray(new JavaAnnotation[0]);
 			if(annotations != null){
-				for(Annotation annotation: annotations){
-					if(annotation.getType().getValue().equals(IgnoreMethod.class.getName())){
+				for(JavaAnnotation annotation: annotations){
+					if(annotation.getType().getFullyQualifiedName().equals(IgnoreMethod.class.getName())){
 						continue method;
 					}
 				}
 			}
 			if ((!methods[mindex].getName().matches("init")) && (!methods[mindex].getName().matches("close"))
-					&& (!methods[mindex].getName().matches("check")) && (!methods[mindex].isConstructor())
+					&& (!methods[mindex].getName().matches("check"))
 					&& (methods[mindex].isPublic())) {
 				String mname = methods[mindex].getName();
 				/*
@@ -320,7 +319,7 @@ public class SOProcess {
 				 */
 				if (mname.toLowerCase().startsWith("set") || mname.toLowerCase().startsWith("get")
 						|| mname.toLowerCase().startsWith("is")) {
-					Type[] types = methods[mindex].getExceptions();
+					JavaClass[] types = methods[mindex].getExceptions().toArray(new JavaClass[0]);
 					if(types == null || types.length == 0){
 						continue;
 					}
@@ -341,7 +340,7 @@ public class SOProcess {
 				if (!isMethodParamsTypeSupported(methods[mindex])) {
 					continue;
 				}
-				JavaParameter[] parameters = methods[mindex].getParameters();
+JavaParameter[] parameters = methods[mindex].getParameters().toArray(new JavaParameter[0]);
 
 				/*
 				 * Build the test method
@@ -383,12 +382,12 @@ public class SOProcess {
 					String pName = StringUtils.firstCharToLower(lead
 							+ StringUtils.firstCharToUpper(parameters[pindex].getName()));
 					Member p = (Member) testClass.members.get(pName);
-					Type type = parameters[pindex].getType();
+JavaClass type = parameters[pindex].getJavaClass();
 
 					/*
 					 * Ignore method types that contain $
 					 */
-					if (type.getValue().indexOf('$') >= 0) {
+					if (type.getFullyQualifiedName().indexOf('$') >= 0) {
 						continue method;
 					}
 
@@ -398,12 +397,12 @@ public class SOProcess {
 					p = new Member();
 					p.setAccess(Access.PROTECTED);
 					if (!type.isPrimitive()) {
-						testClass.imports.addImport(type.getValue());
+						testClass.imports.addImport(type.getFullyQualifiedName());
 					}
-					p.setType(StringUtils.getClassName(type.getValue()));
+					p.setType(StringUtils.getClassName(type.getFullyQualifiedName()));
 					p.setName(pName);
 					p.setArray(type.isArray());
-					p.setValue(getDefultValue(type.getValue()));
+					p.setValue(getDefultValue(type.getFullyQualifiedName()));
 
 					/*
 					 * If the member wasn't add by other method
@@ -485,7 +484,7 @@ public class SOProcess {
 			if (fields[i].isPublic()
 					&& !fields[i].getType().isPrimitive()
 					&& SystemObject.class.isAssignableFrom(LoadersManager.getInstance().getLoader().loadClass(
-							fields[i].getType().getValue()))) {
+							fields[i].getType().getFullyQualifiedName()))) {
 				/*
 				 * If an array of system objects
 				 */
@@ -518,7 +517,7 @@ public class SOProcess {
 					 * Call to the requrs with the new system object field
 					 */
 					processSo(StringUtils.firstCharToLower(lead + StringUtils.firstCharToUpper(fields[i].getName())),
-							builder, fields[i].getType().getValue(), testClass, soName + "." + fields[i].getName()
+							builder, fields[i].getType().getFullyQualifiedName(), testClass, soName + "." + fields[i].getName()
 									+ "[" + indexMember + "]", extParams, xpath, sut);
 				} else {
 					/*
@@ -531,7 +530,7 @@ public class SOProcess {
 					 * Call to the requrs with the new system object field
 					 */
 					processSo(StringUtils.firstCharToLower(lead + StringUtils.firstCharToUpper(fields[i].getName())),
-							builder, fields[i].getType().getValue(), testClass, soName + "." + fields[i].getName(),
+							builder, fields[i].getType().getFullyQualifiedName(), testClass, soName + "." + fields[i].getName(),
 							extParams, xpath, sut);
 				}
 
@@ -618,8 +617,8 @@ public class SOProcess {
 	 * @return the init builder
 	 * @throws Exception
 	 */
-	public static JavaDocBuilder initBuilder(File[] soDirs, String[] srcDirs) throws Exception {
-		JavaDocBuilder builder = new JavaDocBuilder();
+	public static JavaProjectBuilder initBuilder(File[] soDirs, String[] srcDirs) throws Exception {
+		JavaProjectBuilder builder = new JavaProjectBuilder();
 		ArrayList<File> files = new ArrayList<File>();
 		/*
 		 * Collect all the source folders
@@ -678,7 +677,7 @@ public class SOProcess {
 	 * @param sourcePaths
 	 *            an array fo source files (zip file or source directory)
 	 */	
-	public static void initBuilder(JavaDocBuilder builder, File[] sourcePaths) throws Exception {
+	public static void initBuilder(JavaProjectBuilder builder, File[] sourcePaths) throws Exception {
 		for (int i = 0; i < sourcePaths.length; i++) {
 			if (!sourcePaths[i].exists()) { // check if the path exist
 				continue;
@@ -819,7 +818,7 @@ public class SOProcess {
 		 * Initiate the builder. The builder load all the sources and enable
 		 * object queries base on the sources.
 		 */
-		JavaDocBuilder builder = null;
+		JavaProjectBuilder builder = null;
 		File testDir = null;
 		try {
 			testDir = new File(JSystemProperties.getInstance().getPreference(FrameworkOptions.TESTS_SOURCE_FOLDER));

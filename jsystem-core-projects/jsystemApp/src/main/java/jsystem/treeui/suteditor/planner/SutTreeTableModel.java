@@ -41,7 +41,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
-import com.thoughtworks.qdox.JavaDocBuilder;
+import com.thoughtworks.qdox.JavaProjectBuilder;
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaMethod;
@@ -82,7 +82,7 @@ public class SutTreeTableModel extends AbstractTreeTableModel implements CellEdi
      */
     private Document originalDocument;
 
-    private static JavaDocBuilder builder;
+    private static JavaProjectBuilder builder;
    
     /**
      * All the system objects implementations found
@@ -194,7 +194,7 @@ public class SutTreeTableModel extends AbstractTreeTableModel implements CellEdi
      * @return new SutTreeNode
      * @throws Exception
      */
-    private static SutTreeNode createFullModel(SutTreeNode root, Document doc, JavaDocBuilder builder) throws Exception {
+    private static SutTreeNode createFullModel(SutTreeNode root, Document doc, JavaProjectBuilder builder) throws Exception {
         // If the parent is the root node search for all the system object
         // found under the sut tag.
         if (root.getType() == NodeType.ROOT) {
@@ -347,7 +347,7 @@ public class SutTreeTableModel extends AbstractTreeTableModel implements CellEdi
      * @return String
      *             String representation of the javadoc
      */
-    private static String getJavadoc(JavaDocBuilder builder,
+    private static String getJavadoc(JavaProjectBuilder builder,
             String soClass, String soMethod) {
         if (builder == null) {
             return null;
@@ -358,27 +358,24 @@ public class SutTreeTableModel extends AbstractTreeTableModel implements CellEdi
         if (cls.getSuperJavaClass() != null){
         	superCls = builder.getClassByName(cls.getSuperJavaClass().getName().toString());
         }else {
-        	superCls = builder.getClassByName(cls.getSuperClass().getFullQualifiedName());
-        }
-        JavaClass[] interfacesCls = cls.getImplementedInterfaces();   
-       
-        JavaMethod methods[] = cls.getMethods();
-        // Go over the methods and see if we have the setter one
-        // that matches the given method name.
+				superCls = builder.getClassByName(cls.getSuperClass().getFullyQualifiedName());
+		}
+		List<JavaClass> interfacesCls = cls.getInterfaces();
+		JavaMethod[] methods = cls.getMethods().toArray(new JavaMethod[0]);
         // A setter is a method that starts with 'set'
         // A setter is a method that has one parameter
         for (int index = 0; index < methods.length; index++) {
             JavaMethod method = methods[index];
             if (method.getName().equals(soMethod) &&
             		method.getName().startsWith("set") &&
-            		method.getParameters().length == 1) {
+            		method.getParameters().size() == 1) {
             	
                 StringBuilder buffer = new StringBuilder();
                 if (method.getComment() != null){
                     buffer.append(method.getComment());
                 }   
-                DocletTag[] tags = method.getTags();
-                if(tags != null && tags.length > 0){
+                List<DocletTag> tags = method.getTags();
+                if(tags != null && !tags.isEmpty()){
                     if (buffer.length() > 0){
                         buffer.append("\n");
                     }                           
@@ -388,16 +385,16 @@ public class SutTreeTableModel extends AbstractTreeTableModel implements CellEdi
                 }
                 if (buffer.length() == 0){
                     for (JavaClass interfaceCls : interfacesCls) {
-                        JavaMethod interfaceMethods[] = interfaceCls.getMethods();
+                        JavaMethod[] interfaceMethods = interfaceCls.getMethods().toArray(new JavaMethod[0]);
                         for (int jndex = 0; jndex < interfaceMethods.length; jndex++){
                             JavaMethod interfaceMethod = interfaceMethods[jndex];
                             if (interfaceMethod.getName().equals(method.getName())){
-                                if (interfaceMethod.getParameters().length == 1) {
+                                if (interfaceMethod.getParameters().size() == 1) {
                                     if (interfaceMethod.getComment() != null){                                               
                                         buffer.append(interfaceMethod.getComment());
                                     }                                   
                                     tags = interfaceMethod.getTags();
-                                    if(tags != null && tags.length > 0){
+                                    if(tags != null && !tags.isEmpty()){
                                         buffer.append("\n");
                                         for(DocletTag doclet: tags){
                                             buffer.append(doclet.getName()).append(": ").append(doclet.getValue());
@@ -409,16 +406,16 @@ public class SutTreeTableModel extends AbstractTreeTableModel implements CellEdi
                     }
                 }
                 if (buffer.length() == 0){
-                    JavaMethod superMethods[] = superCls.getMethods();
+                    JavaMethod[] superMethods = superCls.getMethods().toArray(new JavaMethod[0]);
                     for (int jndex = 0; jndex < superMethods.length; jndex++){
                         JavaMethod superMethod = superMethods[jndex];
                         if (superMethod.getName().equals(method.getName())){
-                            if (superMethod.getParameters().length == 1) {
+                            if (superMethod.getParameters().size() == 1) {
                                 if (superMethod.getComment() != null){
                                     buffer.append(superMethod.getComment());
                                 }                                   
                                 tags = superMethod.getTags();
-                                if(tags != null && tags.length > 0){
+                                if(tags != null && !tags.isEmpty()){
                                     buffer.append("\n");
                                     for(DocletTag doclet: tags){
                                         buffer.append(doclet.getName()).append(": ").append(doclet.getValue());

@@ -2,6 +2,7 @@
  * Copyright 2005-2010 Ignis Software Tools Ltd. All rights reserved.
  */
 package jsystem.treeui;
+import java.util.logging.Logger;
 
 import java.awt.Color;
 import java.awt.MenuItem;
@@ -52,7 +53,6 @@ import jsystem.treeui.actionItems.ViewDocumentationAction;
 import jsystem.treeui.actionItems.ViewLogAction;
 import jsystem.treeui.actionItems.ViewTestCodeAction;
 
-import org.jfree.util.Log;
 
 /**
  * This class creates the runner Menu Bar with all the necessary menus and items.
@@ -62,6 +62,7 @@ import org.jfree.util.Log;
  * 
  */
 public class MenuBuilder {
+	private static final Logger log = Logger.getLogger(MenuBuilder.class.getName());
 
 	static MenuBuilder mb = null;
 
@@ -162,7 +163,7 @@ public class MenuBuilder {
 				toolsMenu.add(ProjectNameAction.getInstance());
 			}
 		}catch (Exception e) {
-			Log.error("Failed loading scenario hook.");
+			log.warning("Failed loading scenario hook.");
 		}
 		JMenu executionMenu = new JMenu("Execution");
 		executionMenu.setMnemonic(KeyEvent.VK_X);

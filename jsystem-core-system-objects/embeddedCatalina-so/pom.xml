@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.jsystemtest.systemobjects</groupId>
 		<artifactId>jsystem-core-system-objects</artifactId>
-		<version>6.1.17-SIKLU</version>
+		<version>6.1.20-SIKLU</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>embeddedCatalina</artifactId>	
@@ -16,12 +16,12 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>tomcat</groupId>
-			<artifactId>catalina</artifactId>
+			<groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-catalina</artifactId>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>xml-apis</groupId>
 			<artifactId>xml-apis</artifactId>
-		</dependency>
+		</dependency>-->
 	</dependencies>
 </project>

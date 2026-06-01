@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.jsystemtest</groupId>
 		<artifactId>jsystem-parent</artifactId>
-		<version>6.1.17-SIKLU</version>
+		<version>6.1.20-SIKLU</version>
 		<relativePath>../../jsystem-parent</relativePath>
 	</parent>
 	<artifactId>jsystem-launcher</artifactId>
@@ -14,5 +14,10 @@
 			<groupId>org.apache.ant</groupId>
 			<artifactId>ant</artifactId>
 		</dependency>
+		<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.12.0</version>
+			</dependency>
 	</dependencies>	
 </project>

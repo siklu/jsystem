@@ -1,0 +1,244 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "FTPServer",
+            "request": "launch",
+            "mainClass": "com.aqua.filetransfer.ftp.FTPServer",
+            "projectName": "FileTransfer"
+        },
+        {
+            "type": "java",
+            "name": "TFTPServer",
+            "request": "launch",
+            "mainClass": "com.aqua.filetransfer.tftp.TFTPServer",
+            "projectName": "FileTransfer"
+        },
+        {
+            "type": "java",
+            "name": "Attach to Remote Program",
+            "request": "attach",
+            "hostName": "localhost",
+            "port": "8080"
+        },
+
+        {
+            "type": "java",
+            "name": "Launcher2",
+            "request": "launch",
+            "mainClass": "jsystem.framework.launcher.Launcher2",
+            "projectName": "jsystem-launcher",
+            "vmArgs": "-Xms256m -Xmx512m -Djsystem.main=jsystem.treeui.TestRunner -splash:${workspaceFolder}/jsystem-assembly/jsystem-runner/src/main/etc/splash.jpg",
+            "env": {
+                "JSYSTEM_MAIN": "jsystem.treeui.TestRunner",
+                "SPLASH": "-splash:${workspaceFolder}/jsystem-assembly/jsystem-runner/src/main/etc/splash.jpg"
+            }
+        },
+        {
+            "type": "java",
+            "name": "XmlReportHandler",
+            "request": "launch",
+            "mainClass": "jsystem.extensions.report.xml.XmlReportHandler",
+            "projectName": "jsystemAgent"
+        },
+        {
+            "type": "java",
+            "name": "BackgroundPublisherWaitDialog",
+            "request": "launch",
+            "mainClass": "jsystem.runner.BackgroundPublisherWaitDialog",
+            "projectName": "jsystemAgent"
+        },
+        {
+            "type": "java",
+            "name": "WaitDialog",
+            "request": "launch",
+            "mainClass": "jsystem.runner.WaitDialog",
+            "projectName": "jsystemAgent"
+        },
+        {
+            "type": "java",
+            "name": "PublisherProgress",
+            "request": "launch",
+            "mainClass": "jsystem.runner.agent.publisher.PublisherProgress",
+            "projectName": "jsystemAgent"
+        },
+        {
+            "type": "java",
+            "name": "RunnerAgentMain",
+            "request": "launch",
+            "mainClass": "jsystem.runner.agent.server.RunnerAgentMain",
+            "projectName": "jsystemAgent"
+        },
+        {
+            "type": "java",
+            "name": "JUnitTestRunner",
+            "request": "launch",
+            "mainClass": "com.aqua.anttask.jsystem.JUnitTestRunner",
+            "projectName": "jsystemAnt"
+        },
+        {
+            "type": "java",
+            "name": "OptionsMultiSelectDialog",
+            "request": "launch",
+            "mainClass": "jsystem.extensions.paramproviders.OptionsMultiSelectDialog",
+            "projectName": "jsystemApp"
+        },
+        {
+            "type": "java",
+            "name": "DateTimeEditor",
+            "request": "launch",
+            "mainClass": "jsystem.treeui.DateTimeEditor",
+            "projectName": "jsystemApp"
+        },
+        {
+            "type": "java",
+            "name": "JarListDialog",
+            "request": "launch",
+            "mainClass": "jsystem.treeui.JarListDialog",
+            "projectName": "jsystemApp"
+        },
+        {
+            "type": "java",
+            "name": "TestRunner",
+            "request": "launch",
+            "mainClass": "jsystem.treeui.TestRunner",
+            "projectName": "jsystemApp"
+        },
+        {
+            "type": "java",
+            "name": "WaitDialog(1)",
+            "request": "launch",
+            "mainClass": "jsystem.treeui.WaitDialog",
+            "projectName": "jsystemApp"
+        },
+        {
+            "type": "java",
+            "name": "DistributedExecutionConfirmation",
+            "request": "launch",
+            "mainClass": "jsystem.treeui.agents.DistributedExecutionConfirmation",
+            "projectName": "jsystemApp"
+        },
+        {
+            "type": "java",
+            "name": "ErrorDialog",
+            "request": "launch",
+            "mainClass": "jsystem.treeui.error.ErrorDialog",
+            "projectName": "jsystemApp"
+        },
+        {
+            "type": "java",
+            "name": "ErrorPanel",
+            "request": "launch",
+            "mainClass": "jsystem.treeui.error.ErrorPanel",
+            "projectName": "jsystemApp"
+        },
+        {
+            "type": "java",
+            "name": "PropertiesGuiPanel",
+            "request": "launch",
+            "mainClass": "jsystem.treeui.genericTabs.PropertiesGuiPanel",
+            "projectName": "jsystemApp"
+        },
+        {
+            "type": "java",
+            "name": "AgentsSelectionDialog",
+            "request": "launch",
+            "mainClass": "jsystem.treeui.params.AgentsSelectionDialog",
+            "projectName": "jsystemApp"
+        },
+        {
+            "type": "java",
+            "name": "JSystemPropertiesDialog",
+            "request": "launch",
+            "mainClass": "jsystem.treeui.properties.JSystemPropertiesDialog",
+            "projectName": "jsystemApp"
+        },
+        {
+            "type": "java",
+            "name": "SOProcess",
+            "request": "launch",
+            "mainClass": "jsystem.treeui.sobrows.SOProcess",
+            "projectName": "jsystemApp"
+        },
+        {
+            "type": "java",
+            "name": "SutXmlEditor",
+            "request": "launch",
+            "mainClass": "jsystem.treeui.suteditor.SutXmlEditor",
+            "projectName": "jsystemApp"
+        },
+        {
+            "type": "java",
+            "name": "SystemObjectBrowserUtils",
+            "request": "launch",
+            "mainClass": "jsystem.treeui.suteditor.planner.SystemObjectBrowserUtils",
+            "projectName": "jsystemApp"
+        },
+        {
+            "type": "java",
+            "name": "ProgressBarPanel",
+            "request": "launch",
+            "mainClass": "jsystem.treeui.utilities.ProgressBarPanel",
+            "projectName": "jsystemApp"
+        },
+        {
+            "type": "java",
+            "name": "FixtureSuite",
+            "request": "launch",
+            "mainClass": "tests.jsystem.framework.fixture.FixtureSuite",
+            "projectName": "jsystemApp"
+        },
+        {
+            "type": "java",
+            "name": "XmlReporter",
+            "request": "launch",
+            "mainClass": "jsystem.extensions.report.xml.XmlReporter",
+            "projectName": "jsystemCore"
+        },
+        {
+            "type": "java",
+            "name": "ClassPathFixtureCollector",
+            "request": "launch",
+            "mainClass": "jsystem.runner.ClassPathFixtureCollector",
+            "projectName": "jsystemCore"
+        },
+        {
+            "type": "java",
+            "name": "FileUtils",
+            "request": "launch",
+            "mainClass": "jsystem.utils.FileUtils",
+            "projectName": "jsystemCore"
+        },
+        {
+            "type": "java",
+            "name": "NotepadLauncher",
+            "request": "launch",
+            "mainClass": "jsystem.utils.NotepadLauncher",
+            "projectName": "jsystemCore"
+        },
+        {
+            "type": "java",
+            "name": "PackageUtils",
+            "request": "launch",
+            "mainClass": "jsystem.utils.PackageUtils",
+            "projectName": "jsystemCore"
+        },
+        {
+            "type": "java",
+            "name": "BeanDefaultsExtractor",
+            "request": "launch",
+            "mainClass": "jsystem.utils.beans.BeanDefaultsExtractor",
+            "projectName": "jsystemCore"
+        }
+    ]
+}

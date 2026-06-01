@@ -30,6 +30,7 @@ set ANT_HOME=thirdparty\ant
 set ANT_CMD=%ANT_HOME%\bin\ant.bat
 set ANT_OPTS=%ADD_MODULES_STR% -Djsystem.current.scenario.name=%SCENARIO_NAME% -Dbasedir=. -Dscenarios.base=%PROJECT_CLASSES_PATH% -DsutFile=%SUT_FILE% -Xms32M -Xmx256M
 rem set ANT_OPTS=%ANT_OPTS% -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=y
+rem set ANT_OPTS=%ANT_OPTS% -agentlib:jdwp=transport=dt_socket,server=y,address=*:8080,suspend=y
 "%ANT_CMD%" -lib thirdparty\ant\lib -lib thirdparty\commonLib -lib thirdparty\lib -lib lib -lib customer_lib -lib %PROJECT_CLASSES_PATH%\..\..\lib -lib %PROJECT_CLASSES_PATH%\..\lib -lib %PROJECT_CLASSES_PATH% -listener jsystem.runner.AntExecutionListener -f %PROJECT_CLASSES_PATH%\%SCENARIO_NAME%.xml
 
 :help

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.jsystemtest</groupId>
 		<artifactId>jsystem-parent</artifactId>
-		<version>6.1.17-SIKLU</version>
+		<version>6.1.20-SIKLU</version>
 		<relativePath>../../jsystem-parent</relativePath>
 	</parent>
 	<artifactId>jsystemApp</artifactId>
@@ -16,8 +16,13 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.jsystemtest</groupId>
+			<artifactId>jsystemCore</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>com.jgoodies</groupId>
-			<artifactId>looks</artifactId>
+    <artifactId>jgoodies-looks</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>net.javaprog.jwizz</groupId>

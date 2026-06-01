@@ -14,7 +14,7 @@ import jsystem.framework.scripts.ScriptExecutor;
 
 import org.python.core.PyException;
 import org.python.core.PyInteger;
-import org.python.core.PyJavaClass;
+import org.python.core.PyType;
 import org.python.core.PyList;
 import org.python.core.PyObject;
 import org.python.core.PyTuple;
@@ -82,11 +82,11 @@ public class JythonScriptExecutor extends ScriptExecutor {
 		// set up fixtures (actual test parameters from the UI are set in
 		// InterpreterRunnable.run)
 		interp.exec("fixture = test.__fixture__");
-		Class<?> fixture = (Class<?>) ((PyJavaClass) interp.get("fixture"))
+		Class<?> fixture = (Class<?>) ((PyType) interp.get("fixture"))
 				.__tojava__(Class.class);
 		setFixture(fixture);
 		interp.exec("tearDownFixture = test.__tearDownFixture__");
-		Class<?> tearDownFixture = (Class<?>) ((PyJavaClass) interp
+		Class<?> tearDownFixture = (Class<?>) ((PyType) interp
 				.get("tearDownFixture")).__tojava__(Class.class);
 		setTearDownFixture(tearDownFixture);
 	}

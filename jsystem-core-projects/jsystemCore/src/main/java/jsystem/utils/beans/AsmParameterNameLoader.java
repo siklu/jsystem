@@ -30,10 +30,11 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.EmptyVisitor;
 
 /**
 * Implementation of ParameterNameLoader that uses ASM to read the parameter names from the local variable table in the
@@ -110,7 +111,7 @@ public class AsmParameterNameLoader {
            ClassReader reader = AsmParameterNameLoader.createClassReader(clazz);
 
            AsmParameterNameLoader.AllParameterNamesDiscoveringVisitor visitor = new AsmParameterNameLoader.AllParameterNamesDiscoveringVisitor(clazz);
-           reader.accept(visitor, false);
+           reader.accept(visitor, 0);
 
            Map<?,?> exceptions = visitor.getExceptions();
            if (exceptions.size() == 1) {
@@ -159,7 +160,7 @@ public class AsmParameterNameLoader {
            ClassReader reader = AsmParameterNameLoader.createClassReader(clazz);
 
            AsmParameterNameLoader.AllParameterNamesDiscoveringVisitor visitor = new AsmParameterNameLoader.AllParameterNamesDiscoveringVisitor(clazz, methodName);
-           reader.accept(visitor, false);
+           reader.accept(visitor, 0);
 
            Map<?,?> exceptions = visitor.getExceptions();
            if (exceptions.size() == 1) {
@@ -209,7 +210,7 @@ public class AsmParameterNameLoader {
        }
    }
 
-   private static class AllParameterNamesDiscoveringVisitor extends EmptyVisitor {
+   private static class AllParameterNamesDiscoveringVisitor extends ClassVisitor {
        private final Map<Constructor<?>,List<String>> constructorParameters = new HashMap<Constructor<?>,List<String>>();
        private final Map<Method,List<String>> methodParameters = new HashMap<Method,List<String>>();
        private final Map<String,Exception> exceptions = new HashMap<String,Exception>();
@@ -217,6 +218,7 @@ public class AsmParameterNameLoader {
        private final Map<String,Method> methodMap = new HashMap<String,Method>();
        private final Map<String,Constructor<?>> constructorMap = new HashMap<String,Constructor<?>>();
        public AllParameterNamesDiscoveringVisitor(Class<?> type, String methodName) {
+           super(Opcodes.ASM9);
            this.methodName = methodName;
 
            List<Method> methods = new ArrayList<Method>(Arrays.asList(type.getMethods()));
@@ -229,6 +231,7 @@ public class AsmParameterNameLoader {
        }
 
        public AllParameterNamesDiscoveringVisitor(Class<?> type) {
+           super(Opcodes.ASM9);
            this.methodName = "<init>";
 
            List<Constructor<?>> constructors = new ArrayList<Constructor<?>>(Arrays.asList(type.getConstructors()));
@@ -280,7 +283,7 @@ public class AsmParameterNameLoader {
                    methodParameters.put(method, parameterNames);
                }
 
-               return new EmptyVisitor() {
+               return new MethodVisitor(Opcodes.ASM9) {
                    // assume static method until we get a first parameter name
                    public void visitLocalVariable(String name, String description, String signature, Label start, Label end, int index) {
                 	   if(name == null || name.equals("this")){

@@ -2,6 +2,7 @@
  * Copyright 2005-2010 Ignis Software Tools Ltd. All rights reserved.
  */
 package jsystem.treeui.actionItems;
+import java.util.logging.Logger;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -9,7 +10,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.Action;
 import javax.swing.KeyStroke;
 
-import org.jfree.util.Log;
 
 import jsystem.guiMapping.JsystemMapping;
 import jsystem.runner.agent.publisher.PublisherManager;
@@ -17,6 +17,7 @@ import jsystem.treeui.WaitDialog;
 import jsystem.treeui.images.ImageCenter;
 
 public class PublishXmlResultAction extends IgnisAction {
+	private static final Logger log = Logger.getLogger(PublishXmlResultAction.class.getName());
 
 	private static final long serialVersionUID = 1L;
 
@@ -49,7 +50,7 @@ public class PublishXmlResultAction extends IgnisAction {
 					try {
 						PublisherManager.getInstance().getPublisher().publish(null, true);
 					} catch (Exception e) {
-						Log.error("Failed to publish reports", e);
+						log.warning("Failed to publish reports" + ": " + e.getMessage());
 					}
 				} finally {
 					WaitDialog.endWaitDialog();

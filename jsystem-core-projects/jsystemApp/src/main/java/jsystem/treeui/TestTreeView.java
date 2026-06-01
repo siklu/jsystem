@@ -563,8 +563,8 @@ public class TestTreeView extends JFrame implements ActionListener, TestsTreeLis
 			repeateScenario();
 		} else if (e.getSource().equals(debugCheckBox)) {
 			if (debugCheckBox.isSelected()) {
-				String debug = "-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=${8787},server=y,suspend=y";
-
+				//String debug = "-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=${8787},server=y,suspend=y";
+				String debug = "-agentlib:jdwp=transport=dt_socket,address=*:${8080},server=y,suspend=y";
 				String vmParams = JSystemProperties.getInstance().getPreference(FrameworkOptions.TEST_VM_PARMS);
 				if (vmParams == null || vmParams.length() < 3) {
 					vmParams = new String(debug);

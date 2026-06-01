@@ -2,18 +2,19 @@
  * Copyright 2005-2010 Ignis Software Tools Ltd. All rights reserved.
  */
 package jsystem.treeui.actionItems;
+import java.util.logging.Logger;
 
 import jsystem.framework.scenario.ScenariosManager;
 import jsystem.guiMapping.JsystemMapping;
 import jsystem.treeui.TestRunner;
 import jsystem.treeui.images.ImageCenter;
-import org.jfree.util.Log;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 public class NewScenarioAction extends IgnisAction {
+	private static final Logger log = Logger.getLogger(NewScenarioAction.class.getName());
 
 	private static final long serialVersionUID = 1L;
 	
@@ -42,7 +43,7 @@ public class NewScenarioAction extends IgnisAction {
 		try {
 			save_Ans = SaveScenarioAction.getInstance().saveCurrentScenarioWithConfirmation();
 		} catch (Exception e1) {
-			Log.error(e1.getMessage());
+			log.warning(e1.getMessage());
 		}
 		if(save_Ans != JOptionPane.CANCEL_OPTION){
 			boolean isOK = TestRunner.treeView.getTableController().createNewScenario();

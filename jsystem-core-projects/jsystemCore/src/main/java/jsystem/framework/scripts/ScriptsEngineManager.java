@@ -68,8 +68,8 @@ public class ScriptsEngineManager {
 	}
 	
 	private void loadManager(String className) throws Exception {
-		Class<?> reporterClass = LoadersManager.getInstance().getLoader().loadClass(className);
-		engines.add((ScriptEngine)reporterClass.newInstance());
+		Class<?> engineClass = LoadersManager.getInstance().getLoader().loadClass(className);
+		engines.add((ScriptEngine)engineClass.getDeclaredConstructor().newInstance());
 	}
 	
 	/**

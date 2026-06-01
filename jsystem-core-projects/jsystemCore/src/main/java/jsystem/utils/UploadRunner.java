@@ -11,12 +11,11 @@ import java.util.logging.Logger;
 import jsystem.framework.FrameworkOptions;
 import jsystem.framework.JSystemProperties;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.multipart.FilePart;
-import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
 
 /**
  * use this class to upload log files to http server (instead of ftp server)
@@ -32,8 +31,6 @@ public class UploadRunner {
 	private long logIndex;
 
 	private File logDir;
-
-	private PostMethod filePost;
 
 	private static Logger log = Logger.getLogger(UploadRunner.class.getName());
 
@@ -119,46 +116,23 @@ public class UploadRunner {
 	 * @throws Exception
 	 */
 	public void upload() throws Exception {
-		filePost = new PostMethod(serverUrl);
-
-		/**
-		 * create multipart request
-		 */
-		try {
-			File targetFile = new File(filePath);
-			Part[] parts = { new FilePart(targetFile.getName(), targetFile) };
-
-			filePost.setRequestEntity(new MultipartRequestEntity(parts, filePost.getParams()));
-
-			HttpClient client = new HttpClient();
-
-			client.getHttpConnectionManager().getParams().setConnectionTimeout(5000);
-
-			/**
-			 * send request
-			 */
-			int status = client.executeMethod(filePost);
-
-			/**
-			 * upload fail
-			 */
-			if (status != HttpStatus.SC_OK) {
-
-				throw new Exception("Publish error : fail upload files to " + serverUrl + " \n\n"
-						+ "Unable upload file " + filePath + "\n" + "HTTP Status " + status + "\n");
-
+		File targetFile = new File(filePath);
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
+			HttpPost filePost = new HttpPost(serverUrl);
+			filePost.setEntity(MultipartEntityBuilder.create()
+					.addBinaryBody(targetFile.getName(), targetFile)
+					.build());
+			try (CloseableHttpResponse response = client.execute(filePost)) {
+				int status = response.getCode();
+				if (status != 200) {
+					throw new Exception("Publish error : fail upload files to " + serverUrl + " \n\n"
+							+ "Unable upload file " + filePath + "\n" + "HTTP Status " + status + "\n");
+				}
+			}
+		} finally {
+			if (targetFile.exists()) {
+				targetFile.delete();
 			}
 		}
-		/**
-		 * release connection-must delete zip file in client log directory
-		 */
-		finally {
-			if (filePost != null) {
-				filePost.releaseConnection();
-			}
-			File file = new File(filePath);
-			file.delete();
-		}
-
 	}
 }
