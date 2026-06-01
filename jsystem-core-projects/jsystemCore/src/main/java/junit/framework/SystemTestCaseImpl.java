@@ -52,6 +52,7 @@ public class SystemTestCaseImpl {
 	 * Use it to get information about the setup/system you are testing.
 	 * @deprecated use sut() method
 	 */
+	@Deprecated
 	public static Sut sut = SutFactory.getInstance().getSutInstance();
 	/**
 	 * Use it to access the interfaces of your tested system.
