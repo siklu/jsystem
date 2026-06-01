@@ -6,11 +6,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Properties;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -37,10 +41,14 @@ public class LoginWindow extends JFrame {
 
     private int httpTimeout = 5; // seconds
     private final char defaultEchoChar = '*';
-    private final String qmsURL = "http://qms.ceragon.com:5400/api/v1/qms/Autoreport/";
+    private static final String DEFAULT_QMS_URL = "http://qms.ceragon.com:5400/api/v1/qms/Autoreport/";
+    private static final String QMS_URL_PROPERTY = "qms.url";
+    private static final String QMS_PROPERTIES_FILE_NAME = "qms.properties";
+    private final String qmsURL;
     
     public LoginWindow() {
         super("Login to Jsystem");
+        qmsURL = loadOrCreateQmsUrl();
 
         panel = new JPanel(null);
         btnLogin = new JButton("Login");
@@ -98,6 +106,56 @@ public class LoginWindow extends JFrame {
         comboUserNames.addActionListener(e -> txtPassword.requestFocus());
 
         txtPassword.addActionListener(e -> handleLogin());
+    }
+
+    private String loadOrCreateQmsUrl() {
+        Path propertiesPath = resolveQmsPropertiesPath();
+        Properties properties = new Properties();
+
+        if (Files.exists(propertiesPath)) {
+            try (InputStream in = Files.newInputStream(propertiesPath)) {
+                properties.load(in);
+            } catch (IOException e) {
+                System.out.println("Failed to read " + propertiesPath + ": " + e.getMessage());
+                return DEFAULT_QMS_URL;
+            }
+        }
+
+        String configuredUrl = properties.getProperty(QMS_URL_PROPERTY);
+        if (configuredUrl != null && !configuredUrl.trim().isEmpty()) {
+            return configuredUrl.trim();
+        }
+
+        properties.setProperty(QMS_URL_PROPERTY, DEFAULT_QMS_URL);
+        Path parent = propertiesPath.getParent();
+        if (parent != null) {
+            try {
+                Files.createDirectories(parent);
+            } catch (IOException e) {
+                System.out.println("Failed to create properties directory " + parent + ": " + e.getMessage());
+                return DEFAULT_QMS_URL;
+            }
+        }
+
+        try (OutputStream out = Files.newOutputStream(
+                propertiesPath,
+                StandardOpenOption.CREATE,
+                StandardOpenOption.TRUNCATE_EXISTING,
+                StandardOpenOption.WRITE)) {
+            properties.store(out, "QMS launcher settings");
+        } catch (IOException e) {
+            System.out.println("Failed to update " + propertiesPath + ": " + e.getMessage());
+        }
+
+        return DEFAULT_QMS_URL;
+    }
+
+    private Path resolveQmsPropertiesPath() {
+        String currentDir = System.getenv("current_dir");
+        if (currentDir != null && !currentDir.isBlank()) {
+            return Path.of(currentDir, QMS_PROPERTIES_FILE_NAME);
+        }
+        return Path.of(System.getProperty("user.dir"), QMS_PROPERTIES_FILE_NAME);
     }
 
     public static void main(String[] args) {
@@ -224,7 +282,7 @@ public class LoginWindow extends JFrame {
         try {
             int retryCounter = 3;
             HttpURLConnection uc = null;
-            URL qms = new URL(url.replace(' ', '+'));
+            URL qms = URI.create(url.replace(' ', '+')).toURL();
 
             while (retryCounter > 0) {
                 try {
