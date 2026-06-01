@@ -141,6 +141,7 @@ public class AnalyzerImpl implements Analyzer {
 	/**
 	 * @deprecated please use {@link #testAgainstObject}
 	 */
+	@Deprecated
 	public void setTestAgainsObject(Object o) {
 		this.testAgainstObject = o;
 	}
@@ -152,6 +153,7 @@ public class AnalyzerImpl implements Analyzer {
 	/**
 	 * @deprecated please use {@link #getTestAgainstObject()}
 	 */
+	@Deprecated
 	public Object getTestAgainsObject() {
 		return testAgainstObject;
 	}

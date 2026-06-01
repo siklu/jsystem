@@ -66,12 +66,11 @@ public class MonitorsManager implements TestListener {
 			Thread.yield();
 		}
 		if (t.isAlive()) {
-			t.stop();
+			t.interrupt();
 		}
 
 	}
 
-	@SuppressWarnings("deprecation")
 	public synchronized void closeAllMonitors() {
 		Iterator<Thread> iter = runningMonitors.values().iterator();
 		while (iter.hasNext()) {
@@ -103,7 +102,7 @@ public class MonitorsManager implements TestListener {
 				 * caused by the stop process
 				 */
 				try {
-					t.stop();
+					t.interrupt();
 				} catch (Throwable tt) {
 				}
 			}

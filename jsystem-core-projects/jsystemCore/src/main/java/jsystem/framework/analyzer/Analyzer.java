@@ -163,6 +163,7 @@ public interface Analyzer {
 	/**
 	 * @deprecated please use {@link #setTestAgainstObject(Object)}
 	 */
+	@Deprecated
 	public void setTestAgainsObject(Object o);
 
 	/**
@@ -184,6 +185,7 @@ public interface Analyzer {
 	/**
 	 * @deprecated please use {@link #getTestAgainstObject()}
 	 */
+	@Deprecated
 	public Object getTestAgainsObject();
 
 	/**
