@@ -10,6 +10,7 @@ import java.util.List;
 
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.connection.channel.direct.LocalPortForwarder;
+import net.schmizz.sshj.connection.channel.direct.Parameters;
 import net.schmizz.sshj.connection.channel.direct.Session;
 import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
 import net.schmizz.sshj.userauth.UserAuthException;
@@ -114,7 +115,7 @@ public class SSH extends Terminal {
 
 		if (sourcePort > -1 && destinationPort > -1) {
 			lpfSocket = new ServerSocket(sourcePort);
-			LocalPortForwarder.Parameters params = new LocalPortForwarder.Parameters(
+			Parameters params = new Parameters(
 					"127.0.0.1", sourcePort, "localhost", destinationPort);
 			lpf = conn.newLocalPortForwarder(params, lpfSocket);
 			Thread lpfThread = new Thread(() -> {
@@ -176,15 +177,17 @@ public class SSH extends Terminal {
 	 * The logic that one has to implement if "keyboard-interactive"
 	 * authentication shall be supported.
 	 */
+	@SuppressWarnings("rawtypes")
 	class InteractiveLogic implements ChallengeResponseProvider {
 
+		
 		@Override
 		public List<String> getSubmethods() {
 			return Collections.emptyList();
 		}
 
 		@Override
-		public void init(Resource<?> resource, String name, String instruction) {
+		public void init(Resource resource, String name, String instruction) {
 			// no-op
 		}
 

@@ -9,7 +9,7 @@ import java.net.ServerSocket;
 import java.util.Collections;
 
 import net.schmizz.sshj.SSHClient;
-import net.schmizz.sshj.connection.channel.direct.LocalPortForwarder;
+import net.schmizz.sshj.connection.channel.direct.Parameters;
 import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
 import net.schmizz.sshj.userauth.UserAuthException;
 import net.schmizz.sshj.userauth.method.AuthKeyboardInteractive;
@@ -67,7 +67,7 @@ public class SSHWithRSA extends SSH {
 
 		if (sourcePort > -1 && destinationPort > -1) {
 			lpfSocket = new ServerSocket(sourcePort);
-			LocalPortForwarder.Parameters params = new LocalPortForwarder.Parameters(
+			Parameters params = new Parameters(
 					"127.0.0.1", sourcePort, "localhost", destinationPort);
 			lpf = conn.newLocalPortForwarder(params, lpfSocket);
 			Thread lpfThread = new Thread(() -> {
