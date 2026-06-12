@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.jsystemtest</groupId>
 		<artifactId>jsystem-parent</artifactId>
-		<version>6.1.21-SIKLU</version>
+		<version>6.1.21-SIKLU-snapshot</version>
 		<relativePath>../../jsystem-parent</relativePath>
 	</parent>
 	<artifactId>jsystem-runner</artifactId>
@@ -72,14 +72,10 @@
 			<groupId>commons-net</groupId>
 			<artifactId>commons-net</artifactId>
 		</dependency>
-		<!-- <dependency>
-			<groupId>ch.ethz.ganymed</groupId>
-			<artifactId>ganymed-ssh2</artifactId>
-		</dependency> -->
 		<dependency>
-			<groupId>ch.ethz.ganymed</groupId>
-			<artifactId>ganymed-ssh2</artifactId>
-			<version>263</version>
+			<groupId>com.hierynomus</groupId>
+			<artifactId>sshj</artifactId>
+			<version>0.38.0</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.comm</groupId>

@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jsystemtest</groupId>
 	<artifactId>jsystem-parent</artifactId>
-	<version>6.1.21-SIKLU</version>
+	<version>6.1.21-SIKLU-snapshot</version>
 	<packaging>pom</packaging>
 	<name>jsystem-parent</name>
 	<organization>
@@ -173,9 +173,9 @@
 				<version>3.13.0</version>
 			</dependency>
 			<dependency>
-				<groupId>ch.ethz.ganymed</groupId>
-				<artifactId>ganymed-ssh2</artifactId>
-				<version>263</version>
+				<groupId>com.hierynomus</groupId>
+				<artifactId>sshj</artifactId>
+				<version>0.38.0</version>
 			</dependency>
 			<!-- https://mvnrepository.com/artifact/javax.comm/comm -->
 			<dependency>

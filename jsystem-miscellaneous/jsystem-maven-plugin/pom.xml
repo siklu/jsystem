@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>org.jsystemtest</groupId>
 		<artifactId>jsystem-parent</artifactId>
-		<version>6.1.21-SIKLU</version>
+		<version>6.1.21-SIKLU-snapshot</version>
 		<relativePath>../../jsystem-parent</relativePath>
 	</parent>
 	<repositories>

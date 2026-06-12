@@ -4,12 +4,18 @@
 package systemobject.terminal;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.net.ServerSocket;
+import java.util.Collections;
+import java.util.List;
 
-import ch.ethz.ssh2.Connection;
-import ch.ethz.ssh2.InteractiveCallback;
-import ch.ethz.ssh2.LocalPortForwarder;
-import ch.ethz.ssh2.Session;
+import net.schmizz.sshj.SSHClient;
+import net.schmizz.sshj.connection.channel.direct.LocalPortForwarder;
+import net.schmizz.sshj.connection.channel.direct.Session;
+import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
+import net.schmizz.sshj.userauth.UserAuthException;
+import net.schmizz.sshj.userauth.method.AuthKeyboardInteractive;
+import net.schmizz.sshj.userauth.method.ChallengeResponseProvider;
+import net.schmizz.sshj.userauth.password.Resource;
 
 /**
  * A terminal used for SSH Connection
@@ -22,12 +28,16 @@ public class SSH extends Terminal {
 
 	protected String password;
 
-	protected Connection conn = null;
+	protected SSHClient conn = null;
 
 	protected Session sess = null;
 
+	protected Session.Shell shell = null;
+
 	//ssh port forwarding
 	protected LocalPortForwarder lpf = null;
+
+	protected ServerSocket lpfSocket = null;
 
 	protected int sourcePort = -1;
 
@@ -76,74 +86,65 @@ public class SSH extends Terminal {
 
 	@Override
 	public void connect() throws IOException {
-		boolean isAuthenticated = false;
-		/* Create a connection instance */
-
-		if (destinationPort > -1) {
-			conn = new Connection(hostname,destinationPort);
-		}
-		else {
-			conn = new Connection(hostname);
-		}
+		conn = new SSHClient();
+		conn.addHostKeyVerifier(new PromiscuousVerifier());
 
 		/* Now connect */
-		conn.connect();
-
-		// Check what connection options are available to us
-		String[] authMethods = conn.getRemainingAuthMethods(username);
-		System.out.println("The supported auth Methods are:");
-		for(String method: authMethods) {
-			System.out.println(method);
+		if (destinationPort > -1) {
+			conn.connect(hostname, destinationPort);
 		}
-		boolean privateKeyAuthentication = false;
-		boolean passAuthentication = false;
-		for (int i = 0; i < authMethods.length; i++) {
-			if (authMethods[i].equalsIgnoreCase("password")) {
-				// we can authenticate with a password
-				passAuthentication = true;
-			}
-		}
-		if(Arrays.asList(authMethods).contains("publickey")){
-			// we can authenticate with a RSA private key
-			privateKeyAuthentication=true;
+		else {
+			conn.connect(hostname);
 		}
 
-		/* Authenticate */
-		if (passAuthentication) {
-			try {
-				isAuthenticated = conn.authenticateWithPassword(username, password);
-			} catch (Exception e) {
-				isAuthenticated = false;
-			}
-		}
-		if (isAuthenticated == false) {
-			// we're still not authenticated - try keyboard interactive
-			conn.authenticateWithKeyboardInteractive(username, new InteractiveLogic());
+		boolean isAuthenticated = false;
+
+		/* Try password authentication */
+		try {
+			conn.authPassword(username, password);
+			isAuthenticated = true;
+		} catch (UserAuthException e) {
+			isAuthenticated = false;
 		}
 
+		/* Fall back to keyboard-interactive */
+		if (!isAuthenticated) {
+			conn.auth(username, new AuthKeyboardInteractive(new InteractiveLogic()));
+		}
 
 		if (sourcePort > -1 && destinationPort > -1) {
-			lpf = conn.createLocalPortForwarder(sourcePort, "localhost" , destinationPort);
+			lpfSocket = new ServerSocket(sourcePort);
+			LocalPortForwarder.Parameters params = new LocalPortForwarder.Parameters(
+					"127.0.0.1", sourcePort, "localhost", destinationPort);
+			lpf = conn.newLocalPortForwarder(params, lpfSocket);
+			Thread lpfThread = new Thread(() -> {
+				try {
+					lpf.listen();
+				} catch (IOException e) {
+					// port forwarder closed
+				}
+			});
+			lpfThread.setDaemon(true);
+			lpfThread.start();
 		}
 
 		/* Create a session */
-		sess = conn.openSession();
+		sess = conn.startSession();
 		if(enableSudoTerminal) {
 			if (xtermTerminal) {
-				sess.requestPTY("xterm", 80, 24, 640, 480, null);
+				sess.allocatePTY("xterm", 80, 24, 640, 480, Collections.emptyMap());
 			} else {
-				sess.requestPTY("dumb", 200, 50, 0, 0, null);
+				sess.allocatePTY("dumb", 200, 50, 0, 0, Collections.emptyMap());
 			}
 		}
 
-		sess.startShell();
-
-		in =  sess.getStdout();
-		out = sess.getStdin();
+		shell = sess.startShell();
+		in = shell.getInputStream();
+		out = shell.getOutputStream();
 	}
 
 	@Override
-	public void disconnect() {
+	public void disconnect() throws IOException {
 		if (lpf != null) {
 			try {
 				lpf.close();
@@ -151,10 +152,13 @@ public class SSH extends Terminal {
 			}
 		}
 		if (sess != null) {
-			sess.close();
+			try {
+				sess.close();
+			} catch (IOException e) {
+			}
 		}
 		if (conn != null) {
-			conn.close();
+			conn.disconnect();
 		}
 	}
 
@@ -172,26 +176,31 @@ public class SSH extends Terminal {
 	 * The logic that one has to implement if "keyboard-interactive"
 	 * authentication shall be supported.
 	 */
-	class InteractiveLogic implements InteractiveCallback {
-		/* the callback may be invoked several times, depending on how many questions-sets the server sends */
-		public String[] replyToChallenge(String name, String instruction, int numPrompts, String[] prompt, boolean[] echo) throws IOException {
-			/* Often, servers just send empty strings for "name" and "instruction" */
+	class InteractiveLogic implements ChallengeResponseProvider {
 
-			String[] result = new String[numPrompts];
-
-			for (int i = 0; i < numPrompts; i++) {
-				if (prompt[i].toLowerCase().startsWith("password:")) {
-					result[i] = password;
-				} else {
-					// we don't know how to handle the prompt
-					System.out.print("SSH client - Unknown prompt type returned (" + prompt[i] + ")\n");
-					result[i] = "";
-				}
-			}
-
-			return result;
+		@Override
+		public List<String> getSubmethods() {
+			return Collections.emptyList();
 		}
 
+		@Override
+		public void init(Resource<?> resource, String name, String instruction) {
+			// no-op
+		}
+
+		@Override
+		public char[] getResponse(String prompt, boolean echo) {
+			if (prompt.toLowerCase().startsWith("password:")) {
+				return password.toCharArray();
+			}
+			System.out.print("SSH client - Unknown prompt type returned (" + prompt + ")\n");
+			return new char[0];
+		}
+
+		@Override
+		public boolean shouldRetry() {
+			return false;
+		}
 	}
 
 	protected String getHostname() {
@@ -218,11 +227,11 @@ public class SSH extends Terminal {
 		this.password = password;
 	}
 
-	protected Connection getConn() {
+	protected SSHClient getConn() {
 		return conn;
 	}
 
-	protected void setConn(Connection conn) {
+	protected void setConn(SSHClient conn) {
 		this.conn = conn;
 	}
 
@@ -241,8 +250,5 @@ public class SSH extends Terminal {
 	protected void setDestinationPort(int destinationPort) {
 		this.destinationPort = destinationPort;
 	}
-
-
-
 
 }
