@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.jsystemtest.systemobjects</groupId>
 		<artifactId>jsystem-core-system-objects</artifactId>
-		<version>6.2.0-SIKLU-snapshot</version>
+		<version>6.2.0-SIKLU</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>cli</artifactId>
@@ -19,6 +19,11 @@
 		<dependency>
 			<groupId>com.hierynomus</groupId>
 			<artifactId>sshj</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk18on</artifactId>
+			<version>1.75</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.comm</groupId>

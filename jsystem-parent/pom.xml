@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jsystemtest</groupId>
 	<artifactId>jsystem-parent</artifactId>
-	<version>6.2.0-SIKLU-snapshot</version>
+	<version>6.2.0-SIKLU</version>
 	<packaging>pom</packaging>
 	<name>jsystem-parent</name>
 	<organization>
