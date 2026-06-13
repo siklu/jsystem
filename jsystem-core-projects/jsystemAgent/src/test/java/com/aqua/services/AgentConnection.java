@@ -37,9 +37,15 @@ public class AgentConnection extends SystemObjectImpl {
 
 	private String agentHost;
 
+	private String jsystemHomeDir;
+
+	private String agentDir;
+
 	private String runAgent;
 
 	private String runnerDir;
+
+	private String agentAutomationRemoteDir;
 	
 	public CliConnectionImpl cli; 
 	
@@ -162,6 +168,13 @@ public class AgentConnection extends SystemObjectImpl {
 		jsystem.setPreference(FrameworkOptions.TESTS_CLASS_FOLDER, sWorkspace);
 	}
 
+	public void workspaceSettings(String sWorkspace, String sScenario, JSystemAgentClient client)
+	throws Exception {
+		JSystemProperties jsystem = JSystemProperties.getInstance();
+		jsystem.setPreference(FrameworkOptions.CURRENT_SCENARIO, sScenario);
+		JSystemProperties.getInstance().setPreference(FrameworkOptions.TESTS_CLASS_FOLDER, sWorkspace);
+	}
+
 	public boolean emptyFile(String fileFullPath) throws Exception {
 		File checkFile = new File(fileFullPath);
 		Writer output = null;
@@ -279,6 +292,22 @@ public class AgentConnection extends SystemObjectImpl {
 		this.agentHost = agentHost;
 	}
 
+	public String getJsystemHomeDir() {
+		return jsystemHomeDir;
+	}
+
+	public void setJsystemHomeDir(String jsystemHomeDir) {
+		this.jsystemHomeDir = jsystemHomeDir;
+	}
+
+	public String getAgentDir() {
+		return agentDir;
+	}
+
+	public void setAgentDir(String agentDir) {
+		this.agentDir = agentDir;
+	}
+
 	public String getRunAgent() {
 		return runAgent;
 	}
@@ -293,6 +322,14 @@ public class AgentConnection extends SystemObjectImpl {
 
 	public void setRunnerDir(String runnerDir) {
 		this.runnerDir = runnerDir;
+	}
+
+	public String getAgentAutomationRemoteDir() {
+		return agentAutomationRemoteDir;
+	}
+
+	public void setAgentAutomationRemoteDir(String agentAutomationRemoteDir) {
+		this.agentAutomationRemoteDir = agentAutomationRemoteDir;
 	}
 
 	private void deleteUnecessaryFiles(String dirName){

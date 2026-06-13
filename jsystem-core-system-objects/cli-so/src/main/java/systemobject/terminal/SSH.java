@@ -8,11 +8,14 @@ import java.net.ServerSocket;
 import java.util.Collections;
 import java.util.List;
 
+import java.security.Security;
+
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.connection.channel.direct.LocalPortForwarder;
 import net.schmizz.sshj.connection.channel.direct.Parameters;
 import net.schmizz.sshj.connection.channel.direct.Session;
 import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import net.schmizz.sshj.userauth.UserAuthException;
 import net.schmizz.sshj.userauth.method.AuthKeyboardInteractive;
 import net.schmizz.sshj.userauth.method.ChallengeResponseProvider;
@@ -87,6 +90,8 @@ public class SSH extends Terminal {
 
 	@Override
 	public void connect() throws IOException {
+		Security.removeProvider("BC");
+		Security.insertProviderAt(new BouncyCastleProvider(), 1);
 		conn = new SSHClient();
 		conn.addHostKeyVerifier(new PromiscuousVerifier());
 

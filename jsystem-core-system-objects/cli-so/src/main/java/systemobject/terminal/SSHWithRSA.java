@@ -6,6 +6,7 @@ package systemobject.terminal;
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.security.Security;
 import java.util.Collections;
 
 import net.schmizz.sshj.SSHClient;
@@ -13,6 +14,7 @@ import net.schmizz.sshj.connection.channel.direct.Parameters;
 import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
 import net.schmizz.sshj.userauth.UserAuthException;
 import net.schmizz.sshj.userauth.method.AuthKeyboardInteractive;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
  * A terminal used for SSH Connection
@@ -30,6 +32,8 @@ public class SSHWithRSA extends SSH {
 
 	@Override
 	public void connect() throws IOException {
+		Security.removeProvider("BC");
+		Security.insertProviderAt(new BouncyCastleProvider(), 1);
 		System.out.println("Connect to Host with SSH and RSA private key");
 		conn = new SSHClient();
 		conn.addHostKeyVerifier(new PromiscuousVerifier());
