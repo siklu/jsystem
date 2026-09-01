@@ -213,6 +213,7 @@ public class LoginWindow extends JFrame {
             txtPassword.setText("");
             return;
         }
+        writeCookie(selectedName, insertedPw);
         dispose();
         setVisible(false);
     }
