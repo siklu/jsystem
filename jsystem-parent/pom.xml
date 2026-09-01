@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jsystemtest</groupId>
 	<artifactId>jsystem-parent</artifactId>
-	<version>6.1.21-SIKLU</version>
+	<version>6.2.1-SIKLU</version>
 	<packaging>pom</packaging>
 	<name>jsystem-parent</name>
 	<organization>
@@ -30,8 +30,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<assembly.format>dir</assembly.format>
 		<topq.repository.rootUrl>http://maven.top-q.co.il</topq.repository.rootUrl>
-		<maven.compiler.source>25</maven.compiler.source>
-		<maven.compiler.target>25</maven.compiler.target>
+		<java.version>25</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<skipTests>True</skipTests>
 	</properties>
 
@@ -172,9 +173,9 @@
 				<version>3.13.0</version>
 			</dependency>
 			<dependency>
-				<groupId>ch.ethz.ganymed</groupId>
-				<artifactId>ganymed-ssh2</artifactId>
-				<version>263</version>
+				<groupId>com.hierynomus</groupId>
+				<artifactId>sshj</artifactId>
+				<version>0.38.0</version>
 			</dependency>
 			<!-- https://mvnrepository.com/artifact/javax.comm/comm -->
 			<dependency>
@@ -249,9 +250,9 @@
 				<version>1.27.1</version>
 			</dependency>
 			<dependency>
-				<groupId>il.co.topq.difido</groupId>
+				<groupId>il.co.top-q.difido</groupId>
 				<artifactId>difido-reports-common</artifactId>
-				<version>3.1.01-SIKLU</version>
+				<version>3.2.0-SIKLU</version>
 			</dependency>
 			<!--<dependency>
 				<groupId>xml-apis</groupId>

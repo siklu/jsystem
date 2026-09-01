@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.jsystemtest</groupId>
 		<artifactId>jsystem-parent</artifactId>
-		<version>6.1.21-SIKLU</version>
+		<version>6.2.1-SIKLU</version>
 		<relativePath>../../jsystem-parent</relativePath>
 	</parent>
 	<artifactId>jsystemCore</artifactId>
@@ -62,7 +62,7 @@
 			<artifactId>qdox</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>il.co.topq.difido</groupId>
+			<groupId>il.co.top-q.difido</groupId>
 			<artifactId>difido-reports-common</artifactId>
 		</dependency>
 		<dependency>

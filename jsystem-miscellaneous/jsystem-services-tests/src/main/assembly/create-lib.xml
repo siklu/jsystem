@@ -54,7 +54,7 @@
 				<exclude>*:tftp4java-server:*</exclude>
 				<exclude>*:tftp4java-client:*</exclude>
 				<exclude>*:commons-net:*</exclude>
-				<exclude>*:ganymed-ssh2:*</exclude>
+				<exclude>*:sshj:*</exclude>
 				<exclude>*:comm:*</exclude>
 				<exclude>*:ftpserver-core:*</exclude>
 				<exclude>*:commons-io:*</exclude>
