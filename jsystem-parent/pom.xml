@@ -250,7 +250,7 @@
 				<version>1.27.1</version>
 			</dependency>
 			<dependency>
-				<groupId>il.co.topq.difido</groupId>
+				<groupId>il.co.top-q.difido</groupId>
 				<artifactId>difido-reports-common</artifactId>
 				<version>3.2.0-SIKLU</version>
 			</dependency>
