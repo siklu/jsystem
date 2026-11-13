@@ -213,6 +213,7 @@ public class LoginWindow extends JFrame {
             txtPassword.setText("");
             return;
         }
+        writeCookie(selectedName, insertedPw);
         dispose();
         setVisible(false);
     }
@@ -255,20 +256,22 @@ public class LoginWindow extends JFrame {
 
     public ReturnCode authenticate(String url, String username, String password) {
         if (url == null || url.isBlank()) {
+            System.out.println("QMS Auth URL is null or blank");
             return ReturnCode.NOT_EXIST;
         }
 
         Vector<String> urlParts = new Vector<>();
         if (url.contains("?")) {
-            url += "&function=Qms3VerifyPassword";
+            urlParts.add("&function=Qms3VerifyPassword");
         } else {
-            url += "Qms3VerifyPassword?";
+            urlParts.add("Qms3VerifyPassword?");
         }
 
         urlParts.add("flex_user_code=" + username);
         urlParts.add("passwd=" + password);
 
         url += StringUtils.join(urlParts, "&");
+        System.out.println("QMS Auth Sending URL: " + url);
         String ret = sendURL(url);
         if (ret == null || ret.isBlank()) {
             return ReturnCode.NOT_EXIST;
