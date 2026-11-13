@@ -138,6 +138,27 @@ public abstract class CliConnectionImpl extends SystemObjectImpl implements CliC
     private String charSet = "ASCII";
 
 	/**
+	 * the time (in ms) with no new input after which scroll end is declared. -1 keeps the terminal default
+	 */
+	protected long scrollEndQuietTime = -1;
+
+	/**
+	 * if true, unread input is discarded before each command is sent (prevents shifted replies)
+	 */
+	protected boolean drainBeforeCommand = true;
+
+	/**
+	 * the time (in ms) with no new input after which the input is considered drained. -1 keeps the cli default
+	 */
+	protected long drainQuietTime = -1;
+
+	/**
+	 * if true, scroll end is checked without waiting when the prompt match is trusted
+	 * (command echo seen + prompt line already learned)
+	 */
+	protected boolean fastScrollEnd = true;
+
+	/**
 	 * SSH2 private key -RSA (ppk or pem file)
 	 */
 	private File privateKey;
@@ -294,7 +315,15 @@ public abstract class CliConnectionImpl extends SystemObjectImpl implements CliC
 			terminal.setKeyTypingDelay(keyTypingDelay);
 			terminal.setDelayedTyping(true);
 		}
+		if (scrollEndQuietTime >= 0) {
+			terminal.setScrollEndQuietTime(scrollEndQuietTime);
+		}
 		cli = new Cli(terminal);
+		cli.setDrainBeforeCommand(drainBeforeCommand);
+		cli.setFastScrollEnd(fastScrollEnd);
+		if (drainQuietTime >= 0) {
+			cli.setDrainQuietTime(drainQuietTime);
+		}
 		if (enterStr != null) {
 			setEnterStr(enterStr);
 		}
@@ -677,6 +706,10 @@ public abstract class CliConnectionImpl extends SystemObjectImpl implements CliC
 			newImpl.dummy = dummy;
 			newImpl.vt100Filter = vt100Filter;
 			newImpl.leadingEnter = leadingEnter;
+			newImpl.scrollEndQuietTime = scrollEndQuietTime;
+			newImpl.drainBeforeCommand = drainBeforeCommand;
+			newImpl.drainQuietTime = drainQuietTime;
+			newImpl.fastScrollEnd = fastScrollEnd;
 			return newImpl;
 		} catch (Exception e) {
 			throw new RuntimeException("Failed cloning CliConnection", e);
@@ -742,6 +775,64 @@ public abstract class CliConnectionImpl extends SystemObjectImpl implements CliC
 
 	public void setScrollEndTimeout(long timeout) {
 		terminal.setScrollEndTimeout(timeout);
+	}
+
+	public long getScrollEndQuietTime() {
+		return scrollEndQuietTime;
+	}
+
+	/**
+	 * the time (in ms) with no new input after which scroll end is declared (terminal default is 30)
+	 */
+	public void setScrollEndQuietTime(long scrollEndQuietTime) {
+		this.scrollEndQuietTime = scrollEndQuietTime;
+		if (terminal != null && scrollEndQuietTime >= 0) {
+			terminal.setScrollEndQuietTime(scrollEndQuietTime);
+		}
+	}
+
+	public boolean isDrainBeforeCommand() {
+		return drainBeforeCommand;
+	}
+
+	/**
+	 * if true (default), unread input is discarded (and logged) before each command is sent
+	 */
+	public void setDrainBeforeCommand(boolean drainBeforeCommand) {
+		this.drainBeforeCommand = drainBeforeCommand;
+		if (cli != null) {
+			cli.setDrainBeforeCommand(drainBeforeCommand);
+		}
+	}
+
+	public boolean isFastScrollEnd() {
+		return fastScrollEnd;
+	}
+
+	/**
+	 * if true (default), scroll end is checked without waiting when the prompt match is trusted
+	 * (command echo seen + prompt line already seen on a previous command end).
+	 * Set to false to always use the quiet-window check (scrollEndQuietTime).
+	 */
+	public void setFastScrollEnd(boolean fastScrollEnd) {
+		this.fastScrollEnd = fastScrollEnd;
+		if (cli != null) {
+			cli.setFastScrollEnd(fastScrollEnd);
+		}
+	}
+
+	public long getDrainQuietTime() {
+		return drainQuietTime;
+	}
+
+	/**
+	 * the time (in ms) with no new input after which the input is considered drained (cli default is 0 - no waiting)
+	 */
+	public void setDrainQuietTime(long drainQuietTime) {
+		this.drainQuietTime = drainQuietTime;
+		if (cli != null && drainQuietTime >= 0) {
+			cli.setDrainQuietTime(drainQuietTime);
+		}
 	}
 
 	public void addFilter(InOutInputStream stream) {

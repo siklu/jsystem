@@ -6,6 +6,7 @@ package systemobject.terminal;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 /**
  * Generic systemobject.Cli
@@ -42,6 +43,55 @@ public class Cli {
 	private int maxGracefulRetries = 2;
 	
 	private boolean dontWaitForPrompts = false;
+
+	/**
+	 * if true, pending unread input is discarded before each command is sent
+	 */
+	private boolean drainBeforeCommand = true;
+
+	/**
+	 * the time (in ms) with no new input after which the input is considered drained
+	 */
+	private long drainQuietTime = 0;
+
+	/**
+	 * if true, a prompt match is trusted (and scroll end is checked without waiting) when the
+	 * command echo was seen before the prompt and the prompt line was already seen in a previous
+	 * command. Otherwise the terminal quiet-window scroll end check is used.
+	 */
+	private boolean fastScrollEnd = true;
+
+	/**
+	 * number of trailing (non white space) command characters that are looked for as the command echo
+	 */
+	private static final int ECHO_KEY_LENGTH = 15;
+
+	/**
+	 * max number of learned prompt lines (the set is cleared when exceeded)
+	 */
+	private static final int MAX_LEARNED_PROMPT_LINES = 64;
+
+	/**
+	 * full prompt lines (the last output line on a confirmed command end) seen so far
+	 */
+	private final LinkedHashSet<String> learnedPromptLines = new LinkedHashSet<String>();
+
+	/**
+	 * the echo expected for the current command (null if no echo is expected)
+	 */
+	private String echoKey = null;
+
+	/**
+	 * the index in result from which the current command output starts
+	 */
+	private int commandOutputStart = 0;
+
+	/**
+	 * the index in result up to which the echo was already searched (avoid re-scanning)
+	 */
+	private int echoSearchedUpTo = 0;
+
+	private boolean echoSeen = false;
 
 	/**
 	 * Create a systemobject.terminal.Cli object
@@ -227,6 +277,8 @@ public class Cli {
 			throws Exception {
 		
 		resultPrompt = null;
+		echoKey = null;
+		echoSeen = false;
 		ArrayList<Prompt> defaultPromts = null;
 		if (prompts != null) {
 			defaultPromts = terminal.getPrompts();
@@ -241,6 +293,14 @@ public class Cli {
 					command = command + getEnterStr(); 
 				}
 				result.append(terminal.getResult());
+				commandOutputStart = result.length();
+				echoSearchedUpTo = commandOutputStart;
+				echoKey = buildEchoKey(command);
+				if (drainBeforeCommand && command.length() > 0) {
+					// discard leftovers of previous commands so they won't be taken as this command's reply.
+					// skipped when nothing is sent (e.g. waitForNotifications), since then the pending input is what we wait for
+					terminal.drainInput(drainQuietTime);
+				}
 				terminal.sendString(command, delayedTyping);
 			}
 			if (dontWaitForPrompts){
@@ -275,8 +335,9 @@ public class Cli {
 						break;
 					}
 				} else {
-					if (terminal.isScrallEnd()) {
+					if (isScrollEnd()) {
 						if (prompt.isCommandEnd()) {
+							learnPromptLine();
 							break;
 						}
 					} else {
@@ -304,6 +365,83 @@ public class Cli {
 		}
 	}
 	
+	/**
+	 * check if the command output ended (called after a prompt was matched).<br>
+	 * If the match is trusted (command echo seen + known prompt line) only a fast check is done,
+	 * otherwise the terminal quiet-window check is used.
+	 */
+	private boolean isScrollEnd() throws Exception {
+		if (fastScrollEnd && isEchoSeen() && learnedPromptLines.contains(getLastLine())) {
+			return terminal.isScrollEndFast();
+		}
+		return terminal.isScrallEnd();
+	}
+
+	/**
+	 * remember the current last output line as a known prompt line.
+	 * Only done when the echo was seen, so a stale prompt (of a previous command) is not learned.
+	 */
+	private void learnPromptLine() {
+		if (!fastScrollEnd || !isEchoSeen()) {
+			return;
+		}
+		String line = getLastLine();
+		if (line.trim().length() == 0 || learnedPromptLines.contains(line)) {
+			return;
+		}
+		if (learnedPromptLines.size() >= MAX_LEARNED_PROMPT_LINES) {
+			learnedPromptLines.clear();
+		}
+		learnedPromptLines.add(line);
+	}
+
+	/**
+	 * @return the text after the last line break in the current command output
+	 */
+	private String getLastLine() {
+		int lastBreak = Math.max(result.lastIndexOf("\n"), result.lastIndexOf("\r"));
+		int from = Math.max(lastBreak + 1, commandOutputStart);
+		return result.substring(Math.min(from, result.length()));
+	}
+
+	/**
+	 * checks if the echo of the current command appears in the command output
+	 * (white spaces are ignored, since terminal line wrapping adds spaces/CR to long echoes)
+	 */
+	private boolean isEchoSeen() {
+		if (echoSeen) {
+			return true;
+		}
+		if (echoKey == null) {
+			return false;
+		}
+		// re-scan a bit back to catch an echo split between two reads
+		int from = Math.max(commandOutputStart, echoSearchedUpTo - 2 * ECHO_KEY_LENGTH - 16);
+		String normalized = removeWhiteSpaces(result.substring(Math.min(from, result.length())));
+		echoSearchedUpTo = result.length();
+		echoSeen = normalized.indexOf(echoKey) >= 0;
+		return echoSeen;
+	}
+
+	private static String buildEchoKey(String command) {
+		String normalized = removeWhiteSpaces(command);
+		if (normalized.length() == 0) {
+			return null;
+		}
+		return normalized.substring(Math.max(0, normalized.length() - ECHO_KEY_LENGTH));
+	}
+
+	private static String removeWhiteSpaces(String s) {
+		StringBuilder sb = new StringBuilder(s.length());
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			if (!Character.isWhitespace(c)) {
+				sb.append(c);
+			}
+		}
+		return sb.toString();
+	}
+
 	private void finishCommandExecution(){
 		dontWaitForPrompts = false;
 		result.append(terminal.getResult());
@@ -480,6 +618,54 @@ public class Cli {
 	 */
 	public void setMaxGracefulRetries(int maxGracefulRetries) {
 		this.maxGracefulRetries = maxGracefulRetries;
+	}
+
+	public boolean isDrainBeforeCommand() {
+		return drainBeforeCommand;
+	}
+
+	/**
+	 * If true (default), any unread input pending in the terminal is discarded (and logged)
+	 * before a command is sent. Prevents replies from shifting to the next command after a
+	 * timeout or an extra prompt.
+	 *
+	 * @param drainBeforeCommand
+	 */
+	public void setDrainBeforeCommand(boolean drainBeforeCommand) {
+		this.drainBeforeCommand = drainBeforeCommand;
+	}
+
+	public boolean isFastScrollEnd() {
+		return fastScrollEnd;
+	}
+
+	/**
+	 * If true (default), scroll end is checked without waiting when the prompt match is trusted:
+	 * the command echo was seen and the prompt line is one already seen on a previous command end.
+	 * Otherwise (and when false) the terminal quiet-window check (scrollEndQuietTime) is used.
+	 * 
+	 * @param fastScrollEnd
+	 */
+	public void setFastScrollEnd(boolean fastScrollEnd) {
+		this.fastScrollEnd = fastScrollEnd;
+	}
+
+	/**
+	 * forget all learned prompt lines
+	 */
+	public void clearLearnedPromptLines() {
+		learnedPromptLines.clear();
+	}
+
+	public long getDrainQuietTime() {
+		return drainQuietTime;
+	}
+
+	/**
+	 * @param drainQuietTime	the time (in ms) with no new input after which the input is considered drained (default 0 - only input that already arrived is discarded, no waiting)
+	 */
+	public void setDrainQuietTime(long drainQuietTime) {
+		this.drainQuietTime = drainQuietTime;
 	}
 
 
