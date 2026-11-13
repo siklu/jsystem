@@ -135,7 +135,7 @@ public class DifidoClient {
 
 	public void addFile(final int executionId, final String uid, final File file) throws Exception {
 		try (CloseableHttpClient client = HttpClients.createDefault()) {
-			HttpPost method = new HttpPost(baseUri + "executions/" + executionId + "/details/" + uid + "/file/");
+			HttpPost method = new HttpPost(baseUri + "executions/" + executionId + "/details/" + uid + "/file");
 			method.setEntity(MultipartEntityBuilder.create()
 					.addBinaryBody("file", file)
 					.build());
