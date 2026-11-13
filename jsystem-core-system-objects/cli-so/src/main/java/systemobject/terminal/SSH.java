@@ -89,8 +89,9 @@ public class SSH extends Terminal {
 
 	@Override
 	public void connect() throws IOException {
-		Security.removeProvider("BC");
-		Security.insertProviderAt(new BouncyCastleProvider(), 1);
+		if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
+			Security.insertProviderAt(new BouncyCastleProvider(), 1);
+		}
 		conn = new SSHClient();
 		conn.addHostKeyVerifier(new PromiscuousVerifier());
 
