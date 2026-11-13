@@ -14,7 +14,6 @@ import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.connection.channel.direct.LocalPortForwarder;
 import net.schmizz.sshj.connection.channel.direct.Parameters;
 import net.schmizz.sshj.connection.channel.direct.Session;
-import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import net.schmizz.sshj.userauth.UserAuthException;
 import net.schmizz.sshj.userauth.method.AuthKeyboardInteractive;
