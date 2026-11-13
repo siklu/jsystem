@@ -31,8 +31,9 @@ public class SSHWithRSA extends SSH {
 
 	@Override
 	public void connect() throws IOException {
-		Security.removeProvider("BC");
-		Security.insertProviderAt(new BouncyCastleProvider(), 1);
+		if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
+			Security.insertProviderAt(new BouncyCastleProvider(), 1);
+		}
 		System.out.println("Connect to Host with SSH and RSA private key");
 		conn = new SSHClient();
 		conn.addHostKeyVerifier(new PromiscuousVerifier());
