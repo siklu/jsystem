@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import il.co.topq.difido.model.execution.Execution;
@@ -202,8 +203,10 @@ public class RemoteHtmlReporter extends AbstractHtmlReporter {
 		}
 		try {
 			client.addTestDetails(executionId, testDetails);
+			numOfFailures = 0;
 		} catch (Exception e) {
-			log.warning("Failed updating test details to remote server due to " + e.getMessage());
+			log.log(Level.WARNING, "Failed updating test details of test '" + testDetails.getUid()
+					+ "' to remote server due to " + e.getMessage(), e);
 			checkIfNeedsToDisable();
 		}
 
@@ -217,8 +220,9 @@ public class RemoteHtmlReporter extends AbstractHtmlReporter {
 
 		try {
 			client.updateMachine(executionId, machineId, execution.getLastMachine());
+			numOfFailures = 0;
 		} catch (Exception e) {
-			log.warning("Failed updating test details to remote server due to " + e.getMessage());
+			log.log(Level.WARNING, "Failed updating execution to remote server due to " + e.getMessage(), e);
 			checkIfNeedsToDisable();
 		}
 	}
