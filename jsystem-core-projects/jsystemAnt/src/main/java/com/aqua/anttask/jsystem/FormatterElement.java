@@ -22,6 +22,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
@@ -245,10 +246,8 @@ public class FormatterElement {
 
         Object o = null;
         try {
-            o = f.newInstance();
-        } catch (InstantiationException e) {
-            throw new BuildException(e);
-        } catch (IllegalAccessException e) {
+            o = f.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException|InvocationTargetException|NoSuchMethodException|IllegalAccessException|IllegalArgumentException e) {
             throw new BuildException(e);
         }
 

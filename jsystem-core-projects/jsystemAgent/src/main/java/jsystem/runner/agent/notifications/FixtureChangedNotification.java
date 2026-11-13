@@ -22,7 +22,7 @@ public class FixtureChangedNotification extends RunnerNotification {
 		ClassLoader loader = LoadersManager.getInstance().getLoader();
 		try {
 			Class<?> fixtureClass = (Class<?>)loader.loadClass(getFixtureClassName());
-			Fixture fixtureInstance = (Fixture)fixtureClass.newInstance();
+			Fixture fixtureInstance = (Fixture)fixtureClass.getDeclaredConstructor().newInstance();
 			FixtureManager.getInstance().setCurrentFixture(getFixtureClassName());
 			mediator.fixtureChanged(fixtureInstance);			
 		} catch (Exception e){

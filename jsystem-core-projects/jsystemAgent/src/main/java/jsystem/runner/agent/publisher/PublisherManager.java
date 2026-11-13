@@ -56,7 +56,7 @@ public class PublisherManager {
 		try {
 			Class<?> publisherClass = LoadersManager.getInstance().getLoader().loadClass(publisherClassName);
 			if (publisherClass != null) {
-				Object instance = publisherClass.newInstance();
+				Object instance = publisherClass.getDeclaredConstructor().newInstance();
 				if (instance instanceof Publisher) {
 					log.log(Level.INFO, "Reports publisher : " + publisherClassName + " Was loaded.");
 					publisher = (Publisher) instance;

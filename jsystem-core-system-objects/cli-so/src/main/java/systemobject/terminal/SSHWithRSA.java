@@ -14,6 +14,7 @@ import net.schmizz.sshj.connection.channel.direct.Parameters;
 import net.schmizz.sshj.userauth.UserAuthException;
 import net.schmizz.sshj.userauth.method.AuthKeyboardInteractive;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
 
 /**
  * A terminal used for SSH Connection

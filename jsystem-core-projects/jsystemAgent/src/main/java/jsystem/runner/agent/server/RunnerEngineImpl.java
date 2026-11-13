@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URI;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
@@ -348,7 +349,7 @@ public class RunnerEngineImpl implements RunnerEngine {
 		String logDir = JSystemProperties.getInstance().getPreference(FrameworkOptions.LOG_FOLDER);
 		File f = new File(logDir, "current/index.html");
 		String uri = f.toURI().toString().replace("\\", "/");
-		return new URL(uri);
+		return new URI(uri).toURL();
 	}
 
 	/**

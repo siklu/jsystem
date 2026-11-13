@@ -260,7 +260,7 @@ public class AgentConnection extends SystemObjectImpl {
 
 		if ("Linux".equalsIgnoreCase(System.getProperty("os.name"))) {
 
-			Runtime.getRuntime().exec("chmod 777 -R " + agentDir);
+			new ProcessBuilder("chmod", "777", "-R", agentDir).start();
 
 		}
 		

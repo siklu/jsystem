@@ -369,7 +369,7 @@ public class JUnitTestRunner implements TestListener, JUnitTaskMirror.JUnitTestR
 					// before. We will continue for now
                 	if (testClass != null && TestCase.class.isAssignableFrom(testClass)) {
                 		// Method from a JUnit3 test case (Gooli)
-                		suite = (TestCase)testClass.newInstance();
+                		suite = (TestCase)testClass.getDeclaredConstructor().newInstance();
                 		((TestCase)suite).setName(methodName);
                 	} else {
                 		// Method from a JUnit4 test case (Gooli)
@@ -766,8 +766,9 @@ public class JUnitTestRunner implements TestListener, JUnitTaskMirror.JUnitTestR
 
         int returnCode = SUCCESS;
         if (multipleTests) {
+            java.io.BufferedReader reader = null;
             try {
-                java.io.BufferedReader reader =
+                reader =
                     new java.io.BufferedReader(new java.io.FileReader(args[0]));
                 String testCaseName;
                 int code = 0;
@@ -801,6 +802,14 @@ public class JUnitTestRunner implements TestListener, JUnitTaskMirror.JUnitTestR
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         } else {
             returnCode = launch(new JUnitTest(args[0]), haltError,

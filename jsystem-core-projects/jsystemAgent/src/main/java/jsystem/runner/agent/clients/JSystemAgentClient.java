@@ -5,6 +5,7 @@ package jsystem.runner.agent.clients;
 
 import java.io.File;
 import java.net.InetAddress;
+import java.net.URI;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Properties;
@@ -342,7 +343,7 @@ public class JSystemAgentClient extends SystemObjectImpl implements RunnerEngine
 		int webPort = Integer.parseInt(agentProps.getProperty(FrameworkOptions.AGENT_WEB_PORT.toString()));
 		String logPath = agentProps.getProperty(FrameworkOptions.LOG_FOLDER.toString());
 		logPath = logPath.replace("\\", "/");
-		return new URL("http://" + serviceURL.getHost() + ":" + webPort + "/" + logPath);
+		return new URI("http://" + serviceURL.getHost() + ":" + webPort + "/" + logPath).toURL();
 	}
 
 	@Override

@@ -118,23 +118,24 @@ public class JarListDialog {
 					jarNames.add("  " + f.getName());
 					// add to path list the path of the jar
 					jarPath.add("  " + f.getAbsolutePath());
-					JarFile jar = new JarFile(jars[i]);
-					ZipEntry manifestEntry = jar.getEntry("META-INF/MANIFEST.MF");
-					if (manifestEntry != null) {
-						InputStream in = jar.getInputStream(manifestEntry);
-						Properties p = new Properties();
-						p.load(in);
-						Object ver = p.get("Specification-Version");
-						// because jsystem dont have any specification to follow
-						// implementation version is the thing to look for in
-						// jsystem component
-						if (ver == null) {
-							ver = p.get("Implementation-Version");
+					try (JarFile jar = new JarFile(jars[i])) {
+						ZipEntry manifestEntry = jar.getEntry("META-INF/MANIFEST.MF");
+						if (manifestEntry != null) {
+							try (InputStream in = jar.getInputStream(manifestEntry)) {
+								Properties p = new Properties();
+								p.load(in);
+								Object ver = p.get("Specification-Version");
+								// because jsystem dont have any specification to follow
+								// implementation version is the thing to look for in
+								// jsystem component
+								if (ver == null) {
+									ver = p.get("Implementation-Version");
+								}
+								jarVersions.add(ver);
+							}
+						} else {
+							jarVersions.add("");
 						}
-						jarVersions.add(ver);
-
-					} else {
-						jarVersions.add("");
 					}
 
 				} catch (Exception e) {

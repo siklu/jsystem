@@ -29,7 +29,7 @@ public class AboutToChangeToFixtureNotification extends RunnerNotification {
 		ClassLoader loader = LoadersManager.getInstance().getLoader();
 		try {
 			Class<?> fixtureClass = (Class<?>)loader.loadClass(getFixtureClassName());
-			Fixture fixtureInstance = (Fixture)fixtureClass.newInstance();
+			Fixture fixtureInstance = (Fixture)fixtureClass.getDeclaredConstructor().newInstance();
 			mediator.aboutToChangeTo(fixtureInstance);			
 		} catch (Exception e){
 			log.warning("Failed creating instance of fixture " + getFixtureClassName() + " " + e.getMessage());
