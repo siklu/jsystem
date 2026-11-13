@@ -5,9 +5,9 @@ package jsystem.framework.scenario;
 
 import jsystem.framework.FrameworkOptions;
 import jsystem.framework.JSystemProperties;
-import junit.framework.Assert;
 import junit.framework.SystemTestCase4;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ScenariosManagerTest extends SystemTestCase4{
