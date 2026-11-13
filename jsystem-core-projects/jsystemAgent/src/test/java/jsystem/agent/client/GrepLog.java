@@ -47,9 +47,8 @@ public class GrepLog {
 		boolean bFound = false;
 
 		// Open the file and then get a channel from the stream
-		try {
-			FileInputStream fis = new FileInputStream(file);
-			FileChannel fc = fis.getChannel();
+		try (FileInputStream fis = new FileInputStream(file);
+				FileChannel fc = fis.getChannel()) {
 
 			// Get the file's size and then map it into memory
 			int sz = (int) fc.size();
@@ -80,9 +79,6 @@ public class GrepLog {
 				if (lm.end() == cb.limit())
 					break;
 			}
-			// Close the channel and the stream
-			fc.close();
-
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			return bFound;

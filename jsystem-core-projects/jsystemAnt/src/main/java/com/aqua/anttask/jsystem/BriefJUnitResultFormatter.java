@@ -23,11 +23,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.NumberFormat;
 
+import org.apache.tools.ant.util.FileUtils;
+
 import junit.framework.AssertionFailedError;
 import junit.framework.Test;
-
-import org.apache.tools.ant.util.FileUtils;
-import org.apache.tools.ant.util.StringUtils;
 
 /**
  * Prints plain text output of the test to a specified Writer.
@@ -117,7 +116,7 @@ public class BriefJUnitResultFormatter implements JUnitResultFormatter {
         }
         StringBuffer sb = new StringBuffer("Testsuite: ");
         sb.append(suite.getName());
-        sb.append(StringUtils.LINE_SEP);
+        sb.append(System.lineSeparator());
         output.write(sb.toString());
         output.flush();
     }
@@ -136,24 +135,24 @@ public class BriefJUnitResultFormatter implements JUnitResultFormatter {
         sb.append(", Time elapsed: ");
         sb.append(numberFormat.format(suite.getRunTime() / 1000.0));
         sb.append(" sec");
-        sb.append(StringUtils.LINE_SEP);
-        sb.append(StringUtils.LINE_SEP);
+        sb.append(System.lineSeparator());
+        sb.append(System.lineSeparator());
 
         // append the err and output streams to the log
         if (systemOutput != null && systemOutput.length() > 0) {
             sb.append("------------- Standard Output ---------------")
-                    .append(StringUtils.LINE_SEP)
+                    .append(System.lineSeparator())
                     .append(systemOutput)
                     .append("------------- ---------------- ---------------")
-                    .append(StringUtils.LINE_SEP);
+                    .append(System.lineSeparator());
         }
 
         if (systemError != null && systemError.length() > 0) {
             sb.append("------------- Standard Error -----------------")
-                    .append(StringUtils.LINE_SEP)
+                    .append(System.lineSeparator())
                     .append(systemError)
                     .append("------------- ---------------- ---------------")
-                    .append(StringUtils.LINE_SEP);
+                    .append(System.lineSeparator());
         }
 
         if (output != null) {

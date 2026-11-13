@@ -19,6 +19,8 @@ package jsystem.framework.launcher;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
@@ -111,8 +113,8 @@ public final class Locator {
 	public static String fromURI(String uri) {
 		URL url = null;
 		try {
-			url = new URL(uri);
-		} catch (MalformedURLException emYouEarlEx) {
+			url = new URI(uri).toURL();
+		} catch (MalformedURLException | URISyntaxException emYouEarlEx) {
 		}
 		if (url == null || !("file".equals(url.getProtocol()))) {
 			throw new IllegalArgumentException("Can only handle valid file: URIs");

@@ -3,11 +3,10 @@
  */
 package jsystem.runner.projectsync;
 
-import jsystem.runner.agent.ProjectComponent;
-import jsystem.runner.projectsync.ProjectUnZip;
-import jsystem.runner.projectsync.ProjectZip;
-import junit.framework.SystemTestCase;
 import java.io.File;
+
+import jsystem.runner.agent.ProjectComponent;
+import junit.framework.SystemTestCase;
 
 /**
  * Unit test for MD5 calculation.

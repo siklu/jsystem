@@ -4,6 +4,7 @@
 package jsystem.treeui.actionItems;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.net.URL;
 
@@ -29,7 +30,7 @@ public class ViewLogAction extends IgnisAction {
 		putValue(Action.SHORT_DESCRIPTION, JsystemMapping.getInstance().getLogButton());
 		putValue(Action.SMALL_ICON, ImageCenter.getInstance().getImage(ImageCenter.ICON_NEW));
 		putValue(Action.LARGE_ICON_KEY, ImageCenter.getInstance().getImage(ImageCenter.ICON_NEW));
-		putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.CTRL_MASK));
+		putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK));
 		putValue(Action.ACTION_COMMAND_KEY, "view-log");
 	}
 	

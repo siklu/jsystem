@@ -19,6 +19,7 @@ import net.schmizz.sshj.userauth.UserAuthException;
 import net.schmizz.sshj.userauth.method.AuthKeyboardInteractive;
 import net.schmizz.sshj.userauth.method.ChallengeResponseProvider;
 import net.schmizz.sshj.userauth.password.Resource;
+import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
 
 /**
  * A terminal used for SSH Connection

@@ -7,7 +7,6 @@ import java.io.File;
 import java.util.Map;
 
 import jsystem.runner.agent.ProjectComponent;
-import jsystem.runner.projectsync.MD5Calculator;
 import junit.framework.SystemTestCase;
 
 /**

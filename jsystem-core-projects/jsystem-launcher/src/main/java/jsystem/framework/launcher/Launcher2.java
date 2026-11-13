@@ -74,7 +74,7 @@ public class Launcher2 {
 			Class<?> mainClass;
 			mainClass = loader.loadClass(mainClassName);
 
-			StartRunner main = (StartRunner) mainClass.newInstance();
+			StartRunner main = (StartRunner) mainClass.getDeclaredConstructor().newInstance();
 			main.startRunner(args);
 		} catch (Throwable t) {
 			t.printStackTrace();

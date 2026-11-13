@@ -21,6 +21,10 @@ public abstract class Terminal {
     protected InputStream in = null;
     protected int bufChar = 10;
     protected long scrollEndTimeout = 200;
+    /**
+     * the time (in ms) with no new input after which scroll end is declared (see isScrallEnd)
+     */
+    protected long scrollEndQuietTime = 30;
     ArrayList<Prompt> prompts = new ArrayList<Prompt>();
 
     public abstract void connect() throws IOException;
@@ -127,60 +131,100 @@ public abstract class Terminal {
     }
     
     /**
-     * checks if there is more input in the buffer
-     * (Siklu version that will cut 200msec from each cli command!!!)
-     * @return	True if there isn't any new input after ${scrollEndTimeout} ms
+     * checks if there is more input in the buffer (fast version).<br>
+     * Declares scroll end once the amount of available input has not changed for
+     * ${scrollEndQuietTime} ms and is below ${bufChar}. Gives up (returns false) after
+     * ${scrollEndTimeout} ms of continuously changing input.
+     *
+     * @return	True if no new input arrived during the quiet window and less than bufChar bytes are pending
      * @throws Exception
      */
-    Boolean testFlag= true;
-    public synchronized boolean isScrallEnd() throws Exception{
-    	if(testFlag){ 
-    		int avil0 = in.available();
-    		//Thread.sleep(scrollEndTimeout);
-    		Thread.sleep(3);
-    		int avil1 = in.available();
-    		long start = System.currentTimeMillis();
-    		long stop = System.currentTimeMillis();
-    		long TimeScrollToEnd = stop-start;
-    		while(TimeScrollToEnd<=scrollEndTimeout){
-    			if (avil0 == avil1) { // no change after 1/2 time and avail under bufChar
-    				if (in.available() < bufChar) {
-    					return true;
-    				}
-    			}else{
-    				avil0 = in.available();
-    				Thread.sleep(6);
-    				avil1 = in.available();
-    			}
-    			//Thread.sleep(3);
-    			stop= System.currentTimeMillis();
-    			TimeScrollToEnd = stop - start;
-    		}
-    		return false;
-
-    	}
-    	else {
-    		int avil0 = in.available();
-    		//Thread.sleep(scrollEndTimeout); 
-    		int avil1 = in.available();    	
-    		if (avil1 > bufChar) {
-    			return false;
-    		}
-    		if (avil0 == avil1) { // no change after 1/2 time and avail under bufChar
-    			return true;
-    		}else{
-    			while(avil0 != avil1){
-    				Thread.sleep(1);
-
-    			}
-    		}
-    		Thread.sleep(scrollEndTimeout);
-    		if (in.available() < bufChar) {
-    			return true;
-    		}
+    public synchronized boolean isScrallEnd() throws Exception {
+    	if (scrollEndTimeout == 0) { // if set to 0 always return true.
     		return true;
     	}
+    	long quiet = Math.max(1, Math.min(scrollEndQuietTime, scrollEndTimeout));
+    	long pollInterval = Math.max(1, Math.min(5, quiet));
+    	long start = System.currentTimeMillis();
+    	long lastChange = start;
+    	int lastAvail = in.available();
+    	while (true) {
+    		Thread.sleep(pollInterval);
+    		long now = System.currentTimeMillis();
+    		int avail = in.available();
+    		if (avail != lastAvail) {
+    			lastAvail = avail;
+    			lastChange = now;
+    		} else if (now - lastChange >= quiet) {
+    			// input is stable - it is scroll end only if there is (almost) nothing left to read
+    			return avail < bufChar;
+    		}
+    		if (now - start > scrollEndTimeout) {
+    			return false;
+    		}
+    	}
+    }
 
+    /**
+     * fast scroll end check, used when the prompt match is trusted.<br>
+     * Returns true if less than ${bufChar} bytes are pending and nothing new arrived within ~1 ms.
+     * If input is still arriving, falls back to the quiet-window check (isScrallEnd).
+     * 
+     * @return	True if no more input is expected
+     * @throws Exception
+     */
+    public synchronized boolean isScrollEndFast() throws Exception {
+    	if (scrollEndTimeout == 0) {
+    		return true;
+    	}
+    	int avil0 = in.available();
+    	if (avil0 >= bufChar) {
+    		return false;
+    	}
+    	Thread.sleep(1);
+    	if (in.available() == avil0) {
+    		return true;
+    	}
+    	return isScrallEnd();
+    }
+
+    /**
+     * read and discard all pending input until no new input arrives for the given time.<br>
+     * Used before sending a new command, so leftovers of a previous command (late output, an
+     * extra prompt after a timeout or a graceful enter etc.) will not be matched as the
+     * reply of the new command.
+     *
+     * @param quietTime	the time (in ms) with no new input after which the input is considered drained
+     * @return	the discarded input (empty String if nothing was pending)
+     * @throws Exception
+     */
+    public synchronized String drainInput(long quietTime) throws Exception {
+    	StringBuilder drained = new StringBuilder();
+    	long lastData = System.currentTimeMillis();
+    	while (true) {
+    		int avail = in.available();
+    		if (avail > 0) {
+    			byte[] bytes = new byte[avail];
+    			int n = in.read(bytes);
+    			if (n > 0) {
+    				drained.append(new String(bytes, 0, n, charSet));
+    			}
+    			lastData = System.currentTimeMillis();
+    			continue;
+    		}
+    		if (System.currentTimeMillis() - lastData >= quietTime) {
+    			break;
+    		}
+    		Thread.sleep(Math.max(1, Math.min(5, quietTime)));
+    	}
+    	if (drained.toString().trim().length() > 0) {
+    		log.warning("Discarded " + drained.length() + " bytes of unread input before sending a new command: ["
+    				+ drained + "]");
+    		if (printStream != null) {
+    			printStream.print(drained);
+    		}
+    	}
+    	return drained.toString();
     }
     
     /**
@@ -462,6 +506,25 @@ public abstract class Terminal {
 	 */
 	public void setScrollEndTimeout(long scrollEndTimeout) {
 		this.scrollEndTimeout = scrollEndTimeout;
+	}
+
+	/**
+	 * the time (in ms) with no new input after which scroll end is declared
+	 *
+	 * @return
+	 */
+	public long getScrollEndQuietTime() {
+		return scrollEndQuietTime;
+	}
+
+	/**
+	 * the time (in ms) with no new input after which scroll end is declared (default 30).<br>
+	 * Should be larger than the gap between consecutive output packets of the device.
+	 *
+	 * @param scrollEndQuietTime
+	 */
+	public void setScrollEndQuietTime(long scrollEndQuietTime) {
+		this.scrollEndQuietTime = scrollEndQuietTime;
 	}
 	
 	/**
