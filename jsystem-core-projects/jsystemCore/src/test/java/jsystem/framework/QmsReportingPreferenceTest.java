@@ -1,5 +1,6 @@
 package jsystem.framework;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -86,6 +87,11 @@ public class QmsReportingPreferenceTest {
 		properties.setPreference(FrameworkOptions.RUNNER_ALOW_EDIT, "false");
 		assertFalse(properties.isQmsReportingEditable());
 		assertTrue(properties.isQmsReportingEnabled());
+
+		properties.syncQmsReportingPreference();
+		properties.rereadPropertiesFile();
+		assertEquals("true", properties.getPreference(FrameworkOptions.QMS_REPORTING_ENABLED));
+		properties.setPreference(FrameworkOptions.QMS_REPORTING_ENABLED, "false");
 
 		properties.setPreference(FrameworkOptions.RUNNER_ALOW_EDIT, "true");
 		assertTrue(properties.isQmsReportingEditable());

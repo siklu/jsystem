@@ -54,7 +54,9 @@ controlled by `runner.allow.edit` in `jsystem.properties`:
   and its state is saved as `qms.reporting.enabled`. It is locked while a run
   is in progress.
 * `runner.allow.edit=false` (the default when unset) - the checkbox is
-  disabled and always selected.
+  disabled and always selected, and the runner saves `qms.reporting.enabled=true`
+  to `jsystem.properties` on startup (restart the runner after changing
+  `runner.allow.edit`).
 
 Tests can use the setting to decide whether to submit results:
 

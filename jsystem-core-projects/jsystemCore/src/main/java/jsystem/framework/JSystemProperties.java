@@ -245,6 +245,17 @@ public class JSystemProperties {
 		return Boolean.parseBoolean(getPreferenceOrDefault(FrameworkOptions.QMS_REPORTING_ENABLED));
 	}
 
+	/**
+	 * When runner.allow.edit is false, persists qms.reporting.enabled=true so
+	 * the properties file matches the forced value.
+	 */
+	public void syncQmsReportingPreference() {
+		if (!isQmsReportingEditable()
+				&& !"true".equals(getPreference(FrameworkOptions.QMS_REPORTING_ENABLED))) {
+			setPreference(FrameworkOptions.QMS_REPORTING_ENABLED, "true");
+		}
+	}
+
 	public long getLongPreference(FrameworkOptions option, long defaultVal) {
 		return getLongPreference(option.toString(), defaultVal);
 	}

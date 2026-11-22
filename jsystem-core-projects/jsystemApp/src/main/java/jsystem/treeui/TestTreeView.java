@@ -395,6 +395,7 @@ public class TestTreeView extends JFrame implements ActionListener, TestsTreeLis
 
 		debugCheckBox.addActionListener(this);
 
+		JSystemProperties.getInstance().syncQmsReportingPreference();
 		qmsReportingCheckBox = new JCheckBox("QMS",
 				JSystemProperties.getInstance().isQmsReportingEnabled());
 		qmsReportingCheckBox.setToolTipText("Report to QMS");
@@ -806,6 +807,7 @@ public class TestTreeView extends JFrame implements ActionListener, TestsTreeLis
 			repeatAmount.setEnabled(true);
 			repeatCheckBox.setEnabled(true);
 			debugCheckBox.setEnabled(true);
+			JSystemProperties.getInstance().syncQmsReportingPreference();
 			qmsReportingCheckBox.setSelected(JSystemProperties.getInstance().isQmsReportingEnabled());
 			qmsReportingCheckBox.setEnabled(JSystemProperties.getInstance().isQmsReportingEditable());
 			freezeCheckBox.setEnabled(true);
