@@ -112,7 +112,8 @@
             "name": "TestRunner",
             "request": "launch",
             "mainClass": "jsystem.treeui.TestRunner",
-            "projectName": "jsystemApp"
+            "projectName": "jsystemApp",
+            "cwd": "${workspaceFolder}/jsystem-assembly/jsystem-runner/target/runner/runner"
         },
         {
             "type": "java",

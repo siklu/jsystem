@@ -166,6 +166,8 @@ public class TestTreeView extends JFrame implements ActionListener, TestsTreeLis
 
 	private JCheckBox debugCheckBox;
 
+	private JCheckBox qmsReportingCheckBox;
+
 	private JCheckBox freezeCheckBox;
 
 	private JTextField repeatAmount;
@@ -393,6 +395,14 @@ public class TestTreeView extends JFrame implements ActionListener, TestsTreeLis
 
 		debugCheckBox.addActionListener(this);
 
+		JSystemProperties.getInstance().syncQmsReportingPreference();
+		qmsReportingCheckBox = new JCheckBox("QMS",
+				JSystemProperties.getInstance().isQmsReportingEnabled());
+		qmsReportingCheckBox.setToolTipText("Report to QMS");
+		qmsReportingCheckBox.setOpaque(false);
+		qmsReportingCheckBox.addActionListener(this);
+		runToolBar.add(qmsReportingCheckBox);
+
 		toolBar.add(SaveFailedSequenceAction.getInstance());
 		toolBar.add(RefreshAction.getInstance());
 		toolBar.addSeparator(new Dimension(15, 0));
@@ -561,6 +571,9 @@ public class TestTreeView extends JFrame implements ActionListener, TestsTreeLis
 			About.getInstance(this).reload();
 		} else if (e.getSource().equals(repeatCheckBox)) {
 			repeateScenario();
+		} else if (e.getSource().equals(qmsReportingCheckBox)) {
+			JSystemProperties.getInstance().setPreference(FrameworkOptions.QMS_REPORTING_ENABLED,
+					Boolean.toString(qmsReportingCheckBox.isSelected()));
 		} else if (e.getSource().equals(debugCheckBox)) {
 			if (debugCheckBox.isSelected()) {
 				//String debug = "-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=${8787},server=y,suspend=y";
@@ -794,6 +807,9 @@ public class TestTreeView extends JFrame implements ActionListener, TestsTreeLis
 			repeatAmount.setEnabled(true);
 			repeatCheckBox.setEnabled(true);
 			debugCheckBox.setEnabled(true);
+			JSystemProperties.getInstance().syncQmsReportingPreference();
+			qmsReportingCheckBox.setSelected(JSystemProperties.getInstance().isQmsReportingEnabled());
+			qmsReportingCheckBox.setEnabled(JSystemProperties.getInstance().isQmsReportingEditable());
 			freezeCheckBox.setEnabled(true);
 			RemoteAgentUIComponents.checkJSystemPropsAndEnableAgentList(true);
 			fixtureView.endFixturring();
@@ -817,6 +833,7 @@ public class TestTreeView extends JFrame implements ActionListener, TestsTreeLis
 			PublishXmlResultAction.getInstance().setEnabled(false);
 			repeatAmount.setEnabled(false);
 			debugCheckBox.setEnabled(false);
+			qmsReportingCheckBox.setEnabled(false);
 			repeatCheckBox.setEnabled(repeatAmount.getText().equals("0"));
 			freezeCheckBox.setEnabled(false);
 			RemoteAgentUIComponents.checkJSystemPropsAndEnableAgentList(false);

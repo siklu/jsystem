@@ -225,6 +225,37 @@ public class JSystemProperties {
 		return val;
 	}
 
+	/**
+	 * Whether the QMS reporting option can be changed. Controlled by
+	 * runner.allow.edit.
+	 */
+	public boolean isQmsReportingEditable() {
+		return Boolean.parseBoolean(getPreferenceOrDefault(FrameworkOptions.RUNNER_ALOW_EDIT));
+	}
+
+	/**
+	 * Whether tests should report results to QMS. Always true when
+	 * runner.allow.edit is false; otherwise follows the saved user choice
+	 * (default false).
+	 */
+	public boolean isQmsReportingEnabled() {
+		if (!isQmsReportingEditable()) {
+			return true;
+		}
+		return Boolean.parseBoolean(getPreferenceOrDefault(FrameworkOptions.QMS_REPORTING_ENABLED));
+	}
+
+	/**
+	 * When runner.allow.edit is false, persists qms.reporting.enabled=true so
+	 * the properties file matches the forced value.
+	 */
+	public void syncQmsReportingPreference() {
+		if (!isQmsReportingEditable()
+				&& !"true".equals(getPreference(FrameworkOptions.QMS_REPORTING_ENABLED))) {
+			setPreference(FrameworkOptions.QMS_REPORTING_ENABLED, "true");
+		}
+	}
+
 	public long getLongPreference(FrameworkOptions option, long defaultVal) {
 		return getLongPreference(option.toString(), defaultVal);
 	}
