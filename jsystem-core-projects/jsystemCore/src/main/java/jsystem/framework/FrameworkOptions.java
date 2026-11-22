@@ -369,6 +369,13 @@ public enum FrameworkOptions {
 			false,
 			false),
 
+	QMS_REPORTING_ENABLED(
+			"qms.reporting.enabled",
+			"Report test results to QMS",
+			DataType.BOOLEAN,
+			false,
+			false),
+
 	/**
 	 * Lib dirs
 	 */

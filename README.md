@@ -32,3 +32,40 @@ JSystem is used by many enterprise organizations like: Juniper, Nokia-Siemens, E
 2. Eclipse - import the jsystem root folder with all its projects
 3. Run maven install on the jsystem-parent project (without the tests)
 4. Run maven install on the jsystem-runner project
+
+### Running the UI from VS Code ###
+
+In **Run and Debug**, select **TestRunner** and use **Ctrl+F5** (run) or **F5**
+(debug). Its configuration in `.vscode/launch.json` should use
+`"${workspaceFolder}/jsystem-assembly/jsystem-runner/target/runner/runner"` as
+`cwd` so the UI finds the packaged runner resources. Build the runner first
+if that directory does not exist.
+
+After Maven dependency changes, run **Java: Reload Projects** from the
+Command Palette before launching. The source runner needs both `xalan` and
+`serializer`, declared by `jsystemCore`, for XML reporting.
+
+## QMS reporting option ##
+
+The main runner toolbar has a **QMS** checkbox next to **Debug**. It is
+controlled by `runner.allow.edit` in `jsystem.properties`:
+
+* `runner.allow.edit=true` - the checkbox can be changed (unchecked by default)
+  and its state is saved as `qms.reporting.enabled`. It is locked while a run
+  is in progress.
+* `runner.allow.edit=false` (the default when unset) - the checkbox is
+  disabled and always selected.
+
+Tests can use the setting to decide whether to submit results:
+
+```java
+if (JSystemProperties.getInstance().isQmsReportingEnabled()) {
+    // Submit results using your test project's QMS integration.
+}
+```
+
+Import `jsystem.framework.JSystemProperties`. The checkbox only exposes the
+reporting preference; it does not submit results or alter existing reporters.
+For execution without the UI, the same rules apply: with
+`runner.allow.edit=true`, set `qms.reporting.enabled=true` or `false` in
+`jsystem.properties` (or use `-Dqms.reporting.enabled=true` as a JVM override).

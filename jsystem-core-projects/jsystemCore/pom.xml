@@ -46,6 +46,10 @@
 			<groupId>xalan</groupId>
 		</dependency>
 		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>serializer</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.python</groupId>
     <artifactId>jython</artifactId>
 		</dependency>
